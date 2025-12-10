@@ -72,9 +72,9 @@
     <!-- Tagline Section -->
     <section class="tagline-section">
         <div class="container">
-            <p class="brand-label">enprico</p>
+            <p class="brand-label scroll-animate">enprico</p>
             <div class="tagline-wrapper">
-                <h2 class="tagline">
+                <h2 class="tagline scroll-animate">
                     a <span class="text-cyan">new</span> way to <span class="text-pink">learn</span> english
                 </h2>
             </div>
@@ -86,7 +86,7 @@
         <div class="container">
             <div class="features-grid">
                 <!-- What you will learn -->
-                <div class="feature-card card-cyan">
+                <div class="feature-card card-cyan scroll-animate-left">
                     <div class="feature-header">
                         <h3>What you will learn with Enprico</h3>
                         <button class="expand-btn cyan">+</button>
@@ -126,7 +126,7 @@
                 </div>
 
                 <!-- How you will learn -->
-                <div class="feature-card card-pink">
+                <div class="feature-card card-pink scroll-animate-right">
                     <div class="feature-header">
                         <h3>How you will learn with Enprico</h3>
                         <button class="expand-btn pink">+</button>
@@ -167,7 +167,7 @@
             </div>
 
             <!-- Why choose Enprico -->
-            <div class="why-card">
+            <div class="why-card scroll-animate">
                 <div class="feature-header">
                     <h3>Why choose Enprico:</h3>
                     <button class="expand-btn purple">+</button>
@@ -213,8 +213,8 @@
         <div class="decorative-bg-1"></div>
         <div class="decorative-bg-2"></div>
         <div class="container">
-            <h2>Money back Guaranteed if not satisfied</h2>
-            <p>no questions!</p>
+            <h2 class="scroll-animate">Money back Guaranteed if not satisfied</h2>
+            <p class="scroll-animate">no questions!</p>
         </div>
     </section>
 
@@ -223,7 +223,7 @@
         <div class="container">
             <div class="pricing-grid">
                 <!-- Plan 1 -->
-                <div class="pricing-card">
+                <div class="pricing-card scroll-animate">
                     <div class="pricing-header pink-gradient">
                         <span class="pricing-badge">Professional</span>
                         <div class="price-info">
@@ -264,7 +264,7 @@
                 </div>
 
                 <!-- Plan 2 -->
-                <div class="pricing-card">
+                <div class="pricing-card scroll-animate">
                     <div class="pricing-header blue-gradient">
                         <span class="pricing-badge">Professional</span>
                         <div class="price-info">
@@ -305,7 +305,7 @@
                 </div>
 
                 <!-- Plan 3 -->
-                <div class="pricing-card">
+                <div class="pricing-card scroll-animate">
                     <div class="pricing-header purple-gradient">
                         <span class="pricing-badge">Professional</span>
                         <div class="price-info">
@@ -351,11 +351,11 @@
     <footer class="footer">
         <div class="container footer-container">
             <div class="footer-grid">
-                <div class="footer-section">
+                <div class="footer-section scroll-animate">
                     <img src="images/enprico logo footer.png" alt="Enprico Logo" class="footer-logo-img">
                 </div>
 
-                <div class="footer-section">
+                <div class="footer-section scroll-animate">
                     <h3 class="footer-title">CONTACT US</h3>
                     <div class="contact-info">
                         <p><�<� United Kingdom</p>
@@ -363,7 +363,7 @@
                     </div>
                 </div>
 
-                <div class="footer-section">
+                <div class="footer-section scroll-animate">
                     <h3 class="footer-title">ENPRICO SOCIALS</h3>
                     <ul class="footer-links">
                         <li><a href="#">Facebook</a></li>
@@ -375,7 +375,7 @@
                     </ul>
                 </div>
 
-                <div class="footer-section">
+                <div class="footer-section scroll-animate">
                     <h3 class="footer-title">ABOUT US</h3>
                     <ul class="footer-links">
                         <li><a href="#">Who we are</a></li>
@@ -389,7 +389,7 @@
                 <div></div>
                 <div></div>
                 <div></div>
-                <div class="footer-section">
+                <div class="footer-section scroll-animate">
                     <h3 class="footer-title">SUPPORT</h3>
                     <a href="#" class="support-link">Need any help?</a>
                 </div>
@@ -397,7 +397,7 @@
 
             <div class="footer-divider"></div>
 
-            <div class="footer-bottom">
+            <div class="footer-bottom scroll-animate">
                 <p>Copyright � 2025 Enprico. All rights reserved.</p>
                 <div class="footer-legal">
                     <a href="#">Privacy Policy</a>
@@ -409,5 +409,41 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Scroll Animation Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with scroll-animate classes
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right');
+            animateElements.forEach(el => observer.observe(el));
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
