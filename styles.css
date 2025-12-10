@@ -7,10 +7,10 @@
 
 :root {
     /* Brand Colors */
-    --brand-blue: #008dda;
+    --brand-blue: #0c5ff9;
     --brand-yellow: #fdbb33;
     --brand-pink: #d13a71;
-    --brand-cyan: #3ba2d1;
+    --brand-cyan: #0c5ff9;
     --brand-purple: #505089;
 
     /* Neutral Colors */
@@ -24,11 +24,12 @@
     --dark-bg: #0f172a;
 }
 
-body {
+html, body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
     color: var(--gray-900);
     overflow-x: hidden;
+    max-width: 100%;
 }
 
 /* Animation Keyframes */
@@ -220,16 +221,142 @@ body {
     background: rgba(255, 255, 255, 0.3);
 }
 
+/* Burger Menu */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.burger-menu span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 2000;
+    transition: right 0.3s ease;
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.mobile-menu-header svg {
+    stroke: var(--gray-700);
+}
+
+.mobile-login {
+    flex: 1;
+    color: var(--gray-900);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.mobile-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-close svg {
+    stroke: var(--gray-700);
+}
+
+.mobile-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.mobile-nav a {
+    padding: 1rem 1.5rem;
+    color: var(--gray-900);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--gray-100);
+    transition: background 0.2s;
+}
+
+.mobile-nav a:hover {
+    background: var(--gray-50);
+}
+
+.mobile-menu-footer {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.mobile-dropdown {
+    position: relative;
+}
+
+.mobile-language-select,
+.mobile-currency-select {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--gray-900);
+    background: white;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23374151' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    font-family: inherit;
+}
+
+.mobile-language-select:focus,
+.mobile-currency-select:focus {
+    outline: none;
+    border-color: var(--brand-blue);
+}
+
 /* Hero Section */
 .hero {
-    background:
-        linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px),
-        linear-gradient(rgba(255, 255, 255, 0.151) 1px, transparent 1px),
-        linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
-    background-size: 60px 60px, 60px 60px, 100% 100%;
+    background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
     padding-top: 5rem;
     position: relative;
-    overflow: hidden;
 }
 
 .decorative-circle {
@@ -270,21 +397,43 @@ body {
     background: var(--brand-yellow);
     color: white;
     border: none;
-    padding: 0.875rem 2rem;
-    font-size: 1.125rem;
-    font-weight: 700;
-    border-radius: 0.75rem;
+    padding: 1.25rem 3rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border-radius: 1rem;
     cursor: pointer;
     transition: all 0.3s;
     align-self: flex-start;
     font-family: inherit;
     animation: fadeInUp 0.8s ease-out 0.2s both;
+    box-shadow: 0 8px 20px rgba(253, 187, 51, 0.35);
+    letter-spacing: 0.5px;
 }
 
 .cta-button:hover {
     background: #e5a82e;
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(253, 187, 51, 0.4);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(253, 187, 51, 0.5);
+}
+
+.cta-button:active {
+    transform: translateY(-2px) scale(1.03);
+}
+
+.cta-mobile {
+    display: none;
+    margin: 2rem auto 0;
+    align-self: center;
+    width: 100%;
+    max-width: 350px;
+}
+
+.hero-title-mobile {
+    display: none;
+}
+
+.level-badges-mobile {
+    display: none;
 }
 
 .level-badges {
@@ -910,6 +1059,7 @@ body {
     opacity: 1;
 }
 
+
 /* Responsive Design */
 @media (max-width: 1400px) {
     .container {
@@ -939,34 +1089,96 @@ body {
     }
 }
 
+@media (min-width: 1025px) {
+    .level-badges-mobile {
+        display: none !important;
+    }
+
+    .hero-title-mobile {
+        display: none !important;
+    }
+
+    .cta-mobile {
+        display: none !important;
+    }
+}
+
 @media (max-width: 1024px) {
+    .hero {
+        min-height: auto;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 2rem;
+        padding-top: 3rem;
+    }
+
     .hero-container {
         grid-template-columns: 1fr;
-        text-align: center;
-        gap: 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
     }
 
     .hero-content {
-        align-items: center;
+        order: 1;
+        width: 100%;
+        gap: 0;
     }
 
-    .hero-title {
-        font-size: 2.75rem;
+    .hero-title-desktop {
+        display: none;
     }
 
-    .cta-button {
-        align-self: center;
-        padding: 1rem 2.5rem;
-        font-size: 1.25rem;
+    .level-badges-desktop {
+        display: none;
     }
 
-    .level-badges {
-        justify-content: center;
+    .cta-desktop {
+        display: none;
     }
 
     .hero-image {
-        margin-top: 1rem;
-        min-height: 400px;
+        margin-top: 0;
+        min-height: 200px;
+        order: 2;
+        width: 100%;
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-title-mobile {
+        display: block;
+        order: 3;
+        font-size: 2.25rem;
+        color: white;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-top: 0;
+        text-align: left;
+    }
+
+    .cta-mobile {
+        display: block;
+        order: 4;
+        padding: 1.25rem 2rem;
+        font-size: 1.5rem;
+        align-self: stretch;
+        margin-left: 0;
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+        width: 100%;
+    }
+
+    .level-badges-mobile {
+        display: flex;
+        order: 5;
+        margin-top: 0;
+        gap: 0;
+        flex-wrap: wrap;
+        margin-bottom: 0;
     }
 
     .tagline {
@@ -1015,8 +1227,9 @@ body {
     }
 
     .header .container {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 1rem;
+        justify-content: space-between;
     }
 
     .logo-img {
@@ -1024,51 +1237,59 @@ body {
     }
 
     .nav-center {
-        order: 3;
-        width: 100%;
-        margin-top: 0.5rem;
-    }
-
-    .nav-links {
-        width: 100%;
-        justify-content: space-around;
-        padding: 0.4rem 1rem;
-        gap: 0.25rem;
-    }
-
-    .nav-links a {
-        font-size: 0.875rem;
-        padding: 0.5rem 0.75rem;
+        display: none;
     }
 
     .nav-right {
-        gap: 1rem;
+        gap: 0.75rem;
     }
 
     .language-btn,
-    .login-btn {
-        font-size: 0.875rem;
+    .login-btn,
+    .help-btn {
+        display: none;
     }
 
-    .help-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
+    .burger-menu {
+        display: flex;
+    }
+
+    .mobile-menu {
+        display: flex;
     }
 
     .hero {
-        padding: 2.5rem 0 3rem;
-        background-size: 40px 40px, 40px 40px, 100% 100%;
+        padding: 3.5rem 0 1.5rem 0;
+        min-height: auto;
     }
 
-    .hero-title {
-        font-size: 2.25rem;
-        margin-bottom: 1.5rem;
+    .hero-container {
+        gap: 0;
     }
 
-    .cta-button {
-        padding: 0.875rem 2rem;
-        font-size: 1.125rem;
+    .hero-image {
+        margin-top: 0;
+        min-height: 180px;
+    }
+
+    .hero-title-mobile {
+        font-size: 1.875rem;
+        margin-top: 0;
+    }
+
+    .cta-mobile {
+        padding: 1.125rem 2rem;
+        font-size: 1.375rem;
+        max-width: none;
+        width: 100%;
+        margin-top: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .level-badges-mobile {
+        margin-top: 0;
+        gap: 0;
+        margin-bottom: 0;
     }
 
     .level-badges {
@@ -1208,42 +1429,52 @@ body {
         height: 28px;
     }
 
-    .nav-links {
-        padding: 0.3rem 0.5rem;
-        flex-wrap: wrap;
+    .burger-menu span {
+        width: 22px;
+        height: 2.5px;
     }
 
-    .nav-links a {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.5rem;
-    }
-
-    .language-btn,
-    .login-btn {
-        font-size: 0.8rem;
-    }
-
-    .help-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 0.9rem;
+    .mobile-menu {
+        width: 260px;
     }
 
     .hero {
-        padding: 2rem 0 2.5rem;
-        background-size: 30px 30px, 30px 30px, 100% 100%;
+        padding: 3rem 0 1rem 0;
+        min-height: auto;
     }
 
-    .hero-title {
-        font-size: 1.875rem;
+    .hero-container {
+        gap: 0;
+    }
+
+    .hero-image {
+        margin-top: 0;
+        min-height: 150px;
+    }
+
+    .hero-title-mobile {
+        font-size: 1.625rem;
         line-height: 1.15;
+        margin-top: 1.5rem;
     }
 
-    .cta-button {
-        padding: 0.875rem 1.75rem;
-        font-size: 1rem;
+    .cta-mobile {
+        padding: 1rem 2rem;
+        font-size: 1.25rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
         width: 100%;
-        max-width: 280px;
+    }
+
+    .level-badges-mobile {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .level-badges-mobile .badge {
+        width: 26px;
+        height: 26px;
+        font-size: 0.65rem;
     }
 
     .badge {
@@ -1296,7 +1527,7 @@ body {
     }
 
     .guarantee-section {
-        padding: 3rem 0;
+        padding: 0;
     }
 
     .guarantee-section h2 {

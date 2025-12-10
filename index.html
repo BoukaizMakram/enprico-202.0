@@ -38,6 +38,48 @@
                 </div>
                 <a href="#login" class="login-btn" data-i18n="loginBtn">Log In</a>
                 <button class="help-btn">?</button>
+                <button class="burger-menu" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu">
+                <div class="mobile-menu-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <a href="#login" class="mobile-login" data-i18n="loginBtn">Log In</a>
+                    <button class="mobile-close" aria-label="Close menu">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <nav class="mobile-nav">
+                    <a href="#home" data-i18n="navHome">Home</a>
+                    <a href="#pricing" data-i18n="navPricing">Pricing</a>
+                    <a href="#contact" data-i18n="navContact">Contact Us</a>
+                    <a href="#about" data-i18n="navAbout">About</a>
+                </nav>
+                <div class="mobile-menu-footer">
+                    <div class="mobile-dropdown">
+                        <select class="mobile-language-select">
+                            <option value="en">English</option>
+                            <option value="fr">Français</option>
+                        </select>
+                    </div>
+                    <div class="mobile-dropdown">
+                        <select class="mobile-currency-select">
+                            <option value="usd">USD</option>
+                            <option value="eur">EUR</option>
+                            <option value="gbp">GBP</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -47,13 +89,13 @@
         <div class="decorative-circle"></div>
         <div class="container hero-container">
             <div class="hero-content">
-                <h1 class="hero-title" data-i18n="heroTitle">
+                <h1 class="hero-title hero-title-desktop" data-i18n="heroTitle">
                     Learn English<br>
                     Quickly and<br>
                     Efficiently
                 </h1>
-                <button class="cta-button" data-i18n="ctaButton">Join Us</button>
-                <div class="level-badges">
+                <button class="cta-button cta-desktop" data-i18n="ctaButton">Join Us</button>
+                <div class="level-badges level-badges-desktop">
                     <span class="badge">A1</span>
                     <span class="badge">A2</span>
                     <span class="badge">B1</span>
@@ -66,6 +108,22 @@
             <div class="hero-image">
                 <img src="images/hero.png" alt="Student learning" class="student-photo">
             </div>
+
+            <h1 class="hero-title hero-title-mobile">
+                Learn English Quickly<br>
+                and Efficiently
+            </h1>
+
+            <div class="level-badges level-badges-mobile">
+                <span class="badge">A1</span>
+                <span class="badge">A2</span>
+                <span class="badge">B1</span>
+                <span class="badge">B2</span>
+                <span class="badge">C1</span>
+                <span class="badge">C2</span>
+            </div>
+
+            <button class="cta-button cta-mobile" data-i18n="ctaButton">Join Us</button>
         </div>
     </section>
 
@@ -411,6 +469,54 @@
     </footer>
 
     <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const burgerMenu = document.querySelector('.burger-menu');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileClose = document.querySelector('.mobile-close');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+            const mobileLanguageSelect = document.querySelector('.mobile-language-select');
+
+            // Open menu
+            if (burgerMenu) {
+                burgerMenu.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileMenu.classList.add('active');
+                });
+            }
+
+            // Close menu
+            if (mobileClose) {
+                mobileClose.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            }
+
+            // Close menu when clicking on a nav link
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (mobileMenu && mobileMenu.classList.contains('active')) {
+                    if (!mobileMenu.contains(e.target) && !burgerMenu.contains(e.target)) {
+                        mobileMenu.classList.remove('active');
+                    }
+                }
+            });
+
+            // Sync mobile language selector with main language
+            if (mobileLanguageSelect) {
+                mobileLanguageSelect.value = currentLang;
+                mobileLanguageSelect.addEventListener('change', (e) => {
+                    setLanguage(e.target.value);
+                });
+            }
+        });
+
         // Scroll Animation Observer
         const observerOptions = {
             threshold: 0.1,
@@ -599,7 +705,15 @@
 
             // Update language button text
             const langBtn = document.querySelector('.language-btn');
-            langBtn.childNodes[0].textContent = lang === 'en' ? 'English ' : 'Français ';
+            if (langBtn) {
+                langBtn.childNodes[0].textContent = lang === 'en' ? 'English ' : 'Français ';
+            }
+
+            // Update mobile language select
+            const mobileLanguageSelect = document.querySelector('.mobile-language-select');
+            if (mobileLanguageSelect) {
+                mobileLanguageSelect.value = lang;
+            }
 
             // Update all elements with data-i18n attribute
             document.querySelectorAll('[data-i18n]').forEach(element => {
