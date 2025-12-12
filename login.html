@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - Enprico</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            background: white;
+        }
+
+        .auth-banner {
+            flex: 1;
+            background: url('images/banner 2.png') center center / cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .auth-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 118, 199, 0.7) 0%, rgba(12, 95, 249, 0.7) 100%);
+        }
+
+        .auth-banner-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-banner h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .auth-banner p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 400px;
+        }
+
+        .auth-form-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .auth-card {
+            background: white;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-logo img {
+            height: 60px;
+        }
+
+        .auth-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--brand-blue);
+        }
+
+        .form-error {
+            color: #c00;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .form-error.active {
+            display: block;
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 118, 199, 0.3);
+        }
+
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .auth-divider {
+            text-align: center;
+            margin: 2rem 0;
+            color: var(--gray-500);
+            position: relative;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: var(--gray-300);
+        }
+
+        .auth-divider::before {
+            left: 0;
+        }
+
+        .auth-divider::after {
+            right: 0;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--gray-600);
+        }
+
+        .auth-footer a {
+            color: var(--brand-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .auth-container {
+                flex-direction: column;
+            }
+
+            .auth-banner {
+                padding: 2rem;
+                min-height: auto;
+            }
+
+            .auth-banner h2 {
+                font-size: 1.75rem;
+            }
+
+            .auth-form-section {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 1.5rem;
+            }
+
+            .auth-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-banner">
+            <div class="auth-banner-content">
+                <h2>Learn English with Enprico</h2>
+                <p>Master English quickly and efficiently with personalized 1-on-1 tutoring sessions.</p>
+            </div>
+        </div>
+
+        <div class="auth-form-section">
+            <div class="auth-card">
+                <div class="auth-logo">
+                    <a href="index.html">
+                        <img src="images/fav icon.png" alt="Enprico Logo">
+                    </a>
+                </div>
+
+                <h1 class="auth-title">Welcome Back</h1>
+                <p class="auth-subtitle">Sign in to access your dashboard</p>
+
+                <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <div class="form-error" id="formError"></div>
+
+                <button type="submit" class="auth-btn" id="submitBtn">
+                    <span id="btnText">Log In</span>
+                </button>
+                </form>
+
+                <div class="auth-footer">
+                    Don't have an account? <a href="signup.html">Sign up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { signIn, getCurrentUser } from './auth-client.js';
+
+        // Check if already logged in
+        async function checkExistingSession() {
+            const { user } = await getCurrentUser();
+            if (user) {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        checkExistingSession();
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const formError = document.getElementById('formError');
+
+            // Disable button
+            submitBtn.disabled = true;
+            btnText.textContent = 'Signing in...';
+            formError.classList.remove('active');
+
+            try {
+                const { data, error } = await signIn(email, password);
+
+                if (error) {
+                    throw new Error(error.message);
+                }
+
+                if (data.user) {
+                    // Success! Redirect to dashboard
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                formError.textContent = error.message || 'Invalid email or password. Please try again.';
+                formError.classList.add('active');
+
+                // Re-enable button
+                submitBtn.disabled = false;
+                btnText.textContent = 'Log In';
+            }
+        });
+    </script>
+</body>
+</html>

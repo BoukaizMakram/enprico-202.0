@@ -21,6 +21,7 @@
             <nav class="nav-center">
                 <ul class="nav-links">
                     <li><a href="#home" class="active" data-i18n="navHome">Home</a></li>
+                    <li><a href="#articles" data-i18n="navArticles">Articles</a></li>
                     <li><a href="#pricing" data-i18n="navPricing">Pricing</a></li>
                     <li><a href="#contact" data-i18n="navContact">Contact Us</a></li>
                     <li><a href="#about" data-i18n="navAbout">About</a></li>
@@ -36,7 +37,7 @@
                         </svg>
                     </button>
                 </div>
-                <a href="#login" class="login-btn" data-i18n="loginBtn">Log In</a>
+                <a href="login.html" class="login-btn" data-i18n="loginBtn">Log In</a>
                 <button class="help-btn">?</button>
                 <button class="burger-menu" aria-label="Toggle menu">
                     <span></span>
@@ -52,7 +53,7 @@
                         <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2"/>
                         <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2"/>
                     </svg>
-                    <a href="#login" class="mobile-login" data-i18n="loginBtn">Log In</a>
+                    <a href="login.html" class="mobile-login" data-i18n="loginBtn">Log In</a>
                     <button class="mobile-close" aria-label="Close menu">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -61,6 +62,7 @@
                 </div>
                 <nav class="mobile-nav">
                     <a href="#home" data-i18n="navHome">Home</a>
+                    <a href="#articles" data-i18n="navArticles">Articles</a>
                     <a href="#pricing" data-i18n="navPricing">Pricing</a>
                     <a href="#contact" data-i18n="navContact">Contact Us</a>
                     <a href="#about" data-i18n="navAbout">About</a>
@@ -350,7 +352,7 @@
                         </div>
                     </div>
                     <div class="pricing-body">
-                        <button class="enroll-btn pink-btn" data-i18n="enrollBtn">Enroll Now</button>
+                        <a href="signup.html" class="enroll-btn pink-btn" data-i18n="enrollBtn">Enroll Now</a>
                         <p class="pricing-description" data-i18n="pricingDesc">Perfect for steady progress</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
@@ -411,7 +413,7 @@
                         </div>
                     </div>
                     <div class="pricing-body">
-                        <button class="enroll-btn blue-btn" data-i18n="enrollBtn">Enroll Now</button>
+                        <a href="signup.html" class="enroll-btn blue-btn" data-i18n="enrollBtn">Enroll Now</a>
                         <p class="pricing-description" data-i18n="pricingDesc">Ideal for fast learning</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
@@ -471,7 +473,7 @@
                         </div>
                     </div>
                     <div class="pricing-body">
-                        <button class="enroll-btn purple-btn" data-i18n="contactBtn">Contact Us</button>
+                        <a href="#contact" class="enroll-btn purple-btn" data-i18n="contactBtn">Contact Us</a>
                         <p class="pricing-description" data-i18n="pricingDesc">For teams and organizations</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
@@ -520,6 +522,22 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="articles-section" id="articles">
+        <div class="container">
+            <h2 class="section-title scroll-animate" data-i18n="articlesTitle">Latest Articles</h2>
+            <p class="section-subtitle scroll-animate" data-i18n="articlesSubtitle">Discover tips, guides, and insights to help you on your English learning journey.</p>
+
+            <div class="articles-grid" id="articlesGrid">
+                <!-- Articles will be loaded dynamically -->
+                <div class="articles-loading">
+                    <div class="spinner"></div>
+                    <p data-i18n="loading">Loading articles...</p>
                 </div>
             </div>
         </div>
@@ -613,7 +631,7 @@
                             </svg>
                             <div>
                                 <h4 data-i18n="infoEmail">Email</h4>
-                                <p>support@enprico.com</p>
+                                <p>learn@enprico.com</p>
                             </div>
                         </div>
                         <div class="info-item">
@@ -823,6 +841,9 @@
         </div>
     </footer>
 
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <script>
         // Mobile Menu Toggle
         document.addEventListener('DOMContentLoaded', () => {
@@ -1023,7 +1044,14 @@
                 faq4A: 'Yes, we offer a 30-day money-back guarantee. If you\'re not satisfied with our service within the first 30 days, we\'ll provide a full refund.',
                 faq5Q: 'How long are the lessons?',
                 faq5A: 'Standard lessons are 60 minutes long. You can also book 30-minute or 90-minute sessions based on your preferences and availability.',
-                helpContact: 'Still have questions? <a href="#contact">Contact us</a>'
+                helpContact: 'Still have questions? <a href="#contact">Contact us</a>',
+
+                // Articles Section
+                navArticles: 'Articles',
+                articlesTitle: 'Latest Articles',
+                articlesSubtitle: 'Discover tips, guides, and insights to help you on your English learning journey.',
+                readMore: 'Read More →',
+                loading: 'Loading articles...'
             },
             fr: {
                 // Navigation
@@ -1140,7 +1168,14 @@
                 faq4A: 'Oui, nous offrons une garantie de remboursement de 30 jours. Si vous n\'êtes pas satisfait de notre service dans les 30 premiers jours, nous vous rembourserons intégralement.',
                 faq5Q: 'Quelle est la durée des leçons ?',
                 faq5A: 'Les leçons standard durent 60 minutes. Vous pouvez également réserver des sessions de 30 minutes ou 90 minutes en fonction de vos préférences et de votre disponibilité.',
-                helpContact: 'Vous avez encore des questions ? <a href="#contact">Contactez-nous</a>'
+                helpContact: 'Vous avez encore des questions ? <a href="#contact">Contactez-nous</a>',
+
+                // Articles Section
+                navArticles: 'Articles',
+                articlesTitle: 'Derniers articles',
+                articlesSubtitle: 'Découvrez des conseils, des guides et des idées pour vous aider dans votre parcours d\'apprentissage de l\'anglais.',
+                readMore: 'Lire la suite →',
+                loading: 'Chargement des articles...'
             }
         };
 
@@ -1381,6 +1416,118 @@
                 });
             }
         });
+
+        // Articles Loading and Display
+        let articlesData = [];
+
+        async function loadArticles() {
+            try {
+                const response = await fetch('content/articles/index.json');
+                articlesData = await response.json();
+                displayArticles();
+            } catch (error) {
+                console.error('Error loading articles:', error);
+                document.getElementById('articlesGrid').innerHTML = '<p class="error-message">Failed to load articles. Please try again later.</p>';
+            }
+        }
+
+        function displayArticles() {
+            const grid = document.getElementById('articlesGrid');
+            const lang = currentLang || 'en';
+
+            const articlesHTML = articlesData.map(article => {
+                const title = lang === 'fr' && article.titleFr ? article.titleFr : article.title;
+                const excerpt = lang === 'fr' && article.excerptFr ? article.excerptFr : article.excerpt;
+                const category = lang === 'fr' && article.categoryFr ? article.categoryFr : article.category;
+
+                return `
+                    <article class="article-card scroll-animate" data-article-id="${article.id}">
+                        <div class="article-image" style="background-image: url('${article.image}');">
+                            <span class="article-category">${category}</span>
+                        </div>
+                        <div class="article-body">
+                            <h3 class="article-title">${title}</h3>
+                            <p class="article-excerpt">${excerpt}</p>
+                            <div class="article-meta">
+                                <span class="article-author">${article.author}</span>
+                                <span class="article-divider">•</span>
+                                <span class="article-date">${formatDate(article.date, lang)}</span>
+                                <span class="article-divider">•</span>
+                                <span class="article-read-time">${article.readTime} min read</span>
+                            </div>
+                            <button class="read-more-btn" onclick="openArticle('${article.slug}')" data-i18n="readMore">Read More →</button>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            grid.innerHTML = articlesHTML;
+
+            // Re-apply scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.article-card').forEach(el => observer.observe(el));
+        }
+
+        function formatDate(dateString, lang) {
+            const date = new Date(dateString);
+            if (lang === 'fr') {
+                return date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function openArticle(slug) {
+            // Navigate to article page with slug as URL parameter
+            window.location.href = `article.html?article=${slug}`;
+        }
+
+        // Load articles on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadArticles();
+        });
+
+        // Reload articles when language changes
+        const originalSetLanguage = setLanguage;
+        setLanguage = function(lang) {
+            originalSetLanguage(lang);
+            if (articlesData.length > 0) {
+                displayArticles();
+            }
+        };
+    </script>
+
+    <!-- Authentication Check -->
+    <script type="module">
+        import { getCurrentUser } from './auth-client.js';
+
+        // Check if user is logged in and update UI
+        async function checkAuthStatus() {
+            try {
+                const { user } = await getCurrentUser();
+
+                if (user) {
+                    // User is logged in - update login buttons to show Dashboard
+                    const loginButtons = document.querySelectorAll('.login-btn, .mobile-login');
+                    loginButtons.forEach(btn => {
+                        btn.textContent = 'Dashboard';
+                        btn.href = 'dashboard.html';
+                    });
+                }
+            } catch (error) {
+                // User not logged in - keep default "Log In" button
+                console.log('User not authenticated');
+            }
+        }
+
+        // Run on page load
+        checkAuthStatus();
     </script>
 </body>
 </html>

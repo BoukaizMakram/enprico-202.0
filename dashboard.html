@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Enprico</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.5rem;
+        }
+
+        .dashboard-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-card h3 {
+            margin: 0 0 1rem 0;
+            color: var(--gray-900);
+            font-size: 1.25rem;
+        }
+
+        .hours-display {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hours-number {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .hours-label {
+            color: var(--gray-600);
+            font-size: 1.125rem;
+            margin-top: 0.5rem;
+        }
+
+        .hours-bar {
+            width: 100%;
+            height: 12px;
+            background: var(--gray-200);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .hours-bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
+            transition: width 0.3s ease;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .plan-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .plan-starter {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+            color: white;
+        }
+
+        .plan-professional {
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 100%);
+            color: white;
+        }
+
+        .plan-enterprise {
+            background: linear-gradient(135deg, #505089 0%, #7b68ee 100%);
+            color: white;
+        }
+
+        .upcoming-sessions {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .session-item {
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .session-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .session-date {
+            color: var(--brand-blue);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .session-details {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+
+        .btn-logout {
+            background: var(--gray-600);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-logout:hover {
+            background: var(--gray-700);
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem;
+        }
+
+        .spinner {
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--brand-blue);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-500);
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c00;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+
+            .hours-number {
+                font-size: 3rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo_white 1.png" alt="Enprico Logo" class="logo-img">
+            </a>
+            <nav class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="index.html#pricing">Upgrade</a></li>
+                    <li><a href="index.html#contact">Support</a></li>
+                </ul>
+            </nav>
+            <div class="nav-right">
+                <button class="btn-logout" id="logoutBtn">Log Out</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+            <p>Loading your dashboard...</p>
+        </div>
+
+        <!-- Dashboard Content (hidden until loaded) -->
+        <div id="dashboardContent" style="display: none;">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <h1>Welcome back, <span id="userName">Student</span>!</h1>
+                <p id="userEmail">student@example.com</p>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="dashboard-grid">
+                <!-- Hours Remaining Card -->
+                <div class="dashboard-card" style="grid-column: span 2;">
+                    <h3>Hours Remaining This Month</h3>
+                    <div class="hours-display">
+                        <div class="hours-number" id="remainingHours">0</div>
+                        <div class="hours-label">hours left</div>
+                        <div class="hours-bar">
+                            <div class="hours-bar-fill" id="hoursBarFill" style="width: 0%"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: var(--gray-600); font-size: 0.95rem;">
+                            <span><span id="usedHours">0</span> hours used</span>
+                            <span><span id="totalHours">0</span> hours total</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subscription Info Card -->
+                <div class="dashboard-card">
+                    <h3>Subscription Details</h3>
+                    <div class="info-row">
+                        <span class="info-label">Plan</span>
+                        <span class="info-value">
+                            <span class="plan-badge" id="planBadge">Starter</span>
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Status</span>
+                        <span class="info-value" id="subscriptionStatus">Active</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Renewal Date</span>
+                        <span class="info-value" id="renewalDate">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Monthly Price</span>
+                        <span class="info-value" id="monthlyPrice">$0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Sessions -->
+            <div class="dashboard-card">
+                <h3>Upcoming Sessions</h3>
+                <ul class="upcoming-sessions" id="upcomingSessions">
+                    <li class="empty-state">No upcoming sessions scheduled</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" style="display: none;">
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <p>&copy; 2025 Enprico. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import {
+            getCurrentUser,
+            getUserProfile,
+            getDashboardData,
+            signOut
+        } from './auth-client.js';
+
+        // Check if user is logged in
+        async function checkAuth() {
+            const { user, error } = await getCurrentUser();
+
+            if (error || !user) {
+                // Redirect to login if not authenticated
+                window.location.href = 'login.html';
+                return null;
+            }
+
+            return user;
+        }
+
+        // Format date nicely
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Get plan badge class
+        function getPlanBadgeClass(planType) {
+            const classes = {
+                'starter': 'plan-starter',
+                'professional': 'plan-professional',
+                'enterprise': 'plan-enterprise'
+            };
+            return classes[planType] || 'plan-starter';
+        }
+
+        // Format plan name
+        function formatPlanName(planType) {
+            return planType.charAt(0).toUpperCase() + planType.slice(1);
+        }
+
+        // Load dashboard data
+        async function loadDashboard() {
+            const user = await checkAuth();
+            if (!user) return;
+
+            try {
+                const dashboardData = await getDashboardData(user.id);
+
+                if (!dashboardData) {
+                    throw new Error('Failed to load dashboard data');
+                }
+
+                // Update user info
+                document.getElementById('userName').textContent = dashboardData.profile?.full_name || 'Student';
+                document.getElementById('userEmail').textContent = user.email;
+
+                // Update hours
+                if (dashboardData.hours) {
+                    const remaining = parseFloat(dashboardData.hours.remaining_hours);
+                    const total = parseFloat(dashboardData.hours.total_hours);
+                    const used = parseFloat(dashboardData.hours.used_hours);
+                    const percentage = (remaining / total) * 100;
+
+                    document.getElementById('remainingHours').textContent = remaining.toFixed(1);
+                    document.getElementById('usedHours').textContent = used.toFixed(1);
+                    document.getElementById('totalHours').textContent = total.toFixed(1);
+                    document.getElementById('hoursBarFill').style.width = percentage + '%';
+                } else {
+                    // No hours data - user hasn't subscribed yet
+                    document.getElementById('remainingHours').textContent = '0';
+                    document.getElementById('usedHours').textContent = '0';
+                    document.getElementById('totalHours').textContent = '0';
+                }
+
+                // Update subscription info
+                if (dashboardData.subscription) {
+                    const sub = dashboardData.subscription;
+                    const planBadge = document.getElementById('planBadge');
+
+                    planBadge.textContent = formatPlanName(sub.plan_type);
+                    planBadge.className = 'plan-badge ' + getPlanBadgeClass(sub.plan_type);
+
+                    document.getElementById('subscriptionStatus').textContent =
+                        sub.status.charAt(0).toUpperCase() + sub.status.slice(1);
+                    document.getElementById('renewalDate').textContent =
+                        formatDate(sub.end_date);
+                    document.getElementById('monthlyPrice').textContent =
+                        '$' + parseFloat(sub.price_usd).toFixed(2);
+                } else {
+                    // No active subscription
+                    document.getElementById('planBadge').textContent = 'None';
+                    document.getElementById('subscriptionStatus').textContent = 'Inactive';
+                    document.getElementById('renewalDate').textContent = '-';
+                    document.getElementById('monthlyPrice').textContent = '$0.00';
+                }
+
+                // Update upcoming sessions
+                if (dashboardData.upcomingSessions && dashboardData.upcomingSessions.length > 0) {
+                    const sessionsList = document.getElementById('upcomingSessions');
+                    sessionsList.innerHTML = dashboardData.upcomingSessions.map(session => `
+                        <li class="session-item">
+                            <div class="session-date">
+                                ${formatDate(session.scheduled_at)}
+                            </div>
+                            <div class="session-details">
+                                ${session.duration_hours} hours
+                                ${session.tutor_name ? `• Tutor: ${session.tutor_name}` : ''}
+                            </div>
+                        </li>
+                    `).join('');
+                }
+
+                // Show dashboard, hide loading
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('dashboardContent').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+                document.getElementById('errorMessage').textContent =
+                    'Failed to load dashboard. Please refresh the page.';
+            }
+        }
+
+        // Logout handler
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            const { error } = await signOut();
+
+            if (!error) {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Initialize
+        loadDashboard();
+    </script>
+</body>
+</html>

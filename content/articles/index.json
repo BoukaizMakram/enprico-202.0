@@ -1,0 +1,44 @@
+[
+  {
+    "id": "5-tips-improve-english",
+    "title": "5 Tips to Improve Your English Speaking Skills",
+    "titleFr": "5 conseils pour améliorer vos compétences en anglais",
+    "slug": "5-tips-improve-english",
+    "excerpt": "Discover practical strategies to boost your English speaking confidence and fluency in everyday conversations.",
+    "excerptFr": "Découvrez des stratégies pratiques pour renforcer votre confiance et votre aisance en anglais dans les conversations quotidiennes.",
+    "date": "2025-01-15",
+    "author": "Sarah Johnson",
+    "category": "Speaking Tips",
+    "categoryFr": "Conseils d'expression orale",
+    "image": "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800",
+    "readTime": 5
+  },
+  {
+    "id": "common-english-mistakes",
+    "title": "10 Common English Mistakes and How to Avoid Them",
+    "titleFr": "10 erreurs courantes en anglais et comment les éviter",
+    "slug": "common-english-mistakes",
+    "excerpt": "Learn about the most frequent mistakes English learners make and get tips on how to correct them.",
+    "excerptFr": "Découvrez les erreurs les plus fréquentes des apprenants d'anglais et obtenez des conseils pour les corriger.",
+    "date": "2025-01-10",
+    "author": "Michael Chen",
+    "category": "Grammar",
+    "categoryFr": "Grammaire",
+    "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800",
+    "readTime": 7
+  },
+  {
+    "id": "ielts-preparation-guide",
+    "title": "Complete IELTS Preparation Guide for Beginners",
+    "titleFr": "Guide complet de préparation IELTS pour débutants",
+    "slug": "ielts-preparation-guide",
+    "excerpt": "Everything you need to know to start preparing for the IELTS exam with confidence.",
+    "excerptFr": "Tout ce que vous devez savoir pour commencer à préparer l'examen IELTS en toute confiance.",
+    "date": "2025-01-05",
+    "author": "Emma Williams",
+    "category": "IELTS",
+    "categoryFr": "IELTS",
+    "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800",
+    "readTime": 10
+  }
+]

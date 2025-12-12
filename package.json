@@ -1,0 +1,25 @@
+{
+  "name": "enprico",
+  "version": "2.0.0",
+  "description": "English learning platform with Supabase integration",
+  "type": "module",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "migrate": "node migrate-articles-to-supabase.js",
+    "setup": "npm install && echo '✅ Dependencies installed! Now create your .env file based on .env.example'"
+  },
+  "keywords": [
+    "education",
+    "english",
+    "learning",
+    "supabase"
+  ],
+  "author": "Enprico",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1"
+  }
+}

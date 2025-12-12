@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Enprico</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Article Page Specific Styles */
+        body {
+            background: white;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .article-decorative-bg-1,
+        .article-decorative-bg-2,
+        .article-decorative-bg-3 {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .article-decorative-bg-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 118, 199, 0.15) 0%, transparent 70%);
+            top: 10%;
+            right: -150px;
+        }
+
+        .article-decorative-bg-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(12, 95, 249, 0.12) 0%, transparent 70%);
+            bottom: 20%;
+            left: -200px;
+        }
+
+        .article-decorative-bg-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 151, 230, 0.1) 0%, transparent 70%);
+            top: 50%;
+            right: -100px;
+        }
+
+        header,
+        main,
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .gradient-banner {
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
+            height: 200px;
+            width: 100%;
+            position: relative;
+        }
+
+        .article-page-container {
+            width: 100%;
+            margin: -100px 0 0;
+            background: white;
+            position: relative;
+            z-index: 10;
+        }
+
+        .article-layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .article-main {
+            min-width: 0;
+        }
+
+        .article-page-hero {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-page-content {
+            padding: 3rem 2rem;
+        }
+
+        .article-sidebar {
+            position: sticky;
+            top: 7rem;
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 2rem;
+            max-height: calc(100vh - 8rem);
+            overflow-y: auto;
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-article {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .sidebar-article:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .sidebar-article-link {
+            display: block;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar-article-link:hover {
+            transform: translateX(4px);
+        }
+
+        .sidebar-article-image {
+            width: 100%;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-article-category {
+            display: inline-block;
+            background: var(--brand-blue);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-article-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .sidebar-article-meta {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .article-page-category {
+            display: inline-block;
+            background: var(--brand-blue);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .article-page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .article-page-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--gray-500);
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--gray-200);
+            flex-wrap: wrap;
+        }
+
+        .article-page-divider {
+            color: var(--gray-300);
+        }
+
+        .back-btn-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 2rem 1rem;
+            position: relative;
+            z-index: 20;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: var(--gray-700);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn:hover {
+            background: var(--gray-50);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+
+        @media (max-width: 768px) {
+            .gradient-banner {
+                height: 150px;
+            }
+
+            .article-page-container {
+                margin: -75px 0 0;
+            }
+
+            .article-page-hero {
+                height: 300px;
+            }
+
+            .article-page-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .article-page-title {
+                font-size: 1.75rem;
+            }
+
+            .back-btn-container {
+                padding: 1.5rem 1.5rem 1rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .article-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .article-sidebar {
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gradient-banner {
+                height: 150px;
+            }
+
+            .article-page-container {
+                margin: -75px 0 0;
+            }
+
+            .article-page-hero {
+                height: 300px;
+            }
+
+            .article-page-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .article-page-title {
+                font-size: 1.75rem;
+            }
+
+            .back-btn-container {
+                padding: 1.5rem 1.5rem 1rem;
+            }
+
+            .article-layout {
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gradient-banner {
+                height: 120px;
+            }
+
+            .article-page-container {
+                margin: -60px 0 0;
+            }
+
+            .article-page-hero {
+                height: 250px;
+            }
+
+            .article-page-title {
+                font-size: 1.5rem;
+            }
+
+            .article-page-content {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .back-btn-container {
+                padding: 1.25rem 1.25rem 0.75rem;
+            }
+
+            .article-layout {
+                padding: 0 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative Background Shapes -->
+    <div class="article-decorative-bg-1"></div>
+    <div class="article-decorative-bg-2"></div>
+    <div class="article-decorative-bg-3"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo_white 1.png" alt="Enprico Logo" class="logo-img">
+            </a>
+
+            <nav class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="index.html#home" data-i18n="navHome">Home</a></li>
+                    <li><a href="index.html#articles" class="active" data-i18n="navArticles">Articles</a></li>
+                    <li><a href="index.html#pricing" data-i18n="navPricing">Pricing</a></li>
+                    <li><a href="index.html#contact" data-i18n="navContact">Contact Us</a></li>
+                    <li><a href="index.html#about" data-i18n="navAbout">About</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-right">
+                <div class="language-selector">
+                    <button class="language-btn" id="langBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span id="langText">EN</span>
+                    </button>
+                </div>
+                <a href="index.html#login" class="login-btn" data-i18n="loginBtn">Log In</a>
+                <button class="help-btn" aria-label="Help">?</button>
+            </div>
+
+            <button class="burger-menu" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <a href="index.html#login" class="mobile-login" data-i18n="loginBtn">Log In</a>
+                <button class="mobile-close" aria-label="Close menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <nav class="mobile-nav">
+                <a href="index.html#home" data-i18n="navHome">Home</a>
+                <a href="index.html#articles" data-i18n="navArticles">Articles</a>
+                <a href="index.html#pricing" data-i18n="navPricing">Pricing</a>
+                <a href="index.html#contact" data-i18n="navContact">Contact Us</a>
+                <a href="index.html#about" data-i18n="navAbout">About</a>
+            </nav>
+            <div class="mobile-menu-footer">
+                <div class="mobile-dropdown">
+                    <select class="mobile-language-select">
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Gradient Banner -->
+    <div class="gradient-banner"></div>
+
+    <!-- Article Content -->
+    <main>
+        <div class="back-btn-container">
+            <a href="index.html#articles" class="back-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span data-i18n="backToArticles">Back to Articles</span>
+            </a>
+        </div>
+
+        <div id="articlePageContainer">
+            <div class="loading-container">
+                <div class="spinner"></div>
+                <p data-i18n="loading">Loading article...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="support-row">
+                <p>
+                    <strong data-i18n="supportQuestion">Need help with anything?</strong><br>
+                    <a href="mailto:learn@enprico.com" class="support-link">learn@enprico.com</a>
+                </p>
+            </div>
+
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <img src="logo.png" alt="Enprico Logo" class="footer-logo-img" onerror="this.style.display='none'">
+                    <div class="contact-info">
+                        <p data-i18n="footerTagline">Your gateway to fluent English</p>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title" data-i18n="footerCompany">COMPANY</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#about" data-i18n="footerAbout">About Us</a></li>
+                        <li><a href="index.html#pricing" data-i18n="footerPricing">Pricing</a></li>
+                        <li><a href="index.html#contact" data-i18n="footerContact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title" data-i18n="footerResources">RESOURCES</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#articles" data-i18n="footerBlog">Blog</a></li>
+                        <li><a href="#help" data-i18n="footerHelp">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title" data-i18n="footerLegal">LEGAL</h4>
+                    <ul class="footer-links">
+                        <li><a href="#privacy" data-i18n="footerPrivacy">Privacy Policy</a></li>
+                        <li><a href="#terms" data-i18n="footerTerms">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Enprico. <span data-i18n="footerRights">All rights reserved.</span></p>
+                <div class="footer-legal">
+                    <a href="#privacy" data-i18n="footerPrivacy">Privacy Policy</a>
+                    <span>•</span>
+                    <a href="#terms" data-i18n="footerTerms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const burgerMenu = document.querySelector('.burger-menu');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileClose = document.querySelector('.mobile-close');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+
+            burgerMenu?.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+            });
+
+            mobileClose?.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        });
+
+        // Translations
+        const translations = {
+            en: {
+                navHome: 'Home',
+                navArticles: 'Articles',
+                navPricing: 'Pricing',
+                navContact: 'Contact Us',
+                navAbout: 'About',
+                loginBtn: 'Log In',
+                backToArticles: 'Back to Articles',
+                loading: 'Loading article...',
+                errorLoading: 'Failed to load article. Please try again.',
+                supportQuestion: 'Need help with anything?',
+                footerTagline: 'Your gateway to fluent English',
+                footerCompany: 'COMPANY',
+                footerAbout: 'About Us',
+                footerPricing: 'Pricing',
+                footerContact: 'Contact',
+                footerResources: 'RESOURCES',
+                footerBlog: 'Blog',
+                footerHelp: 'Help Center',
+                footerLegal: 'LEGAL',
+                footerPrivacy: 'Privacy Policy',
+                footerTerms: 'Terms of Service',
+                footerRights: 'All rights reserved.'
+            },
+            fr: {
+                navHome: 'Accueil',
+                navArticles: 'Articles',
+                navPricing: 'Tarifs',
+                navContact: 'Contactez-nous',
+                navAbout: 'À propos',
+                loginBtn: 'Se connecter',
+                backToArticles: 'Retour aux articles',
+                loading: 'Chargement de l\'article...',
+                errorLoading: 'Échec du chargement de l\'article. Veuillez réessayer.',
+                supportQuestion: 'Besoin d\'aide?',
+                footerTagline: 'Votre passerelle vers un anglais fluide',
+                footerCompany: 'ENTREPRISE',
+                footerAbout: 'À propos',
+                footerPricing: 'Tarifs',
+                footerContact: 'Contact',
+                footerResources: 'RESSOURCES',
+                footerBlog: 'Blog',
+                footerHelp: 'Centre d\'aide',
+                footerLegal: 'LÉGAL',
+                footerPrivacy: 'Politique de confidentialité',
+                footerTerms: 'Conditions d\'utilisation',
+                footerRights: 'Tous droits réservés.'
+            }
+        };
+
+        let currentLang = localStorage.getItem('language') || 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('language', lang);
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Update language button text
+            const langText = document.getElementById('langText');
+            if (langText) {
+                langText.textContent = lang === 'en' ? 'EN' : 'FR';
+            }
+
+            // Update mobile language select
+            const mobileSelect = document.querySelector('.mobile-language-select');
+            if (mobileSelect) {
+                mobileSelect.value = lang;
+            }
+        }
+
+        // Language Switcher
+        document.addEventListener('DOMContentLoaded', () => {
+            const langBtn = document.getElementById('langBtn');
+            const mobileLanguageSelect = document.querySelector('.mobile-language-select');
+
+            // Set initial language
+            setLanguage(currentLang);
+
+            // Toggle language on click
+            langBtn?.addEventListener('click', () => {
+                setLanguage(currentLang === 'en' ? 'fr' : 'en');
+            });
+
+            // Mobile language selector
+            mobileLanguageSelect?.addEventListener('change', (e) => {
+                setLanguage(e.target.value);
+            });
+        });
+
+        function formatDate(dateString, lang) {
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US', options);
+        }
+
+        async function loadArticle() {
+            try {
+                // Get article slug from URL parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const slug = urlParams.get('article');
+
+                if (!slug) {
+                    throw new Error('No article specified');
+                }
+
+                // Load articles index
+                const indexResponse = await fetch('content/articles/index.json');
+                const articles = await indexResponse.json();
+
+                // Find the article
+                const article = articles.find(a => a.slug === slug);
+                if (!article) {
+                    throw new Error('Article not found');
+                }
+
+                // Load article content
+                const contentResponse = await fetch(`content/articles/${article.id}.md`);
+                const markdown = await contentResponse.text();
+                const html = marked.parse(markdown);
+
+                // Get translated content
+                const lang = currentLang;
+                const title = lang === 'fr' && article.titleFr ? article.titleFr : article.title;
+                const category = lang === 'fr' && article.categoryFr ? article.categoryFr : article.category;
+
+                // Update page title
+                document.title = `${title} - Enprico`;
+
+                // Get other articles (exclude current one)
+                const otherArticles = articles.filter(a => a.slug !== slug).slice(0, 5);
+
+                // Generate sidebar HTML
+                const sidebarHTML = otherArticles.length > 0 ? `
+                    <aside class="article-sidebar">
+                        <h3 class="sidebar-title">${lang === 'fr' ? 'Autres Articles' : 'Other Articles'}</h3>
+                        ${otherArticles.map(otherArticle => {
+                            const otherTitle = lang === 'fr' && otherArticle.titleFr ? otherArticle.titleFr : otherArticle.title;
+                            const otherCategory = lang === 'fr' && otherArticle.categoryFr ? otherArticle.categoryFr : otherArticle.category;
+                            return `
+                                <div class="sidebar-article">
+                                    <a href="article.html?article=${otherArticle.slug}" class="sidebar-article-link">
+                                        <img src="${otherArticle.image}" alt="${otherTitle}" class="sidebar-article-image">
+                                        <span class="sidebar-article-category">${otherCategory}</span>
+                                        <h4 class="sidebar-article-title">${otherTitle}</h4>
+                                        <div class="sidebar-article-meta">
+                                            ${otherArticle.author} • ${otherArticle.readTime} min
+                                        </div>
+                                    </a>
+                                </div>
+                            `;
+                        }).join('')}
+                    </aside>
+                ` : '';
+
+                // Display article with layout
+                const container = document.getElementById('articlePageContainer');
+                container.innerHTML = `
+                    <div class="article-page-container">
+                        <img src="${article.image}" alt="${title}" class="article-page-hero">
+                        <div class="article-layout">
+                            <div class="article-main">
+                                <div class="article-page-content">
+                                    <span class="article-page-category">${category}</span>
+                                    <h1 class="article-page-title">${title}</h1>
+                                    <div class="article-page-meta">
+                                        <span class="article-author">${article.author}</span>
+                                        <span class="article-page-divider">•</span>
+                                        <span class="article-date">${formatDate(article.date, lang)}</span>
+                                        <span class="article-page-divider">•</span>
+                                        <span class="article-read-time">${article.readTime} min read</span>
+                                    </div>
+                                    <div class="article-markdown-content">
+                                        ${html}
+                                    </div>
+                                </div>
+                            </div>
+                            ${sidebarHTML}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading article:', error);
+                const container = document.getElementById('articlePageContainer');
+                container.innerHTML = `
+                    <div class="error-message" data-i18n="errorLoading">
+                        Failed to load article. Please try again.
+                    </div>
+                `;
+                setLanguage(currentLang);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(currentLang);
+            loadArticle();
+        });
+    </script>
+</body>
+</html>
