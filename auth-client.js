@@ -3,7 +3,7 @@
  * Focus: Authentication, Payments, Hours Tracking
  */
 
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 // Supabase Configuration
 const SUPABASE_URL = 'https://bzophrxgmwhobbucnvkf.supabase.co';
