@@ -352,7 +352,8 @@
                         </div>
                     </div>
                     <div class="pricing-body">
-                        <a href="signup.html" class="enroll-btn pink-btn" data-i18n="enrollBtn">Enroll Now</a>
+                        <button class="enroll-btn pink-btn" data-plan="starter" onclick="handleEnrollClick('starter')">Enroll Now</button>
+                        <div id="paypal-button-starter" class="paypal-button-container" style="display: none;"></div>
                         <p class="pricing-description" data-i18n="pricingDesc">Perfect for steady progress</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
@@ -413,7 +414,8 @@
                         </div>
                     </div>
                     <div class="pricing-body">
-                        <a href="signup.html" class="enroll-btn blue-btn" data-i18n="enrollBtn">Enroll Now</a>
+                        <button class="enroll-btn blue-btn" data-plan="professional" onclick="handleEnrollClick('professional')">Enroll Now</button>
+                        <div id="paypal-button-professional" class="paypal-button-container" style="display: none;"></div>
                         <p class="pricing-description" data-i18n="pricingDesc">Ideal for fast learning</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
@@ -1529,5 +1531,124 @@
         // Run on page load
         checkAuthStatus();
     </script>
+
+    <!-- PayPal Integration -->
+    <script type="module">
+        import { initPayPalButton, createSubscriptionAfterPayment, PLANS } from './paypal-client.js';
+        import { getCurrentUser, createSubscription, recordPayment } from './auth-client.js';
+
+        // Store current user
+        let currentUser = null;
+
+        // Check auth status on load
+        async function initPayPal() {
+            try {
+                const { user } = await getCurrentUser();
+                currentUser = user;
+            } catch (error) {
+                console.log('User not logged in');
+            }
+        }
+
+        // Handle Enroll button click
+        window.handleEnrollClick = async function(planType) {
+            // Check if user is logged in
+            const { user } = await getCurrentUser();
+
+            if (!user) {
+                // Redirect to signup with plan info
+                localStorage.setItem('selectedPlan', planType);
+                window.location.href = 'signup.html';
+                return;
+            }
+
+            currentUser = user;
+
+            // Show PayPal button
+            const buttonContainer = document.getElementById(`paypal-button-${planType}`);
+            const enrollBtn = document.querySelector(`button[data-plan="${planType}"]`);
+
+            if (buttonContainer) {
+                // Hide enroll button, show PayPal
+                enrollBtn.style.display = 'none';
+                buttonContainer.style.display = 'block';
+
+                // Initialize PayPal button
+                initPayPalButton(
+                    `paypal-button-${planType}`,
+                    planType,
+                    handlePaymentSuccess,
+                    handlePaymentError
+                );
+            }
+        };
+
+        // Handle successful payment
+        async function handlePaymentSuccess(paymentData) {
+            console.log('Payment successful:', paymentData);
+
+            try {
+                // Create subscription in database
+                const { planType, plan, transactionId, orderId } = paymentData;
+
+                // Create subscription
+                const { data: subscription, error: subError } = await createSubscription(
+                    currentUser.id,
+                    planType,
+                    plan.price,
+                    plan.hours,
+                    null
+                );
+
+                if (subError) {
+                    console.error('Subscription error:', subError);
+                    alert('Payment received but there was an error creating your subscription. Please contact support.');
+                    return;
+                }
+
+                // Record payment
+                await recordPayment(
+                    currentUser.id,
+                    subscription.id,
+                    plan.price,
+                    transactionId,
+                    orderId
+                );
+
+                // Show success message and redirect
+                alert(`Thank you for subscribing to the ${plan.name}! Your ${plan.hours} hours have been added to your account.`);
+                window.location.href = 'dashboard.html';
+
+            } catch (error) {
+                console.error('Error processing subscription:', error);
+                alert('Payment received but there was an error. Please contact support with your transaction ID: ' + paymentData.transactionId);
+            }
+        }
+
+        // Handle payment error
+        function handlePaymentError(error) {
+            console.error('Payment error:', error);
+            alert('There was an error processing your payment. Please try again.');
+
+            // Reset buttons
+            document.querySelectorAll('.paypal-button-container').forEach(container => {
+                container.style.display = 'none';
+                container.innerHTML = '';
+            });
+            document.querySelectorAll('.enroll-btn[data-plan]').forEach(btn => {
+                btn.style.display = 'block';
+            });
+        }
+
+        // Initialize on load
+        initPayPal();
+    </script>
+
+    <style>
+        .paypal-button-container {
+            min-height: 50px;
+            margin-top: 0.5rem;
+        }
+    </style>
 </body>
 </html>

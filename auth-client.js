@@ -31,7 +31,8 @@ export async function signUp(email, password, fullName) {
         options: {
             data: {
                 full_name: fullName
-            }
+            },
+            emailRedirectTo: window.location.origin + '/login.html'
         }
     });
 

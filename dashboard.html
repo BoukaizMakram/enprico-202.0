@@ -6,114 +6,283 @@
     <title>Student Dashboard - Enprico</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+        body {
+            padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f8fafc;
+            position: relative;
+            overflow-x: hidden;
         }
 
+        .header {
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
+        }
+
+        /* Decorative Shapes */
+        .shape-1, .shape-2, .shape-3, .shape-4 {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 118, 199, 0.08) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(12, 95, 249, 0.06) 0%, transparent 70%);
+            bottom: 10%;
+            left: -150px;
+        }
+
+        .shape-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 151, 230, 0.07) 0%, transparent 70%);
+            top: 40%;
+            right: -100px;
+        }
+
+        .shape-4 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(253, 187, 51, 0.05) 0%, transparent 70%);
+            bottom: -200px;
+            left: 30%;
+        }
+
+        .dashboard-wrapper {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            width: 100%;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 3rem;
+        }
+
+        /* Welcome Header */
         .dashboard-header {
             background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
             color: white;
-            padding: 3rem 2rem;
-            border-radius: 16px;
+            padding: 3rem;
+            border-radius: 24px;
             margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 118, 199, 0.3);
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .dashboard-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: 20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
         }
 
         .dashboard-header h1 {
             margin: 0 0 0.5rem 0;
             font-size: 2.5rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
         }
 
         .dashboard-header p {
             margin: 0;
             opacity: 0.9;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .dashboard-grid {
+        /* Main Layout - Two Columns */
+        .dashboard-main {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr 380px;
             gap: 2rem;
             margin-bottom: 2rem;
         }
 
+        /* Cards */
         .dashboard-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
         }
 
         .dashboard-card h3 {
-            margin: 0 0 1rem 0;
+            margin: 0 0 1.5rem 0;
             color: var(--gray-900);
             font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .dashboard-card h3 .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #0076c7 0%, #0097e6 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dashboard-card h3 .icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            fill: none;
+        }
+
+        /* Hours Card */
+        .hours-card {
+            grid-column: 1;
         }
 
         .hours-display {
             text-align: center;
-            padding: 2rem;
+            padding: 2rem 0;
         }
 
         .hours-number {
-            font-size: 4rem;
-            font-weight: 700;
+            font-size: 5rem;
+            font-weight: 800;
             background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin: 0;
+            line-height: 1;
         }
 
         .hours-label {
-            color: var(--gray-600);
-            font-size: 1.125rem;
+            color: var(--gray-500);
+            font-size: 1.25rem;
             margin-top: 0.5rem;
+            font-weight: 500;
         }
 
         .hours-bar {
             width: 100%;
-            height: 12px;
-            background: var(--gray-200);
-            border-radius: 6px;
+            height: 16px;
+            background: var(--gray-100);
+            border-radius: 8px;
             overflow: hidden;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
         }
 
         .hours-bar-fill {
             height: 100%;
             background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
-            transition: width 0.3s ease;
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+
+        .hours-stats {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        .hours-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hours-stats .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .hours-stats .dot.used {
+            background: var(--gray-400);
+        }
+
+        .hours-stats .dot.total {
+            background: linear-gradient(135deg, #0076c7 0%, #0097e6 100%);
+        }
+
+        /* Subscription Card */
+        .subscription-card {
+            grid-column: 2;
+            grid-row: 1 / 3;
         }
 
         .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--gray-200);
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-100);
         }
 
         .info-row:last-child {
             border-bottom: none;
+            padding-bottom: 0;
         }
 
         .info-label {
-            color: var(--gray-600);
+            color: var(--gray-500);
             font-weight: 500;
+            font-size: 0.95rem;
         }
 
         .info-value {
             color: var(--gray-900);
             font-weight: 600;
+            font-size: 1rem;
         }
 
         .plan-badge {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .plan-starter {
@@ -131,6 +300,31 @@
             color: white;
         }
 
+        .upgrade-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 118, 199, 0.3);
+        }
+
+        .upgrade-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 118, 199, 0.4);
+        }
+
+        /* Sessions Card */
+        .sessions-card {
+            grid-column: 1;
+        }
+
         .upcoming-sessions {
             list-style: none;
             padding: 0;
@@ -138,10 +332,16 @@
         }
 
         .session-item {
-            padding: 1rem;
-            background: var(--gray-50);
-            border-radius: 8px;
-            margin-bottom: 0.75rem;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--brand-blue);
+            transition: all 0.3s ease;
+        }
+
+        .session-item:hover {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
         }
 
         .session-item:last-child {
@@ -152,6 +352,7 @@
             color: var(--brand-blue);
             font-weight: 600;
             margin-bottom: 0.5rem;
+            font-size: 1rem;
         }
 
         .session-details {
@@ -160,36 +361,37 @@
         }
 
         .btn-logout {
-            background: var(--gray-600);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            background: white;
+            color: var(--gray-700);
+            padding: 0.6rem 1.25rem;
+            border-radius: 50px;
             text-decoration: none;
             display: inline-block;
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
+            font-family: 'Poppins', sans-serif;
         }
 
         .btn-logout:hover {
-            background: var(--gray-700);
+            background: rgba(255, 255, 255, 0.9);
             transform: translateY(-2px);
         }
 
         .loading {
             text-align: center;
-            padding: 4rem;
+            padding: 6rem;
         }
 
         .spinner {
             border: 4px solid var(--gray-200);
             border-top: 4px solid var(--brand-blue);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+            margin: 0 auto 1.5rem;
         }
 
         @keyframes spin {
@@ -199,34 +401,62 @@
 
         .empty-state {
             text-align: center;
-            padding: 2rem;
-            color: var(--gray-500);
+            padding: 2.5rem;
+            color: var(--gray-400);
+            font-size: 1rem;
         }
 
         .error-message {
-            background: #fee;
-            color: #c00;
-            padding: 1rem;
-            border-radius: 8px;
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 1.25rem;
+            border-radius: 12px;
             margin-bottom: 1rem;
+            border: 1px solid #fecaca;
+        }
+
+        /* Footer Override */
+        .footer {
+            margin-top: auto;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-main {
+                grid-template-columns: 1fr;
+            }
+
+            .subscription-card {
+                grid-column: 1;
+                grid-row: auto;
+            }
+
+            .dashboard-container {
+                padding: 1.5rem;
+            }
         }
 
         @media (max-width: 768px) {
             .dashboard-header h1 {
-                font-size: 2rem;
+                font-size: 1.75rem;
             }
 
             .hours-number {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
 
-            .dashboard-grid {
-                grid-template-columns: 1fr;
+            .dashboard-header {
+                padding: 2rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Decorative Shapes -->
+    <div class="shape-1"></div>
+    <div class="shape-2"></div>
+    <div class="shape-3"></div>
+    <div class="shape-4"></div>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -246,82 +476,159 @@
         </div>
     </header>
 
-    <main class="dashboard-container">
-        <!-- Loading State -->
-        <div id="loadingState" class="loading">
-            <div class="spinner"></div>
-            <p>Loading your dashboard...</p>
-        </div>
-
-        <!-- Dashboard Content (hidden until loaded) -->
-        <div id="dashboardContent" style="display: none;">
-            <!-- Header -->
-            <div class="dashboard-header">
-                <h1>Welcome back, <span id="userName">Student</span>!</h1>
-                <p id="userEmail">student@example.com</p>
+    <div class="dashboard-wrapper">
+        <main class="dashboard-container">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading">
+                <div class="spinner"></div>
+                <p>Loading your dashboard...</p>
             </div>
 
-            <!-- Main Grid -->
-            <div class="dashboard-grid">
-                <!-- Hours Remaining Card -->
-                <div class="dashboard-card" style="grid-column: span 2;">
-                    <h3>Hours Remaining This Month</h3>
-                    <div class="hours-display">
-                        <div class="hours-number" id="remainingHours">0</div>
-                        <div class="hours-label">hours left</div>
-                        <div class="hours-bar">
-                            <div class="hours-bar-fill" id="hoursBarFill" style="width: 0%"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; color: var(--gray-600); font-size: 0.95rem;">
-                            <span><span id="usedHours">0</span> hours used</span>
-                            <span><span id="totalHours">0</span> hours total</span>
-                        </div>
-                    </div>
+            <!-- Dashboard Content (hidden until loaded) -->
+            <div id="dashboardContent" style="display: none;">
+                <!-- Welcome Header -->
+                <div class="dashboard-header">
+                    <h1>Welcome back, <span id="userName">Student</span>!</h1>
+                    <p id="userEmail">student@example.com</p>
                 </div>
 
-                <!-- Subscription Info Card -->
-                <div class="dashboard-card">
-                    <h3>Subscription Details</h3>
-                    <div class="info-row">
-                        <span class="info-label">Plan</span>
-                        <span class="info-value">
-                            <span class="plan-badge" id="planBadge">Starter</span>
-                        </span>
+                <!-- Main Layout -->
+                <div class="dashboard-main">
+                    <!-- Hours Remaining Card -->
+                    <div class="dashboard-card hours-card">
+                        <h3>
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </span>
+                            Hours Remaining This Month
+                        </h3>
+                        <div class="hours-display">
+                            <div class="hours-number" id="remainingHours">0</div>
+                            <div class="hours-label">hours left</div>
+                            <div class="hours-bar">
+                                <div class="hours-bar-fill" id="hoursBarFill" style="width: 0%"></div>
+                            </div>
+                            <div class="hours-stats">
+                                <span><span class="dot used"></span><span id="usedHours">0</span> hours used</span>
+                                <span><span class="dot total"></span><span id="totalHours">0</span> hours total</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-row">
-                        <span class="info-label">Status</span>
-                        <span class="info-value" id="subscriptionStatus">Active</span>
+
+                    <!-- Subscription Card - Right Side -->
+                    <div class="dashboard-card subscription-card">
+                        <h3>
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </span>
+                            Subscription Details
+                        </h3>
+                        <div class="info-row">
+                            <span class="info-label">Plan</span>
+                            <span class="info-value">
+                                <span class="plan-badge" id="planBadge">Starter</span>
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Status</span>
+                            <span class="info-value" id="subscriptionStatus">Active</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Renewal Date</span>
+                            <span class="info-value" id="renewalDate">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Monthly Price</span>
+                            <span class="info-value" id="monthlyPrice">$0</span>
+                        </div>
+                        <a href="index.html#pricing" class="upgrade-btn">Upgrade Plan</a>
                     </div>
-                    <div class="info-row">
-                        <span class="info-label">Renewal Date</span>
-                        <span class="info-value" id="renewalDate">-</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Monthly Price</span>
-                        <span class="info-value" id="monthlyPrice">$0</span>
+
+                    <!-- Upcoming Sessions Card -->
+                    <div class="dashboard-card sessions-card">
+                        <h3>
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                            </span>
+                            Upcoming Sessions
+                        </h3>
+                        <ul class="upcoming-sessions" id="upcomingSessions">
+                            <li class="empty-state">No upcoming sessions scheduled</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- Upcoming Sessions -->
-            <div class="dashboard-card">
-                <h3>Upcoming Sessions</h3>
-                <ul class="upcoming-sessions" id="upcomingSessions">
-                    <li class="empty-state">No upcoming sessions scheduled</li>
-                </ul>
+            <!-- Error State -->
+            <div id="errorState" style="display: none;">
+                <div class="error-message" id="errorMessage"></div>
             </div>
-        </div>
-
-        <!-- Error State -->
-        <div id="errorState" style="display: none;">
-            <div class="error-message" id="errorMessage"></div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-container">
-            <p>&copy; 2025 Enprico. All rights reserved.</p>
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <img src="images/enprico logo footer.png" alt="Enprico Logo" class="footer-logo-img">
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">CONTACT US</h3>
+                    <div class="contact-info">
+                        <p>🇬🇧 United Kingdom</p>
+                        <p>1309 Beacon Street, Suite</p>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">ENPRICO SOCIALS</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">YouTube</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">TikTok</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">ABOUT US</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Who we are</a></li>
+                        <li><a href="#">How it works</a></li>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-grid support-row">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div class="footer-section">
+                    <h3 class="footer-title">SUPPORT</h3>
+                    <a href="#" class="support-link">Need any help?</a>
+                </div>
+            </div>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-bottom">
+                <p>Copyright © 2025 Enprico. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
