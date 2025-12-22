@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Enprico</title>
+    <meta name="description" content="The page you're looking for doesn't exist. Return to Enprico homepage to continue learning English.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="icon" type="image/png" href="images/fav icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #f8fafc;
+        }
+
+        .error-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .error-content {
+            max-width: 600px;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .error-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 118, 199, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 118, 199, 0.4);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--gray-700);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gray-200);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+        }
+
+        .error-illustration {
+            margin-bottom: 2rem;
+        }
+
+        .error-illustration svg {
+            width: 200px;
+            height: 200px;
+        }
+
+        @media (max-width: 480px) {
+            .error-code {
+                font-size: 5rem;
+            }
+
+            .error-title {
+                font-size: 1.5rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" style="background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%); position: relative;">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo_white 1.png" alt="Enprico Logo" class="logo-img">
+            </a>
+            <nav class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-right">
+                <a href="login.html" class="login-btn">Log In</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-illustration">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" fill="#e0efff" />
+                    <path d="M60 80C60 74.4772 64.4772 70 70 70H130C135.523 70 140 74.4772 140 80V140C140 145.523 135.523 150 130 150H70C64.4772 150 60 145.523 60 140V80Z" fill="#0076c7" />
+                    <circle cx="85" cy="105" r="8" fill="white" />
+                    <circle cx="115" cy="105" r="8" fill="white" />
+                    <path d="M80 130C80 130 90 120 100 120C110 120 120 130 120 130" stroke="white" stroke-width="4" stroke-linecap="round" />
+                    <path d="M50 60L55 55M150 60L145 55M100 45V50" stroke="#0076c7" stroke-width="3" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page Not Found</h1>
+            <p class="error-message">
+                Oops! The page you're looking for seems to have wandered off.
+                Don't worry, let's get you back on track to learning English!
+            </p>
+            <div class="error-actions">
+                <a href="index.html" class="btn-primary">Go to Homepage</a>
+                <a href="index.html#contact" class="btn-secondary">Contact Support</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-bottom">
+                <p>Copyright © 2025 Enprico. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

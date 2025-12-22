@@ -2,6 +2,15 @@
 .env
 .env.local
 .env.production
+.env.development
+.env*.local
+
+# Sensitive files
+*.pem
+*.key
+*.cert
+test-connection.html
+*.sql
 
 # Node modules
 node_modules/
