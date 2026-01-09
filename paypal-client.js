@@ -146,12 +146,12 @@ export async function initPayPalButton(containerId, planType, onSuccess, onError
 /**
  * Create subscription after successful payment
  */
-export async function createSubscriptionAfterPayment(paymentData, supabaseClient, userId) {
+export async function createSubscriptionAfterPayment(paymentData, supabaseClient, userId, userEmail, userName) {
     const { planType, plan, transactionId, orderId } = paymentData;
 
     try {
         // Import functions from auth-client
-        const { createSubscription, recordPayment } = await import('./auth-client.js');
+        const { createSubscription, recordPayment, sendAdminNotification } = await import('./auth-client.js');
 
         // Create subscription in database
         const { data: subscription, error: subError } = await createSubscription(
@@ -178,6 +178,11 @@ export async function createSubscriptionAfterPayment(paymentData, supabaseClient
         if (payError) {
             console.error('Failed to record payment:', payError);
         }
+
+        // Send admin notification about payment
+        sendAdminNotification('payment', userEmail || 'Unknown', userName || 'Unknown',
+            `Plan: ${plan.name}\nAmount: $${plan.price}\nHours: ${plan.hours}\nTransaction ID: ${transactionId}`
+        );
 
         return { subscription, payment };
 

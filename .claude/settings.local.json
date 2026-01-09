@@ -6,7 +6,10 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(python -m http.server:*)"
+      "Bash(python -m http.server:*)",
+      "Bash(copy \"d:\\Documents\\Saas\\enprico 2.0\\article.html\" \"d:\\Documents\\Saas\\enprico 2.0\\learn-english-online-enprico-articles.html\")",
+      "Bash(cmd /c copy \"d:\\Documents\\Saas\\enprico 2.0\\article.html\" \"d:\\Documents\\Saas\\enprico 2.0\\learn-english-online-enprico-articles.html\")",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

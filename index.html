@@ -50,9 +50,10 @@
         "description": "Enprico is a leading online English learning platform offering personalized 1-on-1 tutoring with certified instructors.",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "1309 Beacon Street, Suite",
-            "addressCountry": "GB"
+            "addressRegion": "New Mexico",
+            "addressCountry": "US"
         },
+        "telephone": "+19179098840",
         "sameAs": [
             "https://facebook.com/enprico",
             "https://instagram.com/enprico",
@@ -95,18 +96,33 @@
     }
     </script>
 
-    <!-- Fonts -->
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="images/logo_white 1.png" as="image">
+
+    <!-- Fonts with display=swap for faster rendering -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css?v=1.2">
+
+    <!-- Critical CSS for above-the-fold content -->
+    <style>
+        /* Prevent layout shift - only for elements with known dimensions */
+        .logo-img { width: 120px; height: auto; }
+        .footer-logo-img { width: 150px; height: auto; }
+        img { max-width: 100%; height: auto; }
+        /* Accessibility - visually hidden but accessible to screen readers */
+        .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    </style>
 </head>
 <body>
     <!-- Header Section -->
     <header class="header">
         <div class="container">
             <a href="/" class="logo">
-                <img src="images/logo_white 1.png" alt="Enprico Logo" class="logo-img">
+                <img src="images/logo_white 1.png" alt="Enprico Logo" class="logo-img" width="96" height="32">
             </a>
 
             <nav class="nav-center">
@@ -160,13 +176,15 @@
                 </nav>
                 <div class="mobile-menu-footer">
                     <div class="mobile-dropdown">
-                        <select class="mobile-language-select">
+                        <label for="mobile-lang-select" class="visually-hidden">Select language</label>
+                        <select id="mobile-lang-select" class="mobile-language-select" aria-label="Select language">
                             <option value="en">English</option>
                             <option value="fr">Français</option>
                         </select>
                     </div>
                     <div class="mobile-dropdown">
-                        <select class="mobile-currency-select">
+                        <label for="mobile-currency-select" class="visually-hidden">Select currency</label>
+                        <select id="mobile-currency-select" class="mobile-currency-select" aria-label="Select currency">
                             <option value="usd">USD</option>
                             <option value="eur">EUR</option>
                             <option value="gbp">GBP</option>
@@ -177,8 +195,17 @@
         </div>
     </header>
 
+    <!-- Main Content -->
+    <main id="main-content">
+
     <!-- Hero Section -->
     <section class="hero">
+        <video class="hero-video hero-video-desktop" autoplay muted loop playsinline>
+            <source src="images/hero.mp4" type="video/mp4">
+        </video>
+        <video class="hero-video hero-video-mobile" autoplay muted loop playsinline>
+            <source src="images/hero_mobile.mp4" type="video/mp4">
+        </video>
         <div class="decorative-circle"></div>
         <div class="container hero-container">
             <div class="hero-content">
@@ -187,7 +214,11 @@
                     Quickly and<br>
                     Efficiently
                 </h1>
-                <button class="cta-button cta-desktop" data-i18n="ctaButton">Join Us</button>
+<button class="cta-button cta-desktop" data-i18n="ctaButton"
+        onclick="window.location.href='login.html'">
+  Join Us
+</button>
+
                 <div class="level-badges level-badges-desktop">
                     <span class="badge">A1</span>
                     <span class="badge">A2</span>
@@ -196,10 +227,6 @@
                     <span class="badge">C1</span>
                     <span class="badge">C2</span>
                 </div>
-            </div>
-
-            <div class="hero-image">
-                <img src="images/hero.png" alt="Student learning" class="student-photo">
             </div>
 
             <h1 class="hero-title hero-title-mobile">
@@ -248,49 +275,31 @@
                                 <svg class="check-icon cyan" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span data-i18n="whatItem1">Speak English with confidence in any situation</span>
+                                <span data-i18n="whatItem1">Speak English with confidence</span>
                             </li>
                             <li>
                                 <svg class="check-icon cyan" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span data-i18n="whatItem2">Master reading, writing, listening and speaking</span>
+                                <span data-i18n="whatItem2">Prepare for IELTS, TOEFL & Cambridge</span>
                             </li>
                             <li>
                                 <svg class="check-icon cyan" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span data-i18n="whatItem3">Prepare for IELTS, TOEFL & Cambridge exams</span>
+                                <span data-i18n="whatItem3">Perfect pronunciation and accent</span>
                             </li>
                             <li>
                                 <svg class="check-icon cyan" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span data-i18n="whatItem4">Build professional vocabulary for your career</span>
+                                <span data-i18n="whatItem4">Understand native speakers</span>
                             </li>
                             <li>
                                 <svg class="check-icon cyan" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span>Perfect your pronunciation and accent</span>
-                            </li>
-                            <li>
-                                <svg class="check-icon cyan" viewBox="0 0 24 24" fill="none">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <span>Learn grammar naturally through conversation</span>
-                            </li>
-                            <li>
-                                <svg class="check-icon cyan" viewBox="0 0 24 24" fill="none">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <span>Understand native speakers and media</span>
-                            </li>
-                            <li>
-                                <svg class="check-icon cyan" viewBox="0 0 24 24" fill="none">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <span>Write professional emails and documents</span>
+                                <span data-i18n="whatItem5">Write professional documents</span>
                             </li>
                         </ul>
                     </div>
@@ -308,49 +317,31 @@
                                 <svg class="check-icon pink" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span data-i18n="howItem1">Personal lessons with certified native tutors</span>
+                                <span data-i18n="howItem1">Tutors who speak YOUR native language</span>
                             </li>
                             <li>
                                 <svg class="check-icon pink" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span data-i18n="howItem2">Structured courses from beginner to advanced</span>
+                                <span data-i18n="howItem2">Courses from beginner to advanced</span>
                             </li>
                             <li>
                                 <svg class="check-icon pink" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span data-i18n="howItem3">Customized curriculum based on your goals</span>
+                                <span data-i18n="howItem3">Interactive video lessons</span>
                             </li>
                             <li>
                                 <svg class="check-icon pink" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span data-i18n="howItem4">Learn at your own pace, anytime, anywhere</span>
+                                <span data-i18n="howItem4">Homework review and feedback</span>
                             </li>
                             <li>
                                 <svg class="check-icon pink" viewBox="0 0 24 24" fill="none">
                                     <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span data-i18n="howItem5">Access to premium study materials & resources</span>
-                            </li>
-                            <li>
-                                <svg class="check-icon pink" viewBox="0 0 24 24" fill="none">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <span>Regular progress tracking and feedback</span>
-                            </li>
-                            <li>
-                                <svg class="check-icon pink" viewBox="0 0 24 24" fill="none">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <span>Interactive exercises and real-life practice</span>
-                            </li>
-                            <li>
-                                <svg class="check-icon pink" viewBox="0 0 24 24" fill="none">
-                                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <span>Homework and continuous support</span>
+                                <span data-i18n="howItem5">Real conversation practice</span>
                             </li>
                         </ul>
                     </div>
@@ -375,43 +366,25 @@
                             <svg class="check-icon purple" viewBox="0 0 24 24" fill="none">
                                 <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span data-i18n="whyItem2">Ultra-flexible scheduling 24/7</span>
+                            <span data-i18n="whyItem2">Flexible scheduling 24/7</span>
                         </li>
                         <li>
                             <svg class="check-icon purple" viewBox="0 0 24 24" fill="none">
                                 <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span data-i18n="whyItem3">Complete skill development included</span>
+                            <span data-i18n="whyItem3">Money-back guarantee</span>
                         </li>
                         <li>
                             <svg class="check-icon purple" viewBox="0 0 24 24" fill="none">
                                 <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span data-i18n="whyItem4">Expert tutors from around the globe</span>
+                            <span data-i18n="whyItem4">Official certification</span>
                         </li>
                         <li>
                             <svg class="check-icon purple" viewBox="0 0 24 24" fill="none">
                                 <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span data-i18n="whyItem5">Money-back satisfaction guarantee</span>
-                        </li>
-                        <li>
-                            <svg class="check-icon purple" viewBox="0 0 24 24" fill="none">
-                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>Proven results with thousands of students</span>
-                        </li>
-                        <li>
-                            <svg class="check-icon purple" viewBox="0 0 24 24" fill="none">
-                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>Official certification upon completion</span>
-                        </li>
-                        <li>
-                            <svg class="check-icon purple" viewBox="0 0 24 24" fill="none">
-                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>Community of learners worldwide</span>
+                            <span data-i18n="whyItem5">Affordable pricing</span>
                         </li>
                     </ul>
                 </div>
@@ -426,6 +399,88 @@
         <div class="container">
             <h2 class="scroll-animate" data-i18n="guaranteeTitle">Money back Guaranteed if not satisfied</h2>
             <p class="scroll-animate" data-i18n="guaranteeText">no questions!</p>
+        </div>
+    </section>
+
+    <!-- Teachers Section -->
+    <section class="teachers-section">
+        <div class="container">
+            <h2 class="section-title scroll-animate" data-i18n="teachersTitle">Our Expert Tutors Worldwide</h2>
+            <p class="section-subtitle scroll-animate" data-i18n="teachersSubtitle">Learn from certified native speakers around the globe</p>
+            <div class="teachers-grid">
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇬🇧</span>
+                    <span class="country-name">United Kingdom</span>
+                    <span class="teacher-count" data-min="20" data-max="30">24</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇺🇸</span>
+                    <span class="country-name">United States</span>
+                    <span class="teacher-count" data-min="20" data-max="30">28</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇨🇦</span>
+                    <span class="country-name">Canada</span>
+                    <span class="teacher-count" data-min="20" data-max="30">22</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇫🇷</span>
+                    <span class="country-name">France</span>
+                    <span class="teacher-count" data-min="20" data-max="30">26</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇧🇪</span>
+                    <span class="country-name">Belgium</span>
+                    <span class="teacher-count" data-min="20" data-max="30">21</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇦🇺</span>
+                    <span class="country-name">Australia</span>
+                    <span class="teacher-count" data-min="20" data-max="30">23</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇮🇪</span>
+                    <span class="country-name">Ireland</span>
+                    <span class="teacher-count" data-min="20" data-max="30">25</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇿🇦</span>
+                    <span class="country-name">South Africa</span>
+                    <span class="teacher-count" data-min="20" data-max="30">24</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇲🇦</span>
+                    <span class="country-name">Morocco</span>
+                    <span class="teacher-count" data-min="20" data-max="30">27</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇮🇳</span>
+                    <span class="country-name">India</span>
+                    <span class="teacher-count" data-min="20" data-max="30">29</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇸🇦</span>
+                    <span class="country-name">Saudi Arabia</span>
+                    <span class="teacher-count" data-min="20" data-max="30">22</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+                <div class="teacher-country scroll-animate">
+                    <span class="country-flag">🇦🇪</span>
+                    <span class="country-name">UAE</span>
+                    <span class="teacher-count" data-min="20" data-max="30">25</span>
+                    <span class="teacher-label">tutors</span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -464,31 +519,19 @@
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Study materials included</span>
+                                    <span>All study materials included</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Progress tracking dashboard</span>
+                                    <span>Progress tracking</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                     <span>Email support</span>
-                                </li>
-                                <li>
-                                    <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
-                                        <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    <span>Homework assignments</span>
-                                </li>
-                                <li>
-                                    <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
-                                        <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    <span>Monthly assessment reports</span>
                                 </li>
                             </ul>
                         </div>
@@ -526,12 +569,6 @@
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Premium study materials</span>
-                                </li>
-                                <li>
-                                    <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
-                                        <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
                                     <span>Weekly progress reports</span>
                                 </li>
                                 <li>
@@ -544,13 +581,7 @@
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Mock exam preparation</span>
-                                </li>
-                                <li>
-                                    <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
-                                        <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    <span>Speaking practice sessions</span>
+                                    <span>Exam preparation included</span>
                                 </li>
                             </ul>
                         </div>
@@ -574,7 +605,7 @@
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Unlimited lessons and flexible hours</span>
+                                    <span>Unlimited flexible hours</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
@@ -586,7 +617,7 @@
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Custom learning solutions</span>
+                                    <span>Custom curriculum for your team</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
@@ -598,19 +629,7 @@
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Dedicated support team</span>
-                                </li>
-                                <li>
-                                    <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
-                                        <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    <span>Custom curriculum development</span>
-                                </li>
-                                <li>
-                                    <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
-                                        <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    <span>Quarterly business reviews</span>
+                                    <span>Volume discounts available</span>
                                 </li>
                             </ul>
                         </div>
@@ -724,16 +743,17 @@
                             </svg>
                             <div>
                                 <h4 data-i18n="infoEmail">Email</h4>
-                                <p>learn@enprico.com</p>
+                                <p><a href="mailto:learn@enprico.com">learn@enprico.com</a></p>
+                                <p><a href="mailto:support@enprico.com">support@enprico.com</a></p>
                             </div>
                         </div>
                         <div class="info-item">
                             <svg class="info-icon" viewBox="0 0 24 24" fill="none">
-                                <path d="M3 5C3 3.89543 3.89543 3 5 3H8.27924C8.70967 3 9.09181 3.27543 9.22792 3.68377L10.7257 8.17721C10.8831 8.64932 10.6694 9.16531 10.2243 9.38787L7.96701 10.5165C9.06925 12.9612 11.0388 14.9308 13.4835 16.033L14.6121 13.7757C14.8347 13.3306 15.3507 13.1169 15.8228 13.2743L20.3162 14.7721C20.7246 14.9082 21 15.2903 21 15.7208V19C21 20.1046 20.1046 21 19 21H18C9.71573 21 3 14.2843 3 6V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             <div>
                                 <h4 data-i18n="infoPhone">Phone</h4>
-                                <p>+1 (555) 123-4567</p>
+                                <p><a href="tel:+19179098840">+1 (917) 909-8840</a></p>
                             </div>
                         </div>
                         <div class="info-item">
@@ -743,7 +763,7 @@
                             </svg>
                             <div>
                                 <h4 data-i18n="infoLocation">Location</h4>
-                                <p>1309 Beacon Street, Suite<br>United Kingdom</p>
+                                <p>New Mexico, USA</p>
                             </div>
                         </div>
                         <div class="info-item">
@@ -761,6 +781,8 @@
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- Login Modal -->
     <div class="modal" id="loginModal">
@@ -876,14 +898,14 @@
         <div class="container footer-container">
             <div class="footer-grid">
                 <div class="footer-section scroll-animate">
-                    <img src="images/enprico logo footer.png" alt="Enprico Logo" class="footer-logo-img">
+                    <img src="images/enprico logo footer.png" alt="Enprico Logo" class="footer-logo-img" width="150" height="50" loading="lazy">
                 </div>
 
                 <div class="footer-section scroll-animate">
                     <h3 class="footer-title" data-i18n="footerContact">CONTACT US</h3>
                     <div class="contact-info">
-                        <p data-i18n="footerUK">🇬🇧 United Kingdom</p>
-                        <p data-i18n="footerAddress">1309 Beacon Street, Suite</p>
+                        <p data-i18n="footerUSA">🇺🇸 New Mexico, USA</p>
+                        <p><a href="tel:+19179098840" style="color: white; font-weight: 600; text-decoration: none;">+1 (917) 909-8840</a></p>
                     </div>
                 </div>
 
@@ -900,11 +922,12 @@
                 </div>
 
                 <div class="footer-section scroll-animate">
-                    <h3 class="footer-title" data-i18n="footerAbout">ABOUT US</h3>
+                    <h3 class="footer-title" data-i18n="footerAbout">LEARN MORE</h3>
                     <ul class="footer-links">
-                        <li><a href="#" data-i18n="footerWho">Who we are</a></li>
-                        <li><a href="#" data-i18n="footerHow">How it works</a></li>
-                        <li><a href="#" data-i18n="footerReviews">Preply reviews</a></li>
+                        <li><a href="/learn-english-online-why-learning-english">Why Learn English</a></li>
+                        <li><a href="/about-us-learn-english-online">About Us</a></li>
+                        <li><a href="/learn-english-online-ielts-toefl">IELTS & TOEFL Prep</a></li>
+                        <li><a href="/learn-english-online-enprico-articles">Articles</a></li>
                     </ul>
                 </div>
             </div>
@@ -915,7 +938,7 @@
                 <div></div>
                 <div class="footer-section scroll-animate">
                     <h3 class="footer-title" data-i18n="footerSupport">SUPPORT</h3>
-                    <a href="#" class="support-link" data-i18n="footerHelp">Need any help?</a>
+                    <a href="#contact" class="support-link" data-i18n="footerHelp">Need any help?</a>
                 </div>
             </div>
 
@@ -924,11 +947,11 @@
             <div class="footer-bottom scroll-animate">
                 <p data-i18n="footerCopyright">Copyright © 2025 Enprico. All rights reserved.</p>
                 <div class="footer-legal">
-                    <a href="#" data-i18n="footerPrivacy">Privacy Policy</a>
-                    <span>"</span>
-                    <a href="#" data-i18n="footerCookies">Cookies Policy</a>
-                    <span>"</span>
-                    <a href="#" data-i18n="footerLegal">Legal Notice</a>
+                    <a href="privacy-policy.html" data-i18n="footerPrivacy">Privacy Policy</a>
+                    <span>|</span>
+                    <a href="cookies-policy.html" data-i18n="footerCookies">Cookies Policy</a>
+                    <span>|</span>
+                    <a href="refund-policy.html" data-i18n="footerRefund">Refund Policy</a>
                 </div>
             </div>
         </div>
@@ -1004,6 +1027,15 @@
         document.addEventListener('DOMContentLoaded', () => {
             const animateElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right');
             animateElements.forEach(el => observer.observe(el));
+
+            // Randomize teacher counts (20-30 for each country)
+            const teacherCounts = document.querySelectorAll('.teacher-count');
+            teacherCounts.forEach(count => {
+                const min = parseInt(count.dataset.min) || 20;
+                const max = parseInt(count.dataset.max) || 30;
+                const randomCount = Math.floor(Math.random() * (max - min + 1)) + min;
+                count.textContent = randomCount;
+            });
         });
 
         // Smooth scroll for navigation links
@@ -1048,17 +1080,21 @@
                 whatItem3: 'Prepare for IELTS/TOEFL',
                 whatItem4: 'Use English for daily life, studies, and work',
 
-                howItem1: 'One-on-one lessons with certified tutors',
-                howItem2: 'Step-by-step courses from A1 to B2',
-                howItem3: 'Personalized plan based on your goals',
-                howItem4: 'Flexible schedule that fits your time',
-                howItem5: 'All study materials included',
+                howItem1: 'Tutors who speak YOUR native language',
+                howItem2: 'Courses from beginner to advanced',
+                howItem3: 'Interactive video lessons',
+                howItem4: 'Homework review and feedback',
+                howItem5: 'Real conversation practice',
 
                 whyItem1: 'Personalized 1-on-1 lessons',
                 whyItem2: 'Flexible scheduling',
                 whyItem3: 'All English skills included',
                 whyItem4: 'Certified tutors worldwide',
                 whyItem5: 'Risk-free trial & satisfaction guarantee',
+
+                // Teachers Section
+                teachersTitle: 'Our Expert Tutors Worldwide',
+                teachersSubtitle: 'Learn from certified native speakers around the globe',
 
                 // Guarantee
                 guaranteeTitle: 'Money back Guaranteed if not satisfied',
@@ -1077,8 +1113,7 @@
 
                 // Footer
                 footerContact: 'CONTACT US',
-                footerUK: '🇬🇧 United Kingdom',
-                footerAddress: '1309 Beacon Street, Suite',
+                footerUSA: '🇺🇸 New Mexico, USA',
                 footerSocials: 'ENPRICO SOCIALS',
                 footerAbout: 'ABOUT US',
                 footerSupport: 'SUPPORT',
@@ -1091,7 +1126,7 @@
                 footerCopyright: 'Copyright © 2025 Enprico. All rights reserved.',
                 footerPrivacy: 'Privacy Policy',
                 footerCookies: 'Cookies Policy',
-                footerLegal: 'Legal Notice',
+                footerRefund: 'Refund Policy',
 
                 // About Section
                 aboutTitle: 'About Enprico',
@@ -1172,17 +1207,21 @@
                 whatItem3: 'Se préparer au IELTS/TOEFL',
                 whatItem4: 'Utiliser l\'anglais pour la vie quotidienne, les études et le travail',
 
-                howItem1: 'Cours individuels avec des tuteurs certifiés',
-                howItem2: 'Cours progressifs de A1 à B2',
-                howItem3: 'Plan personnalisé selon vos objectifs',
-                howItem4: 'Horaire flexible adapté à votre temps',
-                howItem5: 'Tout le matériel d\'étude inclus',
+                howItem1: 'Tuteurs qui parlent VOTRE langue maternelle',
+                howItem2: 'Cours du débutant à l\'avancé',
+                howItem3: 'Leçons vidéo interactives',
+                howItem4: 'Révision des devoirs et feedback',
+                howItem5: 'Pratique de conversation réelle',
 
                 whyItem1: 'Cours personnalisés en tête-à-tête',
                 whyItem2: 'Planification flexible',
                 whyItem3: 'Toutes les compétences en anglais incluses',
                 whyItem4: 'Tuteurs certifiés dans le monde entier',
                 whyItem5: 'Essai sans risque et garantie de satisfaction',
+
+                // Teachers Section
+                teachersTitle: 'Nos tuteurs experts dans le monde',
+                teachersSubtitle: 'Apprenez avec des locuteurs natifs certifiés du monde entier',
 
                 // Guarantee
                 guaranteeTitle: 'Remboursement garanti si non satisfait',
@@ -1201,8 +1240,7 @@
 
                 // Footer
                 footerContact: 'CONTACTEZ-NOUS',
-                footerUK: '🇬🇧 Royaume-Uni',
-                footerAddress: '1309 Beacon Street, Suite',
+                footerUSA: '🇺🇸 Nouveau-Mexique, États-Unis',
                 footerSocials: 'RÉSEAUX SOCIAUX ENPRICO',
                 footerAbout: 'À PROPOS DE NOUS',
                 footerSupport: 'SUPPORT',
@@ -1215,7 +1253,7 @@
                 footerCopyright: 'Copyright © 2025 Enprico. Tous droits réservés.',
                 footerPrivacy: 'Politique de confidentialité',
                 footerCookies: 'Politique des cookies',
-                footerLegal: 'Mentions légales',
+                footerRefund: 'Politique de remboursement',
 
                 // About Section
                 aboutTitle: 'À propos d\'Enprico',
@@ -1384,13 +1422,13 @@
             }
         }
 
-        // Initialize infinite scroll for all card scroll containers
-        document.addEventListener('DOMContentLoaded', () => {
-            const cardContainers = document.querySelectorAll('.card-scroll-container');
-            cardContainers.forEach(container => {
-                new InfiniteCardScroll(container);
-            });
-        });
+        // Infinite scroll disabled - show items only once
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     const cardContainers = document.querySelectorAll('.card-scroll-container');
+        //     cardContainers.forEach(container => {
+        //         new InfiniteCardScroll(container);
+        //     });
+        // });
 
         // Modal Functionality
         function openModal(modalId) {
@@ -1481,8 +1519,15 @@
         document.addEventListener('DOMContentLoaded', () => {
             const contactForm = document.getElementById('contactForm');
 
-            contactForm?.addEventListener('submit', (e) => {
+            contactForm?.addEventListener('submit', async (e) => {
                 e.preventDefault();
+
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+
+                // Disable button and show loading state
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
 
                 // Get form data
                 const formData = {
@@ -1492,12 +1537,31 @@
                     message: contactForm.message.value
                 };
 
-                // Add your form submission logic here
-                console.log('Contact form data:', formData);
-                alert('Thank you for your message! We will get back to you soon.');
+                try {
+                    const response = await fetch('/send-email.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
 
-                // Reset form
-                contactForm.reset();
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert('Thank you for your message! We will get back to you soon.');
+                        contactForm.reset();
+                    } else {
+                        alert(result.message || 'Failed to send message. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Contact form error:', error);
+                    alert('An error occurred. Please try again or email us directly at learn@enprico.com');
+                } finally {
+                    // Re-enable button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
             });
         });
 
@@ -1743,3 +1807,13 @@
     </style>
 </body>
 </html>
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17824978170"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17824978170"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17824978170');
+</script>

@@ -18,11 +18,37 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 });
 
 // ============================================
+// ADMIN NOTIFICATIONS
+// ============================================
+
+/**
+ * Send notification email to admin
+ */
+export async function sendAdminNotification(type, userEmail, userName, details = '') {
+    try {
+        await fetch('/send-email.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: 'Enprico System',
+                email: 'noreply@enprico.com',
+                subject: type === 'signup' ? `New Signup: ${userName}` : `New Payment: ${userName}`,
+                message: type === 'signup'
+                    ? `A new user has signed up!\n\nName: ${userName}\nEmail: ${userEmail}\n\nTime: ${new Date().toLocaleString()}`
+                    : `A payment was received!\n\nName: ${userName}\nEmail: ${userEmail}\n${details}\n\nTime: ${new Date().toLocaleString()}`
+            })
+        });
+    } catch (e) {
+        console.log('Notification email failed:', e);
+    }
+}
+
+// ============================================
 // AUTHENTICATION
 // ============================================
 
 /**
- * Sign up a new user
+ * Sign up a new user (no email confirmation)
  */
 export async function signUp(email, password, fullName) {
     const { data, error } = await supabase.auth.signUp({
@@ -31,10 +57,14 @@ export async function signUp(email, password, fullName) {
         options: {
             data: {
                 full_name: fullName
-            },
-            emailRedirectTo: window.location.origin + '/login.html'
+            }
         }
     });
+
+    // Send notification to admin on successful signup
+    if (!error && data?.user) {
+        sendAdminNotification('signup', email, fullName);
+    }
 
     return { data, error };
 }

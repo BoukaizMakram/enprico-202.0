@@ -13,7 +13,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/fav icon.png">
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=1.2">
     <style>
         body {
             padding-top: 80px;
@@ -429,6 +429,152 @@
             margin-top: auto;
         }
 
+        /* Pricing Section in Dashboard */
+        .pricing-section-dashboard {
+            margin-top: 2rem;
+        }
+
+        .pricing-section-dashboard h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-grid-dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .pricing-card-dash {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pricing-card-dash:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-header-dash {
+            padding: 1.5rem;
+            color: white;
+            text-align: center;
+        }
+
+        .pricing-header-dash.pink-gradient {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+        }
+
+        .pricing-header-dash.blue-gradient {
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 100%);
+        }
+
+        .pricing-header-dash.purple-gradient {
+            background: linear-gradient(135deg, #505089 0%, #7b68ee 100%);
+        }
+
+        .pricing-badge-dash {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .price-dash {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .price-details-dash {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin: 0.25rem 0 0;
+        }
+
+        .pricing-body-dash {
+            padding: 1.5rem;
+        }
+
+        .pricing-features-dash {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .pricing-features-dash li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .pricing-features-dash .check-icon-small {
+            width: 18px;
+            height: 18px;
+            stroke: var(--brand-blue);
+            flex-shrink: 0;
+        }
+
+        .enroll-btn-dash {
+            display: block;
+            width: 100%;
+            padding: 0.875rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .enroll-btn-dash.pink-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+            color: white;
+        }
+
+        .enroll-btn-dash.blue-btn {
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 100%);
+            color: white;
+        }
+
+        .enroll-btn-dash.purple-btn {
+            background: linear-gradient(135deg, #505089 0%, #7b68ee 100%);
+            color: white;
+        }
+
+        .enroll-btn-dash:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .paypal-button-container-dash {
+            min-height: 50px;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .pricing-grid-dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 1024px) {
             .dashboard-main {
                 grid-template-columns: 1fr;
@@ -575,6 +721,146 @@
                         <ul class="upcoming-sessions" id="upcomingSessions">
                             <li class="empty-state">No upcoming sessions scheduled</li>
                         </ul>
+                    </div>
+                </div>
+
+                <!-- Pricing Plans Section -->
+                <div class="pricing-section-dashboard">
+                    <h2>Buy More Hours</h2>
+                    <div class="pricing-grid-dashboard">
+                        <!-- Starter Plan -->
+                        <div class="pricing-card-dash">
+                            <div class="pricing-header-dash pink-gradient">
+                                <span class="pricing-badge-dash">Starter</span>
+                                <p class="price-dash">$160</p>
+                                <p class="price-details-dash">2 hours per week • $20/hour</p>
+                            </div>
+                            <div class="pricing-body-dash">
+                                <ul class="pricing-features-dash">
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>2 hours of live lessons weekly</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Personalized learning plan</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>All study materials included</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Progress tracking</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Email support</span>
+                                    </li>
+                                </ul>
+                                <button class="enroll-btn-dash pink-btn" data-plan="starter" onclick="handleDashboardEnroll('starter')">Buy Now</button>
+                                <div id="paypal-dash-starter" class="paypal-button-container-dash"></div>
+                            </div>
+                        </div>
+
+                        <!-- Professional Plan -->
+                        <div class="pricing-card-dash">
+                            <div class="pricing-header-dash blue-gradient">
+                                <span class="pricing-badge-dash">Professional</span>
+                                <p class="price-dash">$288</p>
+                                <p class="price-details-dash">4 hours per week • $18/hour</p>
+                            </div>
+                            <div class="pricing-body-dash">
+                                <ul class="pricing-features-dash">
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>4 hours of live lessons weekly</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Advanced personalized curriculum</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Weekly progress reports</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Priority support 24/7</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Exam preparation included</span>
+                                    </li>
+                                </ul>
+                                <button class="enroll-btn-dash blue-btn" data-plan="professional" onclick="handleDashboardEnroll('professional')">Buy Now</button>
+                                <div id="paypal-dash-professional" class="paypal-button-container-dash"></div>
+                            </div>
+                        </div>
+
+                        <!-- Enterprise Plan -->
+                        <div class="pricing-card-dash">
+                            <div class="pricing-header-dash purple-gradient">
+                                <span class="pricing-badge-dash">Enterprise</span>
+                                <p class="price-dash">Custom</p>
+                                <p class="price-details-dash">For teams and organizations</p>
+                            </div>
+                            <div class="pricing-body-dash">
+                                <ul class="pricing-features-dash">
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Unlimited flexible hours</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Dedicated account manager</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Custom curriculum for your team</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Team performance analytics</span>
+                                    </li>
+                                    <li>
+                                        <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Volume discounts available</span>
+                                    </li>
+                                </ul>
+                                <a href="index.html#contact" class="enroll-btn-dash purple-btn">Contact Us</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -783,6 +1069,112 @@
 
         // Initialize
         loadDashboard();
+    </script>
+
+    <!-- PayPal Integration for Dashboard -->
+    <script type="module">
+        import { initPayPalButton, PLANS } from './paypal-client.js';
+        import { getCurrentUser, createSubscription, recordPayment, sendAdminNotification } from './auth-client.js';
+
+        let currentUser = null;
+
+        // Get current user on load
+        async function initDashboardPayPal() {
+            const { user } = await getCurrentUser();
+            currentUser = user;
+        }
+
+        // Handle Buy Now click in dashboard
+        window.handleDashboardEnroll = async function(planType) {
+            if (!currentUser) {
+                const { user } = await getCurrentUser();
+                currentUser = user;
+            }
+
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Show PayPal button
+            const buttonContainer = document.getElementById(`paypal-dash-${planType}`);
+            const enrollBtn = document.querySelector(`button[data-plan="${planType}"]`);
+
+            if (buttonContainer) {
+                enrollBtn.style.display = 'none';
+                buttonContainer.style.display = 'block';
+
+                initPayPalButton(
+                    `paypal-dash-${planType}`,
+                    planType,
+                    handleDashboardPaymentSuccess,
+                    handleDashboardPaymentError
+                );
+            }
+        };
+
+        // Handle successful payment
+        async function handleDashboardPaymentSuccess(paymentData) {
+            console.log('Dashboard payment successful:', paymentData);
+
+            try {
+                const { planType, plan, transactionId, orderId } = paymentData;
+
+                // Create subscription
+                const { data: subscription, error: subError } = await createSubscription(
+                    currentUser.id,
+                    planType,
+                    plan.price,
+                    plan.hours,
+                    null
+                );
+
+                if (subError) {
+                    console.error('Subscription error:', subError);
+                    alert('Payment received but there was an error creating your subscription. Please contact support.');
+                    return;
+                }
+
+                // Record payment
+                await recordPayment(
+                    currentUser.id,
+                    subscription.id,
+                    plan.price,
+                    transactionId,
+                    orderId
+                );
+
+                // Send admin notification
+                sendAdminNotification('payment', currentUser.email, currentUser.user_metadata?.full_name || 'User',
+                    `Plan: ${plan.name}\nAmount: ${plan.price}\nHours: ${plan.hours}\nTransaction ID: ${transactionId}`
+                );
+
+                // Show success and reload dashboard
+                alert(`Thank you! Your ${plan.name} plan has been activated. ${plan.hours} hours added to your account.`);
+                window.location.reload();
+
+            } catch (error) {
+                console.error('Error processing subscription:', error);
+                alert('Payment received but there was an error. Please contact support with your transaction ID: ' + paymentData.transactionId);
+            }
+        }
+
+        // Handle payment error
+        function handleDashboardPaymentError(error) {
+            console.error('Dashboard payment error:', error);
+            alert('There was an error processing your payment. Please try again.');
+
+            // Reset buttons
+            document.querySelectorAll('.paypal-button-container-dash').forEach(container => {
+                container.style.display = 'none';
+                container.innerHTML = '';
+            });
+            document.querySelectorAll('.enroll-btn-dash[data-plan]').forEach(btn => {
+                btn.style.display = 'block';
+            });
+        }
+
+        initDashboardPayPal();
     </script>
 </body>
 </html>

@@ -7,41 +7,57 @@
     <!-- Homepage -->
     <url>
         <loc>https://enprico.com/</loc>
-        <lastmod>2025-12-21</lastmod>
+        <lastmod>2025-12-22</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
 
-    <!-- Main landing page -->
+    <!-- Why Learn English Page -->
     <url>
-        <loc>https://enprico.com/index.html</loc>
-        <lastmod>2025-12-21</lastmod>
+        <loc>https://enprico.com/learn-english-online-why-learning-english</loc>
+        <lastmod>2025-12-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- About Us Page -->
+    <url>
+        <loc>https://enprico.com/about-us-learn-english-online</loc>
+        <lastmod>2025-12-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- IELTS & TOEFL Page -->
+    <url>
+        <loc>https://enprico.com/learn-english-online-ielts-toefl</loc>
+        <lastmod>2025-12-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Articles Page -->
+    <url>
+        <loc>https://enprico.com/learn-english-online-enprico-articles</loc>
+        <lastmod>2025-12-22</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
+        <priority>0.8</priority>
     </url>
 
     <!-- Login page -->
     <url>
-        <loc>https://enprico.com/login.html</loc>
-        <lastmod>2025-12-21</lastmod>
+        <loc>https://enprico.com/login</loc>
+        <lastmod>2025-12-22</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
     <!-- Signup page -->
     <url>
-        <loc>https://enprico.com/signup.html</loc>
-        <lastmod>2025-12-21</lastmod>
+        <loc>https://enprico.com/signup</loc>
+        <lastmod>2025-12-22</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
-    </url>
-
-    <!-- Articles page -->
-    <url>
-        <loc>https://enprico.com/article.html</loc>
-        <lastmod>2025-12-21</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
     </url>
 
 </urlset>

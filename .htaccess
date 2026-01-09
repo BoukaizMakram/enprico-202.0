@@ -54,10 +54,35 @@ ErrorDocument 404 /404.html
 ErrorDocument 403 /404.html
 ErrorDocument 500 /404.html
 
-# Enable HTTPS redirect (uncomment if needed)
-# RewriteEngine On
+# ===========================================
+# SEO-FRIENDLY URLs & REDIRECTS
+# ===========================================
+RewriteEngine On
+
+# Enable HTTPS redirect (recommended for production)
 # RewriteCond %{HTTPS} off
 # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Remove trailing slash from URLs (redirect to non-trailing slash version)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [R=301,L]
+
+# Remove .html extension from URLs (if accessed with .html, redirect to clean URL)
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NC,L,R=301]
+
+# Serve .html files for clean URLs (without extension)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# SEO-Friendly URL mappings for articles
+RewriteRule ^learn-english-online-enprico-articles$ learn-english-online-enprico-articles.html [L]
+
+# Legacy redirects (redirect old URLs to new SEO-friendly URLs)
+RewriteRule ^article\.html$ /learn-english-online-enprico-articles [R=301,L]
 
 # Security Headers
 <IfModule mod_headers.c>
@@ -82,3 +107,59 @@ Options -Indexes
 
 # Prevent server signature
 ServerSignature Off
+
+# ===========================================
+# PERFORMANCE OPTIMIZATION - Browser Caching
+# ===========================================
+
+# Enable compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml
+</IfModule>
+
+# Browser caching for static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Default expiration: 1 month
+    ExpiresDefault "access plus 1 month"
+
+    # HTML - short cache (content may change frequently)
+    ExpiresByType text/html "access plus 1 hour"
+
+    # CSS and JavaScript
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # Fonts
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+
+    # JSON and XML
+    ExpiresByType application/json "access plus 1 hour"
+    ExpiresByType application/xml "access plus 1 hour"
+</IfModule>
+
+# Cache-Control headers
+<IfModule mod_headers.c>
+    # Cache static assets for 1 year
+    <FilesMatch "\.(ico|pdf|jpg|jpeg|png|gif|webp|svg|js|css|woff|woff2)$">
+        Header set Cache-Control "max-age=31536000, public, immutable"
+    </FilesMatch>
+
+    # Short cache for HTML
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "max-age=3600, public, must-revalidate"
+    </FilesMatch>
+</IfModule>
