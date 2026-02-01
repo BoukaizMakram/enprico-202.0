@@ -563,10 +563,40 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .paypal-button-container-dash {
+        .stripe-button-container-dash {
             min-height: 50px;
             margin-top: 0.5rem;
-            display: none;
+        }
+
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .processing-modal {
+            background: white;
+            padding: 2rem 3rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .processing-modal .spinner {
+            margin: 0 auto 1rem;
+        }
+
+        .processing-modal p {
+            color: var(--gray-700);
+            font-size: 1.1rem;
+            margin: 0;
         }
 
         @media (max-width: 1024px) {
@@ -768,8 +798,7 @@
                                         <span>Email support</span>
                                     </li>
                                 </ul>
-                                <button class="enroll-btn-dash pink-btn" data-plan="starter" onclick="handleDashboardEnroll('starter')">Buy Now</button>
-                                <div id="paypal-dash-starter" class="paypal-button-container-dash"></div>
+                                <button class="enroll-btn-dash pink-btn" data-plan="starter" onclick="handleStripeCheckout('starter')">Buy Now</button>
                             </div>
                         </div>
 
@@ -813,8 +842,7 @@
                                         <span>Exam preparation included</span>
                                     </li>
                                 </ul>
-                                <button class="enroll-btn-dash blue-btn" data-plan="professional" onclick="handleDashboardEnroll('professional')">Buy Now</button>
-                                <div id="paypal-dash-professional" class="paypal-button-container-dash"></div>
+                                <button class="enroll-btn-dash blue-btn" data-plan="professional" onclick="handleStripeCheckout('professional')">Buy Now</button>
                             </div>
                         </div>
 
@@ -1071,21 +1099,51 @@
         loadDashboard();
     </script>
 
-    <!-- PayPal Integration for Dashboard -->
+    <!-- Stripe Integration for Dashboard -->
     <script type="module">
-        import { initPayPalButton, PLANS } from './paypal-client.js';
-        import { getCurrentUser, createSubscription, recordPayment, sendAdminNotification } from './auth-client.js';
+        import { redirectToCheckout, PLANS } from './stripe-client.js';
+        import { getCurrentUser } from './auth-client.js';
 
         let currentUser = null;
 
         // Get current user on load
-        async function initDashboardPayPal() {
+        async function initDashboardStripe() {
             const { user } = await getCurrentUser();
             currentUser = user;
+
+            // Check for cancelled payment
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('cancelled') === 'true') {
+                alert('Payment was cancelled. You can try again when ready.');
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
         }
 
-        // Handle Buy Now click in dashboard
-        window.handleDashboardEnroll = async function(planType) {
+        // Show processing overlay
+        function showProcessing() {
+            const overlay = document.createElement('div');
+            overlay.id = 'processingOverlay';
+            overlay.className = 'processing-overlay';
+            overlay.innerHTML = `
+                <div class="processing-modal">
+                    <div class="spinner"></div>
+                    <p>Redirecting to secure checkout...</p>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        // Hide processing overlay
+        function hideProcessing() {
+            const overlay = document.getElementById('processingOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
+        // Handle Stripe Checkout
+        window.handleStripeCheckout = async function(planType) {
             if (!currentUser) {
                 const { user } = await getCurrentUser();
                 currentUser = user;
@@ -1096,85 +1154,29 @@
                 return;
             }
 
-            // Show PayPal button
-            const buttonContainer = document.getElementById(`paypal-dash-${planType}`);
-            const enrollBtn = document.querySelector(`button[data-plan="${planType}"]`);
+            const plan = PLANS[planType];
+            if (!plan) {
+                alert('Invalid plan selected');
+                return;
+            }
 
-            if (buttonContainer) {
-                enrollBtn.style.display = 'none';
-                buttonContainer.style.display = 'block';
+            try {
+                showProcessing();
 
-                initPayPalButton(
-                    `paypal-dash-${planType}`,
+                await redirectToCheckout(
                     planType,
-                    handleDashboardPaymentSuccess,
-                    handleDashboardPaymentError
+                    currentUser.id,
+                    currentUser.email
                 );
+
+            } catch (error) {
+                hideProcessing();
+                console.error('Stripe checkout error:', error);
+                alert('There was an error starting checkout. Please try again.\n\nError: ' + error.message);
             }
         };
 
-        // Handle successful payment
-        async function handleDashboardPaymentSuccess(paymentData) {
-            console.log('Dashboard payment successful:', paymentData);
-
-            try {
-                const { planType, plan, transactionId, orderId } = paymentData;
-
-                // Create subscription
-                const { data: subscription, error: subError } = await createSubscription(
-                    currentUser.id,
-                    planType,
-                    plan.price,
-                    plan.hours,
-                    null
-                );
-
-                if (subError) {
-                    console.error('Subscription error:', subError);
-                    alert('Payment received but there was an error creating your subscription. Please contact support.');
-                    return;
-                }
-
-                // Record payment
-                await recordPayment(
-                    currentUser.id,
-                    subscription.id,
-                    plan.price,
-                    transactionId,
-                    orderId
-                );
-
-                // Send admin notification
-                sendAdminNotification('payment', currentUser.email, currentUser.user_metadata?.full_name || 'User',
-                    `Plan: ${plan.name}\nAmount: ${plan.price}\nHours: ${plan.hours}\nTransaction ID: ${transactionId}`
-                );
-
-                // Show success and reload dashboard
-                alert(`Thank you! Your ${plan.name} plan has been activated. ${plan.hours} hours added to your account.`);
-                window.location.reload();
-
-            } catch (error) {
-                console.error('Error processing subscription:', error);
-                alert('Payment received but there was an error. Please contact support with your transaction ID: ' + paymentData.transactionId);
-            }
-        }
-
-        // Handle payment error
-        function handleDashboardPaymentError(error) {
-            console.error('Dashboard payment error:', error);
-            alert('There was an error processing your payment. Please try again.');
-
-            // Reset buttons
-            document.querySelectorAll('.paypal-button-container-dash').forEach(container => {
-                container.style.display = 'none';
-                container.innerHTML = '';
-            });
-            document.querySelectorAll('.enroll-btn-dash[data-plan]').forEach(btn => {
-                btn.style.display = 'block';
-            });
-        }
-
-        initDashboardPayPal();
+        initDashboardStripe();
     </script>
 </body>
 </html>

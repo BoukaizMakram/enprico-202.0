@@ -139,21 +139,29 @@ export async function isAuthenticated() {
 /**
  * Create a new subscription
  */
-export async function createSubscription(userId, planType, priceUsd, hoursPerMonth, paypalSubscriptionId) {
+export async function createSubscription(userId, planType, priceUsd, hoursPerMonth, paymentId = null, paymentProvider = 'stripe') {
     const endDate = new Date();
     endDate.setMonth(endDate.getMonth() + 1);
 
+    const subscriptionData = {
+        user_id: userId,
+        plan_type: planType,
+        price_usd: priceUsd,
+        hours_per_month: hoursPerMonth,
+        status: 'active',
+        end_date: endDate.toISOString()
+    };
+
+    // Add payment provider specific field
+    if (paymentProvider === 'stripe') {
+        subscriptionData.stripe_session_id = paymentId;
+    } else {
+        subscriptionData.paypal_subscription_id = paymentId;
+    }
+
     const { data, error } = await supabase
         .from('subscriptions')
-        .insert([{
-            user_id: userId,
-            plan_type: planType,
-            price_usd: priceUsd,
-            hours_per_month: hoursPerMonth,
-            status: 'active',
-            paypal_subscription_id: paypalSubscriptionId,
-            end_date: endDate.toISOString()
-        }])
+        .insert([subscriptionData])
         .select()
         .single();
 
@@ -206,18 +214,27 @@ export async function cancelSubscription(subscriptionId) {
 /**
  * Record a payment
  */
-export async function recordPayment(userId, subscriptionId, amount, paypalTransactionId, paypalOrderId) {
+export async function recordPayment(userId, subscriptionId, amount, transactionId, orderId, paymentProvider = 'stripe') {
+    const paymentData = {
+        user_id: userId,
+        subscription_id: subscriptionId,
+        amount_usd: amount,
+        status: 'completed',
+        paid_at: new Date().toISOString()
+    };
+
+    // Add payment provider specific fields
+    if (paymentProvider === 'stripe') {
+        paymentData.stripe_payment_intent_id = transactionId;
+        paymentData.stripe_session_id = orderId;
+    } else {
+        paymentData.paypal_transaction_id = transactionId;
+        paymentData.paypal_order_id = orderId;
+    }
+
     const { data, error } = await supabase
         .from('payments')
-        .insert([{
-            user_id: userId,
-            subscription_id: subscriptionId,
-            amount_usd: amount,
-            status: 'completed',
-            paypal_transaction_id: paypalTransactionId,
-            paypal_order_id: paypalOrderId,
-            paid_at: new Date().toISOString()
-        }])
+        .insert([paymentData])
         .select()
         .single();
 

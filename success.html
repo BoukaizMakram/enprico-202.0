@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>Payment Successful - Enprico</title>
+    <meta name="description" content="Thank you for your purchase! Your Enprico subscription is now active.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/fav icon.png">
+
+    <link rel="stylesheet" href="styles.css?v=1.2">
+    <style>
+        body {
+            padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
+        }
+
+        .success-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 118, 199, 0.15);
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-icon svg {
+            width: 50px;
+            height: 50px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+            animation: checkmark 0.5s ease-out 0.3s forwards;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+        }
+
+        @keyframes checkmark {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .success-card h1 {
+            color: #10b981;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+        }
+
+        .success-card p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .order-details {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .order-details h3 {
+            color: #374151;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .order-row:last-child {
+            border-bottom: none;
+        }
+
+        .order-label {
+            color: #6b7280;
+        }
+
+        .order-value {
+            color: #111827;
+            font-weight: 600;
+        }
+
+        .btn-dashboard {
+            display: inline-block;
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 118, 199, 0.3);
+        }
+
+        .btn-dashboard:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 118, 199, 0.4);
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .loading-state .spinner {
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid #0076c7;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .error-state h2 {
+            color: #dc2626;
+            margin-bottom: 1rem;
+        }
+
+        .error-state p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .success-card {
+                padding: 2rem;
+            }
+
+            .success-card h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="images/logo_white 1.png" alt="Enprico Logo" class="logo-img">
+            </a>
+            <nav class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="index.html#contact">Support</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="success-container">
+        <!-- Loading State -->
+        <div id="loadingState" class="success-card">
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Verifying your payment...</p>
+            </div>
+        </div>
+
+        <!-- Success State (hidden until verified) -->
+        <div id="successState" class="success-card" style="display: none;">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h1>Payment Successful!</h1>
+            <p>Thank you for your purchase! Your subscription is now active and your hours have been added to your account.</p>
+
+            <div class="order-details">
+                <h3>Order Details</h3>
+                <div class="order-row">
+                    <span class="order-label">Plan</span>
+                    <span class="order-value" id="planName">-</span>
+                </div>
+                <div class="order-row">
+                    <span class="order-label">Amount Paid</span>
+                    <span class="order-value" id="amountPaid">-</span>
+                </div>
+                <div class="order-row">
+                    <span class="order-label">Hours Added</span>
+                    <span class="order-value" id="hoursAdded">-</span>
+                </div>
+            </div>
+
+            <a href="dashboard.html" class="btn-dashboard">Go to Dashboard</a>
+        </div>
+
+        <!-- Error State (hidden by default) -->
+        <div id="errorState" class="success-card" style="display: none;">
+            <div class="error-state">
+                <h2>Verification Failed</h2>
+                <p id="errorMessage">We couldn't verify your payment. If you were charged, please contact support.</p>
+                <a href="dashboard.html" class="btn-dashboard">Go to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { verifyCheckoutSession, PLANS } from './stripe-client.js';
+        import { getCurrentUser } from './auth-client.js';
+
+        async function verifyPayment() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+
+            if (!sessionId) {
+                showError('No session ID found. Please try again from the dashboard.');
+                return;
+            }
+
+            try {
+                const result = await verifyCheckoutSession(sessionId);
+
+                if (result.success) {
+                    // Get plan details
+                    const planType = result.metadata?.plan_type || 'unknown';
+                    const isNewUser = result.metadata?.is_new_user === 'true';
+                    const plan = PLANS[planType] || { name: 'Unknown Plan', hours: 0 };
+
+                    // Update UI
+                    document.getElementById('planName').textContent = plan.name || (planType.charAt(0).toUpperCase() + planType.slice(1) + ' Plan');
+                    document.getElementById('amountPaid').textContent = `$${result.amountTotal.toFixed(2)}`;
+                    document.getElementById('hoursAdded').textContent = `${plan.hours} hours`;
+
+                    // Clear registration data from localStorage
+                    localStorage.removeItem('enprico_registration');
+                    localStorage.removeItem('selectedPlan');
+
+                    // Check if user is logged in
+                    const { user } = await getCurrentUser();
+
+                    // Update success message and button based on user status
+                    const successMessage = document.querySelector('#successState p');
+                    const dashboardBtn = document.querySelector('#successState .btn-dashboard');
+
+                    if (isNewUser && !user) {
+                        // New user - account was created, credentials sent via email
+                        successMessage.innerHTML = 'Your account has been created and your subscription is now active!<br><br><strong>Check your email for your login credentials.</strong><br>We\'ve sent your temporary password to your email address.';
+                        dashboardBtn.textContent = 'Go to Login';
+                        dashboardBtn.href = 'login.html';
+                    } else if (user) {
+                        // Existing user or already logged in
+                        successMessage.textContent = 'Thank you for your purchase! Your subscription is now active and your hours have been added to your account.';
+                        dashboardBtn.textContent = 'Go to Dashboard';
+                        dashboardBtn.href = 'dashboard.html';
+                    }
+
+                    // Show success state
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('successState').style.display = 'block';
+
+                    // Clean URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                } else {
+                    showError('Payment verification failed. Please contact support if you were charged.');
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                showError('Unable to verify payment: ' + error.message);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        // Start verification
+        verifyPayment();
+    </script>
+</body>
+</html>

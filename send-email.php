@@ -44,11 +44,55 @@ $smtp_host = 'smtp.hostinger.com';
 $smtp_port = 465;
 $smtp_user = 'learn@enprico.com';
 $smtp_pass = 'Mboukaiz42*@';
-$to_email = 'learn@enprico.com';
 
-// Email content
-$email_subject = "[Enprico Contact] " . $subject;
-$email_body = "
+// Allow custom recipient for system emails (like welcome emails)
+// If 'to' is provided and valid, send to that address; otherwise send to admin
+$to_email = 'learn@enprico.com';
+if (isset($data['to']) && filter_var($data['to'], FILTER_VALIDATE_EMAIL)) {
+    $to_email = $data['to'];
+}
+
+// Check if this is a system email (to a user) or a contact form (to admin)
+$isSystemEmail = isset($data['to']) && filter_var($data['to'], FILTER_VALIDATE_EMAIL);
+
+if ($isSystemEmail) {
+    // System email (welcome email, notifications to users)
+    $email_subject = $subject;
+    $email_body = "
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #0076c7, #0C5FF9); color: white; padding: 30px; border-radius: 8px 8px 0 0; text-align: center; }
+        .content { background: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
+        .credentials { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .credentials p { margin: 8px 0; }
+        .credentials strong { color: #0076c7; }
+        .button { display: inline-block; background: #0076c7; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+        .footer { background: #f8f9fa; color: #666; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; font-size: 13px; border: 1px solid #e0e0e0; border-top: none; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1 style='margin:0; font-size: 28px;'>Welcome to Enprico!</h1>
+        </div>
+        <div class='content'>
+            " . nl2br(htmlspecialchars($message)) . "
+        </div>
+        <div class='footer'>
+            &copy; " . date('Y') . " Enprico - Learn English with Expert Tutors<br>
+            <a href='https://enprico.com' style='color: #0076c7;'>www.enprico.com</a>
+        </div>
+    </div>
+</body>
+</html>";
+} else {
+    // Contact form email (to admin)
+    $email_subject = "[Enprico Contact] " . $subject;
+    $email_body = "
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,6 +136,7 @@ $email_body = "
     </div>
 </body>
 </html>";
+}
 
 // Send via SMTP
 function sendSMTP($host, $port, $user, $pass, $to, $subject, $body, $from_name, $reply_to, $reply_name) {

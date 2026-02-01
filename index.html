@@ -50,7 +50,10 @@
         "description": "Enprico is a leading online English learning platform offering personalized 1-on-1 tutoring with certified instructors.",
         "address": {
             "@type": "PostalAddress",
-            "addressRegion": "New Mexico",
+            "streetAddress": "1209 Mountain Road Pl NE, Suite R",
+            "addressLocality": "Albuquerque",
+            "addressRegion": "NM",
+            "postalCode": "87110",
             "addressCountry": "US"
         },
         "telephone": "+19179098840",
@@ -499,7 +502,6 @@
                     </div>
                     <div class="pricing-body">
                         <button class="enroll-btn pink-btn" data-plan="starter" onclick="handleEnrollClick('starter')">Enroll Now</button>
-                        <div id="paypal-button-starter" class="paypal-button-container" style="display: none;"></div>
                         <p class="pricing-description" data-i18n="pricingDesc">Perfect for steady progress</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
@@ -549,7 +551,6 @@
                     </div>
                     <div class="pricing-body">
                         <button class="enroll-btn blue-btn" data-plan="professional" onclick="handleEnrollClick('professional')">Enroll Now</button>
-                        <div id="paypal-button-professional" class="paypal-button-container" style="display: none;"></div>
                         <p class="pricing-description" data-i18n="pricingDesc">Ideal for fast learning</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
@@ -904,7 +905,7 @@
                 <div class="footer-section scroll-animate">
                     <h3 class="footer-title" data-i18n="footerContact">CONTACT US</h3>
                     <div class="contact-info">
-                        <p data-i18n="footerUSA">🇺🇸 New Mexico, USA</p>
+                        <p data-i18n="footerUSA">🇺🇸 1209 Mountain Road Pl NE, Suite R<br>Albuquerque, NM 87110, USA</p>
                         <p><a href="tel:+19179098840" style="color: white; font-weight: 600; text-decoration: none;">+1 (917) 909-8840</a></p>
                     </div>
                 </div>
@@ -1113,7 +1114,7 @@
 
                 // Footer
                 footerContact: 'CONTACT US',
-                footerUSA: '🇺🇸 New Mexico, USA',
+                footerUSA: '🇺🇸 1209 Mountain Road Pl NE, Suite R<br>Albuquerque, NM 87110, USA',
                 footerSocials: 'ENPRICO SOCIALS',
                 footerAbout: 'ABOUT US',
                 footerSupport: 'SUPPORT',
@@ -1240,7 +1241,7 @@
 
                 // Footer
                 footerContact: 'CONTACTEZ-NOUS',
-                footerUSA: '🇺🇸 Nouveau-Mexique, États-Unis',
+                footerUSA: '🇺🇸 1209 Mountain Road Pl NE, Suite R<br>Albuquerque, NM 87110, États-Unis',
                 footerSocials: 'RÉSEAUX SOCIAUX ENPRICO',
                 footerAbout: 'À PROPOS DE NOUS',
                 footerSupport: 'SUPPORT',
@@ -1687,21 +1688,43 @@
         checkAuthStatus();
     </script>
 
-    <!-- PayPal Integration -->
+    <!-- Stripe Integration -->
     <script type="module">
-        import { initPayPalButton, createSubscriptionAfterPayment, PLANS } from './paypal-client.js';
-        import { getCurrentUser, createSubscription, recordPayment } from './auth-client.js';
+        import { redirectToCheckout, PLANS } from './stripe-client.js';
+        import { getCurrentUser } from './auth-client.js';
 
         // Store current user
         let currentUser = null;
 
         // Check auth status on load
-        async function initPayPal() {
+        async function initStripe() {
             try {
                 const { user } = await getCurrentUser();
                 currentUser = user;
             } catch (error) {
                 console.log('User not logged in');
+            }
+        }
+
+        // Show processing overlay
+        function showProcessing() {
+            const overlay = document.createElement('div');
+            overlay.id = 'processingOverlay';
+            overlay.className = 'processing-overlay';
+            overlay.innerHTML = `
+                <div class="processing-modal">
+                    <div class="spinner"></div>
+                    <p>Redirecting to secure checkout...</p>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        // Hide processing overlay
+        function hideProcessing() {
+            const overlay = document.getElementById('processingOverlay');
+            if (overlay) {
+                overlay.remove();
             }
         }
 
@@ -1711,98 +1734,99 @@
             const { user } = await getCurrentUser();
 
             if (!user) {
-                // Redirect to signup with plan info
+                // NEW USER: Redirect to multi-step registration form
                 localStorage.setItem('selectedPlan', planType);
-                window.location.href = 'signup.html';
+                window.location.href = 'register.html';
                 return;
             }
 
+            // EXISTING USER: Direct to Stripe Checkout for additional hours
             currentUser = user;
 
-            // Show PayPal button
-            const buttonContainer = document.getElementById(`paypal-button-${planType}`);
-            const enrollBtn = document.querySelector(`button[data-plan="${planType}"]`);
+            const plan = PLANS[planType];
+            if (!plan) {
+                alert('Invalid plan selected');
+                return;
+            }
 
-            if (buttonContainer) {
-                // Hide enroll button, show PayPal
-                enrollBtn.style.display = 'none';
-                buttonContainer.style.display = 'block';
+            try {
+                showProcessing();
 
-                // Initialize PayPal button
-                initPayPalButton(
-                    `paypal-button-${planType}`,
-                    planType,
-                    handlePaymentSuccess,
-                    handlePaymentError
-                );
+                // Create checkout session via API
+                const response = await fetch('/api/stripe/create-checkout-session.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        planType: planType,
+                        userId: currentUser.id,
+                        userEmail: currentUser.email,
+                        isNewUser: false,
+                        successUrl: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
+                        cancelUrl: window.location.origin + '/index.html#pricing'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to create checkout');
+                }
+
+                // Redirect to Stripe Checkout
+                window.location.href = data.url;
+
+            } catch (error) {
+                hideProcessing();
+                console.error('Stripe checkout error:', error);
+                alert('There was an error starting checkout. Please try again.\n\nError: ' + error.message);
             }
         };
 
-        // Handle successful payment
-        async function handlePaymentSuccess(paymentData) {
-            console.log('Payment successful:', paymentData);
-
-            try {
-                // Create subscription in database
-                const { planType, plan, transactionId, orderId } = paymentData;
-
-                // Create subscription
-                const { data: subscription, error: subError } = await createSubscription(
-                    currentUser.id,
-                    planType,
-                    plan.price,
-                    plan.hours,
-                    null
-                );
-
-                if (subError) {
-                    console.error('Subscription error:', subError);
-                    alert('Payment received but there was an error creating your subscription. Please contact support.');
-                    return;
-                }
-
-                // Record payment
-                await recordPayment(
-                    currentUser.id,
-                    subscription.id,
-                    plan.price,
-                    transactionId,
-                    orderId
-                );
-
-                // Show success message and redirect
-                alert(`Thank you for subscribing to the ${plan.name}! Your ${plan.hours} hours have been added to your account.`);
-                window.location.href = 'dashboard.html';
-
-            } catch (error) {
-                console.error('Error processing subscription:', error);
-                alert('Payment received but there was an error. Please contact support with your transaction ID: ' + paymentData.transactionId);
-            }
-        }
-
-        // Handle payment error
-        function handlePaymentError(error) {
-            console.error('Payment error:', error);
-            alert('There was an error processing your payment. Please try again.');
-
-            // Reset buttons
-            document.querySelectorAll('.paypal-button-container').forEach(container => {
-                container.style.display = 'none';
-                container.innerHTML = '';
-            });
-            document.querySelectorAll('.enroll-btn[data-plan]').forEach(btn => {
-                btn.style.display = 'block';
-            });
-        }
-
         // Initialize on load
-        initPayPal();
+        initStripe();
     </script>
 
     <style>
-        .paypal-button-container {
-            min-height: 50px;
-            margin-top: 0.5rem;
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .processing-modal {
+            background: white;
+            padding: 2rem 3rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .processing-modal .spinner {
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid #0076c7;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .processing-modal p {
+            color: #374151;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </body>

@@ -9,8 +9,8 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 // Supabase configuration
 // In production, use environment variables or a build tool like Vite
-const SUPABASE_URL = import.meta.env?.VITE_SUPABASE_URL || 'YOUR_SUPABASE_URL_HERE';
-const SUPABASE_ANON_KEY = import.meta.env?.VITE_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY_HERE';
+const SUPABASE_URL = import.meta.env?.VITE_SUPABASE_URL || 'https://bzophrxgmwhobbucnvkf.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env?.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6b3BocnhnbXdob2JidWNudmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU0NTk5MjMsImV4cCI6MjA4MTAzNTkyM30.yeT8z4uGHXMrJcMFkqDbOOSjFIO0p6e1HLNIKBoXoKw';
 
 // Create Supabase client
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
