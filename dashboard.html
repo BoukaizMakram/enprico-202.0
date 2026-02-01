@@ -599,6 +599,142 @@
             margin: 0;
         }
 
+        /* Password Change Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            margin: 0 0 0.5rem 0;
+            color: var(--gray-900);
+            font-size: 1.5rem;
+        }
+
+        .modal-content p {
+            color: var(--gray-600);
+            margin: 0 0 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .modal-content .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-content label {
+            display: block;
+            color: var(--gray-700);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        .modal-content input:focus {
+            outline: none;
+            border-color: var(--brand-blue);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 0.875rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary-modal {
+            background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 100%);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary-modal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 118, 199, 0.3);
+        }
+
+        .btn-secondary-modal {
+            background: white;
+            color: var(--gray-700);
+            border: 2px solid var(--gray-200);
+        }
+
+        .btn-secondary-modal:hover {
+            border-color: var(--gray-400);
+            background: var(--gray-50);
+        }
+
+        .password-warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .password-warning svg {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            color: #f59e0b;
+        }
+
+        .password-warning p {
+            margin: 0;
+            color: #92400e;
+            font-size: 0.9rem;
+        }
+
+        .error-text {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .success-text {
+            color: #10b981;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
         @media (max-width: 1024px) {
             .pricing-grid-dashboard {
                 grid-template-columns: 1fr;
@@ -900,6 +1036,40 @@
         </main>
     </div>
 
+    <!-- Password Change Modal -->
+    <div id="passwordModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Change Your Password</h2>
+            <p>For your security, please set a new password for your account.</p>
+
+            <div class="password-warning">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <p>You're currently using a temporary password. Please update it to keep your account secure.</p>
+            </div>
+
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password" required minlength="8">
+                    <p id="passwordError" class="error-text" style="display: none;"></p>
+                    <p id="passwordSuccess" class="success-text" style="display: none;"></p>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary-modal" id="skipPasswordBtn">Skip for now</button>
+                    <button type="submit" class="btn-primary-modal" id="changePasswordBtn">Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-container">
@@ -960,7 +1130,8 @@
             getCurrentUser,
             getUserProfile,
             getDashboardData,
-            signOut
+            signOut,
+            updatePassword
         } from './auth-client.js';
 
         // Check if user is logged in
@@ -1095,8 +1266,91 @@
             }
         });
 
+        // Check if password change is needed
+        function checkPasswordChangeNeeded() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const needsPasswordChange = urlParams.get('change_password') === 'true' ||
+                                        sessionStorage.getItem('needsPasswordChange') === 'true';
+
+            if (needsPasswordChange) {
+                showPasswordModal();
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        // Show password modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'flex';
+        }
+
+        // Hide password modal
+        function hidePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            sessionStorage.removeItem('needsPasswordChange');
+        }
+
+        // Password form handlers
+        document.getElementById('skipPasswordBtn').addEventListener('click', () => {
+            hidePasswordModal();
+        });
+
+        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorEl = document.getElementById('passwordError');
+            const successEl = document.getElementById('passwordSuccess');
+            const submitBtn = document.getElementById('changePasswordBtn');
+
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+
+            // Validate passwords match
+            if (newPassword !== confirmPassword) {
+                errorEl.textContent = 'Passwords do not match';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            // Validate password length
+            if (newPassword.length < 8) {
+                errorEl.textContent = 'Password must be at least 8 characters';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Updating...';
+
+            try {
+                const { data, error } = await updatePassword(newPassword);
+
+                if (error) {
+                    throw error;
+                }
+
+                successEl.textContent = 'Password updated successfully!';
+                successEl.style.display = 'block';
+
+                // Close modal after short delay
+                setTimeout(() => {
+                    hidePasswordModal();
+                }, 1500);
+
+            } catch (error) {
+                errorEl.textContent = error.message || 'Failed to update password';
+                errorEl.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Update Password';
+            }
+        });
+
         // Initialize
         loadDashboard();
+        checkPasswordChangeNeeded();
     </script>
 
     <!-- Stripe Integration for Dashboard -->

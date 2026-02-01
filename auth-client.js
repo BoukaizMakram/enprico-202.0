@@ -132,6 +132,28 @@ export async function isAuthenticated() {
     return !!session;
 }
 
+/**
+ * Update user password
+ */
+export async function updatePassword(newPassword) {
+    const { data, error } = await supabase.auth.updateUser({
+        password: newPassword
+    });
+
+    return { data, error };
+}
+
+/**
+ * Request password reset email
+ */
+export async function resetPassword(email) {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password.html`
+    });
+
+    return { data, error };
+}
+
 // ============================================
 // SUBSCRIPTIONS & PAYMENTS
 // ============================================
