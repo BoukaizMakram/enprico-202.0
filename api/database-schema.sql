@@ -31,6 +31,9 @@ CREATE INDEX IF NOT EXISTS idx_pending_registrations_status ON public.pending_re
 -- Enable RLS
 ALTER TABLE public.pending_registrations ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies first
+DROP POLICY IF EXISTS "Service role full access" ON public.pending_registrations;
+
 -- Service role can do everything
 CREATE POLICY "Service role full access" ON public.pending_registrations
     FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
@@ -57,6 +60,11 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 
 -- Enable RLS
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies first
+DROP POLICY IF EXISTS "Users can view own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Users can update own profile" ON public.profiles;
+DROP POLICY IF EXISTS "Service role full access profiles" ON public.profiles;
 
 -- Users can read their own profile
 CREATE POLICY "Users can view own profile" ON public.profiles
@@ -100,6 +108,10 @@ CREATE INDEX IF NOT EXISTS idx_subscriptions_stripe_session ON public.subscripti
 -- Enable RLS
 ALTER TABLE public.subscriptions ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies first
+DROP POLICY IF EXISTS "Users can view own subscriptions" ON public.subscriptions;
+DROP POLICY IF EXISTS "Service role full access subscriptions" ON public.subscriptions;
+
 -- Users can view their own subscriptions
 CREATE POLICY "Users can view own subscriptions" ON public.subscriptions
     FOR SELECT USING (auth.uid() = user_id);
@@ -132,6 +144,10 @@ CREATE INDEX IF NOT EXISTS idx_payments_subscription_id ON public.payments(subsc
 
 -- Enable RLS
 ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies first
+DROP POLICY IF EXISTS "Users can view own payments" ON public.payments;
+DROP POLICY IF EXISTS "Service role full access payments" ON public.payments;
 
 -- Users can view their own payments
 CREATE POLICY "Users can view own payments" ON public.payments
@@ -166,6 +182,10 @@ CREATE INDEX IF NOT EXISTS idx_hours_tracking_month_year ON public.hours_trackin
 -- Enable RLS
 ALTER TABLE public.hours_tracking ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies first
+DROP POLICY IF EXISTS "Users can view own hours" ON public.hours_tracking;
+DROP POLICY IF EXISTS "Service role full access hours_tracking" ON public.hours_tracking;
+
 -- Users can view their own hours
 CREATE POLICY "Users can view own hours" ON public.hours_tracking
     FOR SELECT USING (auth.uid() = user_id);
@@ -197,6 +217,10 @@ CREATE INDEX IF NOT EXISTS idx_lesson_sessions_status ON public.lesson_sessions(
 
 -- Enable RLS
 ALTER TABLE public.lesson_sessions ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies first
+DROP POLICY IF EXISTS "Users can view own sessions" ON public.lesson_sessions;
+DROP POLICY IF EXISTS "Service role full access lesson_sessions" ON public.lesson_sessions;
 
 -- Users can view their own sessions
 CREATE POLICY "Users can view own sessions" ON public.lesson_sessions
