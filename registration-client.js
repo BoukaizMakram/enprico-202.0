@@ -313,6 +313,29 @@ export class RegistrationForm {
         return data;
     }
 
+    async createCheckoutSessionForExistingUser(userId, userEmail) {
+        const response = await fetch('/api/stripe/create-checkout-session.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                userId: userId,
+                userEmail: userEmail,
+                planType: this.formData.planType,
+                isNewUser: false,
+                successUrl: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
+                cancelUrl: window.location.origin + '/register.html?cancelled=true'
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to create checkout session');
+        }
+
+        return data;
+    }
+
     async createCheckoutSession(registrationId) {
         const response = await fetch('/api/stripe/create-checkout-session.php', {
             method: 'POST',

@@ -1145,8 +1145,18 @@
 
                 processingText.textContent = 'Redirecting to secure checkout...';
 
-                // Create checkout session
-                const checkout = await form.createCheckoutSession(result.registrationId);
+                let checkout;
+
+                if (result.existingUser) {
+                    // Existing user - create checkout for existing user
+                    checkout = await form.createCheckoutSessionForExistingUser(
+                        result.userId,
+                        result.userEmail
+                    );
+                } else {
+                    // New user - create checkout with registration ID
+                    checkout = await form.createCheckoutSession(result.registrationId);
+                }
 
                 // Redirect to Stripe
                 window.location.href = checkout.url;

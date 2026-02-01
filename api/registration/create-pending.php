@@ -72,10 +72,25 @@ if (!in_array($data['englishLevel'], ['beginner', 'intermediate', 'advanced', 'n
 }
 
 // Check if email already exists in Supabase Auth
-$emailExists = checkEmailExists($supabaseUrl, $supabaseServiceKey, $data['email']);
-if ($emailExists) {
-    http_response_code(409);
-    echo json_encode(['error' => 'An account with this email already exists. Please log in instead.']);
+$existingUser = getUserByEmail($supabaseUrl, $supabaseServiceKey, $data['email']);
+if ($existingUser) {
+    // User exists - check if they already have Professional plan
+    $hasProfessionalPlan = checkUserHasPlan($supabaseUrl, $supabaseServiceKey, $existingUser['id'], 'professional');
+
+    if ($hasProfessionalPlan && $data['planType'] === 'professional') {
+        http_response_code(409);
+        echo json_encode(['error' => 'You already have the Professional plan. Please log in to your dashboard.']);
+        exit;
+    }
+
+    // User exists but can still purchase - return as existing user
+    echo json_encode([
+        'success' => true,
+        'existingUser' => true,
+        'userId' => $existingUser['id'],
+        'userEmail' => $existingUser['email'],
+        'message' => 'Existing user - proceed to payment'
+    ]);
     exit;
 }
 
@@ -133,13 +148,61 @@ echo json_encode([
 // Helper Functions
 // ============================================
 
-function checkEmailExists($supabaseUrl, $serviceKey, $email) {
+function getUserByEmail($supabaseUrl, $serviceKey, $email) {
+    $email = strtolower(trim($email));
+
+    // First, try the Supabase Admin API to get user by email
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "$supabaseUrl/auth/v1/admin/users?email=" . urlencode($email));
+    $url = "$supabaseUrl/auth/v1/admin/users";
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'apikey: ' . $serviceKey,
-        'Authorization: Bearer ' . $serviceKey
+        'Authorization: Bearer ' . $serviceKey,
+        'Content-Type: application/json'
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode !== 200) {
+        error_log("getUserByEmail admin API failed: HTTP $httpCode - $response");
+        return null;
+    }
+
+    $data = json_decode($response, true);
+
+    // The admin API returns { users: [...] }
+    if (!isset($data['users']) || !is_array($data['users'])) {
+        return null;
+    }
+
+    // Find user with matching email
+    foreach ($data['users'] as $user) {
+        if (isset($user['email']) && strtolower($user['email']) === $email) {
+            return [
+                'id' => $user['id'],
+                'email' => $user['email']
+            ];
+        }
+    }
+
+    return null;
+}
+
+function checkUserHasPlan($supabaseUrl, $serviceKey, $userId, $planType) {
+    // Check if user has an active subscription of this plan type
+    $ch = curl_init();
+    $url = "$supabaseUrl/rest/v1/subscriptions?user_id=eq." . urlencode($userId)
+         . "&plan_type=eq." . urlencode($planType)
+         . "&status=eq.active&limit=1";
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'apikey: ' . $serviceKey,
+        'Authorization: Bearer ' . $serviceKey,
+        'Content-Type: application/json'
     ]);
 
     $response = curl_exec($ch);
@@ -151,7 +214,7 @@ function checkEmailExists($supabaseUrl, $serviceKey, $email) {
     }
 
     $data = json_decode($response, true);
-    return isset($data['users']) && count($data['users']) > 0;
+    return isset($data[0]);
 }
 
 function getExistingPendingRegistration($supabaseUrl, $serviceKey, $email) {
