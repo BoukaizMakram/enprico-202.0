@@ -1,7 +1,7 @@
 {
   "name": "enprico",
   "version": "2.0.0",
-  "description": "English learning platform with Supabase integration",
+  "description": "French learning platform for TEF & TCF exams with Supabase integration",
   "type": "module",
   "scripts": {
     "dev": "python -m http.server 8000",
@@ -10,8 +10,11 @@
   },
   "keywords": [
     "education",
-    "english",
+    "french",
     "learning",
+    "tef",
+    "tcf",
+    "immigration",
     "supabase"
   ],
   "author": "Enprico",

@@ -456,8 +456,8 @@ function sendWelcomeEmail($email, $fullName, $password, $planType, $hours) {
     $subject = "Welcome to Enprico - Your Account Details";
 
     $message = "Hello $firstName,\n\n";
-    $message .= "Thank you for your payment and for choosing Enprico's $planName. We truly appreciate your trust.\n\n";
-    $message .= "Our team will review your request and will be in touch within 5 business days with the next steps.\n\n";
+    $message .= "Thank you for your payment and for choosing Enprico's $planName for French tutoring and TEF/TCF exam preparation. We truly appreciate your trust.\n\n";
+    $message .= "Our team will review your request and will be in touch within 5 business days with the next steps to start your French learning journey.\n\n";
     $message .= "Your account details:\n\n";
     $message .= "Email: $email\n";
     $message .= "Temporary password: $password\n";

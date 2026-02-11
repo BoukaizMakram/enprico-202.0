@@ -584,11 +584,17 @@ html, body {
 }
 
 .text-cyan {
-    color: var(--brand-cyan);
+    color: #0c5ff9;
+    background: #eaf6fa;
+    padding: 0.1em 0.4em;
+    border-radius: 8px;
 }
 
 .text-pink {
-    color: var(--brand-pink);
+    color: #d13a71;
+    background: #f4cdd4;
+    padding: 0.1em 0.4em;
+    border-radius: 8px;
 }
 
 /* Scroll Animation Classes */
@@ -666,26 +672,28 @@ html, body {
 }
 
 .feature-card {
-    border: 1px solid var(--gray-300);
+    border: none;
     border-radius: 1.5rem;
-    padding: 3rem;
+    padding: 2.5rem;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .card-cyan {
-    background: linear-gradient(to bottom, #9fc1ff 0%, white 100%);
+    background: linear-gradient(135deg, #e8f4fc 0%, #d4ebfa 100%);
 }
 
 .card-pink {
-    background: linear-gradient(to bottom, #ffe0ed 0%, white 100%);
+    background: linear-gradient(135deg, #fce8f0 0%, #fad4e4 100%);
 }
 
 .why-card {
-    border: 1px solid var(--gray-300);
+    border: none;
     border-radius: 1.5rem;
-    padding: 3rem;
-    background: linear-gradient(to bottom, #f0edff 0%, white 100%);
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
     transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .feature-header {
@@ -696,38 +704,71 @@ html, body {
 }
 
 .feature-header h3 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--gray-900);
 }
 
+.card-cyan .feature-header h3 {
+    color: #1e3a5f;
+}
+
+.card-pink .feature-header h3 {
+    color: #831843;
+}
+
+.why-card .feature-header h3 {
+    color: #4c1d95;
+}
+
 .expand-btn {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 600;
+    border: 2px solid currentColor;
+    background: transparent;
+    font-size: 1.25rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .expand-btn.cyan {
-    background: var(--brand-cyan);
+    color: #0891b2;
+    border-color: #0891b2;
 }
 
 .expand-btn.pink {
-    background: var(--brand-pink);
+    color: #db2777;
+    border-color: #db2777;
 }
 
 .expand-btn.purple {
-    background: var(--brand-purple);
+    color: #7c3aed;
+    border-color: #7c3aed;
 }
 
 .expand-btn:hover {
-    opacity: 0.9;
+    transform: scale(1.1);
+}
+
+.expand-btn.cyan:hover {
+    background: #0891b2;
+    color: white;
+}
+
+.expand-btn.pink:hover {
+    background: #db2777;
+    color: white;
+}
+
+.expand-btn.purple:hover {
+    background: #7c3aed;
+    color: white;
 }
 
 .feature-list {
@@ -769,11 +810,11 @@ html, body {
 }
 
 .card-cyan .feature-list li span {
-    color: var(--brand-cyan);
+    color: #1e3a5f;
 }
 
 .card-pink .feature-list li span {
-    color: var(--brand-pink);
+    color: #831843;
 }
 
 .why-list {
@@ -792,9 +833,45 @@ html, body {
 
 .why-list li span {
     font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--brand-purple);
+    font-weight: 500;
+    color: #4c1d95;
     line-height: 1.5;
+}
+
+/* Feature Card CTA Buttons */
+.feature-cta-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.feature-cta-btn.cyan-btn {
+    background: #0891b2;
+    color: white;
+}
+
+.feature-cta-btn.cyan-btn:hover {
+    background: #0e7490;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.3);
+}
+
+.feature-cta-btn.pink-btn {
+    background: #db2777;
+    color: white;
+}
+
+.feature-cta-btn.pink-btn:hover {
+    background: #be185d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
 }
 
 /* Guarantee Section */

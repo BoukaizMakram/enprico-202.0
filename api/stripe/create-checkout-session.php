@@ -113,10 +113,10 @@ $postFields = [
     'mode' => 'payment',
     'customer_email' => $userEmail,
     'line_items[0][price_data][currency]' => 'usd',
-    'line_items[0][price_data][product_data][name]' => ucfirst($planType) . ' Plan - Enprico English Tutoring',
+    'line_items[0][price_data][product_data][name]' => ucfirst($planType) . ' Plan - Enprico French Tutoring',
     'line_items[0][price_data][product_data][description]' => $planType === 'starter'
-        ? '8 hours of 1-on-1 English tutoring (2 hours/week)'
-        : '16 hours of 1-on-1 English tutoring (4 hours/week)',
+        ? '8 hours of 1-on-1 French tutoring for TEF/TCF (2 hours/week)'
+        : '16 hours of 1-on-1 French tutoring for TEF/TCF (4 hours/week)',
     'line_items[0][price_data][unit_amount]' => $plan['amount'],
     'line_items[0][quantity]' => 1,
     'success_url' => $successUrl,

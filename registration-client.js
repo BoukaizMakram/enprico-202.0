@@ -11,7 +11,7 @@ export const PLANS = {
         hours: 8,
         hoursPerWeek: 2,
         pricePerHour: 20,
-        description: '2 hours of English tutoring per week'
+        description: '2 hours of French tutoring per week'
     },
     professional: {
         name: 'Professional Plan',
@@ -19,26 +19,29 @@ export const PLANS = {
         hours: 16,
         hoursPerWeek: 4,
         pricePerHour: 18,
-        description: '4 hours of English tutoring per week'
+        description: '4 hours of French tutoring per week'
     }
 };
 
-// English levels
-export const ENGLISH_LEVELS = [
-    { id: 'beginner', name: 'Beginner', description: 'I know very little English' },
-    { id: 'intermediate', name: 'Intermediate', description: 'I can hold basic conversations' },
-    { id: 'advanced', name: 'Advanced', description: 'I am comfortable in most situations' },
+// French levels
+export const FRENCH_LEVELS = [
+    { id: 'beginner', name: 'Beginner (A1-A2)', description: 'I know very little French' },
+    { id: 'intermediate', name: 'Intermediate (B1-B2)', description: 'I can hold basic conversations' },
+    { id: 'advanced', name: 'Advanced (C1-C2)', description: 'I am comfortable in most situations' },
     { id: 'native', name: 'Native/Fluent', description: 'I want to refine my skills' }
 ];
 
+// Keep for backwards compatibility
+export const ENGLISH_LEVELS = FRENCH_LEVELS;
+
 // Learning goals
 export const LEARNING_GOALS = [
+    { id: 'canada', name: 'Immigration to Canada', icon: '🇨🇦' },
+    { id: 'france', name: 'Immigration to France', icon: '🇫🇷' },
+    { id: 'tef', name: 'TEF Exam Preparation', icon: '📝' },
+    { id: 'tcf', name: 'TCF Exam Preparation', icon: '📋' },
     { id: 'conversation', name: 'Everyday Conversation', icon: '💬' },
-    { id: 'business', name: 'Business English', icon: '💼' },
-    { id: 'exams', name: 'Exam Preparation (IELTS/TOEFL)', icon: '📝' },
-    { id: 'travel', name: 'Travel English', icon: '✈️' },
-    { id: 'academic', name: 'Academic Writing', icon: '📚' },
-    { id: 'pronunciation', name: 'Pronunciation', icon: '🗣️' }
+    { id: 'business', name: 'Business French', icon: '💼' }
 ];
 
 // Days of the week
@@ -165,7 +168,7 @@ export class RegistrationForm {
 
     validateEnglishLevel() {
         if (!this.formData.englishLevel) {
-            this.errors.englishLevel = 'Please select your English level';
+            this.errors.englishLevel = 'Please select your French level';
         }
         return Object.keys(this.errors).length === 0;
     }

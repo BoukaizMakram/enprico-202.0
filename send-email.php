@@ -83,7 +83,7 @@ if ($isSystemEmail) {
             " . nl2br(htmlspecialchars($message)) . "
         </div>
         <div class='footer'>
-            &copy; " . date('Y') . " Enprico - Learn English with Expert Tutors<br>
+            &copy; " . date('Y') . " Enprico - French for TEF & TCF Exams<br>
             <a href='https://enprico.com' style='color: #0076c7;'>www.enprico.com</a>
         </div>
     </div>
