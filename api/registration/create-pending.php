@@ -64,10 +64,10 @@ if (!in_array($data['planType'], ['starter', 'professional'])) {
     exit;
 }
 
-// Validate english level
+// Validate french level
 if (!in_array($data['englishLevel'], ['beginner', 'intermediate', 'advanced', 'native'])) {
     http_response_code(400);
-    echo json_encode(['error' => 'Invalid English level']);
+    echo json_encode(['error' => 'Invalid French level']);
     exit;
 }
 
@@ -99,7 +99,7 @@ $registrationData = [
     'email' => strtolower(trim($data['email'])),
     'full_name' => trim($data['fullName']),
     'phone' => isset($data['phone']) ? trim($data['phone']) : null,
-    'english_level' => $data['englishLevel'],
+    'french_level' => $data['englishLevel'],
     'learning_goals' => $data['learningGoals'],
     'goals_description' => isset($data['goalsDescription']) ? trim($data['goalsDescription']) : null,
     'preferred_days' => $data['preferredDays'],

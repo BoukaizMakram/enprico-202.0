@@ -83,7 +83,7 @@ function createUserProfile($userId, $profileData) {
         'email' => $profileData['email'],
         'full_name' => $profileData['full_name'],
         'phone' => $profileData['phone'] ?? null,
-        'english_level' => $profileData['english_level'] ?? null,
+        'french_level' => $profileData['french_level'] ?? null,
         'learning_goals' => isset($profileData['learning_goals']) ? formatArrayForPostgres($profileData['learning_goals']) : null,
         'goals_description' => $profileData['goals_description'] ?? null,
         'preferred_days' => isset($profileData['preferred_days']) ? formatArrayForPostgres($profileData['preferred_days']) : null,

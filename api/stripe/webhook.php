@@ -186,7 +186,7 @@ function handleCheckoutSessionCompleted($session) {
             'email' => $registration['email'],
             'full_name' => $registration['full_name'],
             'phone' => $registration['phone'],
-            'english_level' => $registration['english_level'],
+            'french_level' => $registration['french_level'],
             'learning_goals' => $registration['learning_goals'],
             'goals_description' => $registration['goals_description'],
             'preferred_days' => $registration['preferred_days'],
