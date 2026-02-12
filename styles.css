@@ -2425,6 +2425,7 @@ html, body {
 
     .hero-title-mobile {
         line-height: 1.15;
+        margin-top: 15vh;
     }
 
     .cta-mobile {
