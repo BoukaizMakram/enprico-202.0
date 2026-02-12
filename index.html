@@ -108,7 +108,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css?v=1.3">
+    <link rel="stylesheet" href="styles.css?v=1.4">
 
     <!-- Critical CSS for above-the-fold content -->
     <style>
@@ -821,61 +821,68 @@
                     <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
             </button>
-            <h2 class="modal-title" data-i18n="helpTitle">Help & FAQ</h2>
+            <h2 class="modal-title" data-i18n="helpTitle">Frequently Asked Questions</h2>
             <div class="help-content">
                 <div class="faq-item">
                     <button class="faq-question" data-i18n="faq1Q">
-                        <span>How do I get started with Enprico?</span>
+                        <span>What is the monthly price?</span>
                         <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
                             <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </button>
                     <div class="faq-answer" data-i18n="faq1A">
-                        <p>Simply choose a pricing plan, create an account, and schedule your first lesson with one of our certified tutors. You'll receive a personalized learning plan based on your goals and current level.</p>
+                        <p>Our standard price is 280 USD per month for 4 hours per week, totaling 16 hours per month.</p>
+                        <p>From time to time, we offer limited special rates. Please contact us directly to check if you are eligible for any current offers.</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <button class="faq-question" data-i18n="faq2Q">
-                        <span>Can I change my tutor?</span>
+                        <span>How does the referral program work?</span>
                         <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
                             <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </button>
                     <div class="faq-answer" data-i18n="faq2A">
-                        <p>Yes! You can switch tutors at any time. We want to ensure you have the best learning experience possible, so feel free to try different tutors until you find the perfect match.</p>
+                        <p>For every student you refer who enrolls, you receive a 50 USD discount.</p>
+                        <p>If you refer 5 students who enroll and remain active, you can receive up to 250 USD in total discounts.</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <button class="faq-question" data-i18n="faq3Q">
-                        <span>What if I need to cancel a lesson?</span>
+                        <span>What is your refund policy?</span>
                         <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
                             <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </button>
                     <div class="faq-answer" data-i18n="faq3A">
-                        <p>You can cancel or reschedule lessons up to 24 hours in advance at no charge. Cancellations within 24 hours may be subject to a fee.</p>
+                        <p>Your satisfaction is important to us.</p>
+                        <ul>
+                            <li>If you request a refund during the first week (after the first 4 hours), you receive a full refund.</li>
+                            <li>If you request a refund during the second or third week, you receive a refund for 4 hours plus half of the hours completed in the additional weeks.</li>
+                            <li>If you complete the fourth week without requesting a refund, the program becomes non-refundable and the full month must be completed.</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="faq-item">
                     <button class="faq-question" data-i18n="faq4Q">
-                        <span>Do you offer refunds?</span>
+                        <span>How many hours per week do I study?</span>
                         <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
                             <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </button>
                     <div class="faq-answer" data-i18n="faq4A">
-                        <p>Yes, we offer a 30-day money-back guarantee. If you're not satisfied with our service within the first 30 days, we'll provide a full refund.</p>
+                        <p>You will attend 4 hours per week of live classes, totaling 16 hours per month.</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <button class="faq-question" data-i18n="faq5Q">
-                        <span>How long are the lessons?</span>
+                        <span>Are classes live?</span>
                         <svg class="faq-icon" viewBox="0 0 20 20" fill="none">
                             <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </button>
                     <div class="faq-answer" data-i18n="faq5A">
-                        <p>Standard lessons are 60 minutes long. You can also book 30-minute or 90-minute sessions based on your preferences and availability.</p>
+                        <p>Yes. All sessions are live and interactive with a professional teacher.</p>
                     </div>
                 </div>
             </div>
@@ -1153,17 +1160,17 @@
                 signUpLink: 'Sign up',
 
                 // Help Modal
-                helpTitle: 'Help & FAQ',
-                faq1Q: 'How do I get started with Enprico?',
-                faq1A: 'Simply choose a pricing plan, create an account, and schedule your first lesson with one of our certified tutors. You\'ll receive a personalized learning plan based on your goals and current level.',
-                faq2Q: 'Can I change my tutor?',
-                faq2A: 'Yes! You can switch tutors at any time. We want to ensure you have the best learning experience possible, so feel free to try different tutors until you find the perfect match.',
-                faq3Q: 'What if I need to cancel a lesson?',
-                faq3A: 'You can cancel or reschedule lessons up to 24 hours in advance at no charge. Cancellations within 24 hours may be subject to a fee.',
-                faq4Q: 'Do you offer refunds?',
-                faq4A: 'Yes, we offer a 30-day money-back guarantee. If you\'re not satisfied with our service within the first 30 days, we\'ll provide a full refund.',
-                faq5Q: 'How long are the lessons?',
-                faq5A: 'Standard lessons are 60 minutes long. You can also book 30-minute or 90-minute sessions based on your preferences and availability.',
+                helpTitle: 'Frequently Asked Questions',
+                faq1Q: 'What is the monthly price?',
+                faq1A: '<p>Our standard price is 280 USD per month for 4 hours per week, totaling 16 hours per month.</p><p>From time to time, we offer limited special rates. Please contact us directly to check if you are eligible for any current offers.</p>',
+                faq2Q: 'How does the referral program work?',
+                faq2A: '<p>For every student you refer who enrolls, you receive a 50 USD discount.</p><p>If you refer 5 students who enroll and remain active, you can receive up to 250 USD in total discounts.</p>',
+                faq3Q: 'What is your refund policy?',
+                faq3A: '<p>Your satisfaction is important to us.</p><ul><li>If you request a refund during the first week (after the first 4 hours), you receive a full refund.</li><li>If you request a refund during the second or third week, you receive a refund for 4 hours plus half of the hours completed in the additional weeks.</li><li>If you complete the fourth week without requesting a refund, the program becomes non-refundable and the full month must be completed.</li></ul>',
+                faq4Q: 'How many hours per week do I study?',
+                faq4A: 'You will attend 4 hours per week of live classes, totaling 16 hours per month.',
+                faq5Q: 'Are classes live?',
+                faq5A: 'Yes. All sessions are live and interactive with a professional teacher.',
                 helpContact: 'Still have questions? <a href="#contact">Contact us</a>',
 
                 // Articles Section
@@ -1280,17 +1287,17 @@
                 signUpLink: 'S\'inscrire',
 
                 // Help Modal
-                helpTitle: 'Aide & FAQ',
-                faq1Q: 'Comment commencer avec Enprico ?',
-                faq1A: 'Choisissez simplement un plan tarifaire, créez un compte et planifiez votre première leçon avec l\'un de nos tuteurs certifiés. Vous recevrez un plan d\'apprentissage personnalisé basé sur vos objectifs et votre niveau actuel.',
-                faq2Q: 'Puis-je changer de tuteur ?',
-                faq2A: 'Oui ! Vous pouvez changer de tuteur à tout moment. Nous voulons nous assurer que vous ayez la meilleure expérience d\'apprentissage possible, alors n\'hésitez pas à essayer différents tuteurs jusqu\'à ce que vous trouviez la correspondance parfaite.',
-                faq3Q: 'Que faire si je dois annuler une leçon ?',
-                faq3A: 'Vous pouvez annuler ou reprogrammer des leçons jusqu\'à 24 heures à l\'avance sans frais. Les annulations dans les 24 heures peuvent être soumises à des frais.',
-                faq4Q: 'Offrez-vous des remboursements ?',
-                faq4A: 'Oui, nous offrons une garantie de remboursement de 30 jours. Si vous n\'êtes pas satisfait de notre service dans les 30 premiers jours, nous vous rembourserons intégralement.',
-                faq5Q: 'Quelle est la durée des leçons ?',
-                faq5A: 'Les leçons standard durent 60 minutes. Vous pouvez également réserver des sessions de 30 minutes ou 90 minutes en fonction de vos préférences et de votre disponibilité.',
+                helpTitle: 'Questions Fréquentes',
+                faq1Q: 'Quel est le prix mensuel ?',
+                faq1A: '<p>Notre prix standard est de 280 USD par mois pour 4 heures par semaine, soit 16 heures par mois.</p><p>De temps en temps, nous proposons des tarifs spéciaux limités. Veuillez nous contacter directement pour vérifier si vous êtes éligible à des offres en cours.</p>',
+                faq2Q: 'Comment fonctionne le programme de parrainage ?',
+                faq2A: '<p>Pour chaque étudiant que vous parrainez et qui s\'inscrit, vous recevez une réduction de 50 USD.</p><p>Si vous parrainez 5 étudiants qui s\'inscrivent et restent actifs, vous pouvez recevoir jusqu\'à 250 USD de réductions au total.</p>',
+                faq3Q: 'Quelle est votre politique de remboursement ?',
+                faq3A: '<p>Votre satisfaction est importante pour nous.</p><ul><li>Si vous demandez un remboursement pendant la première semaine (après les 4 premières heures), vous recevez un remboursement complet.</li><li>Si vous demandez un remboursement pendant la deuxième ou troisième semaine, vous recevez un remboursement pour 4 heures plus la moitié des heures effectuées dans les semaines supplémentaires.</li><li>Si vous terminez la quatrième semaine sans demander de remboursement, le programme devient non remboursable et le mois complet doit être terminé.</li></ul>',
+                faq4Q: 'Combien d\'heures par semaine est-ce que j\'étudie ?',
+                faq4A: 'Vous assisterez à 4 heures par semaine de cours en direct, soit 16 heures par mois.',
+                faq5Q: 'Les cours sont-ils en direct ?',
+                faq5A: 'Oui. Toutes les sessions sont en direct et interactives avec un professeur professionnel.',
                 helpContact: 'Vous avez encore des questions ? <a href="#contact">Contactez-nous</a>',
 
                 // Articles Section
