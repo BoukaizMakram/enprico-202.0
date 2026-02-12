@@ -354,64 +354,125 @@
             color: white;
         }
 
-        /* Time Options */
-        .time-options {
-            display: grid;
-            gap: 0.75rem;
+        /* Timezone Selector */
+        .timezone-selector {
+            margin-bottom: 2rem;
         }
 
-        .time-option {
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            cursor: pointer;
+        .timezone-detected {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            transition: all 0.2s ease;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: #166534;
         }
 
-        .time-option:hover {
-            border-color: var(--brand-blue);
-        }
-
-        .time-option.selected {
-            border-color: var(--brand-blue);
-            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
-        }
-
-        .time-checkbox {
-            width: 22px;
-            height: 22px;
-            border: 2px solid #cbd5e1;
-            border-radius: 6px;
+        .timezone-detected svg {
+            width: 18px;
+            height: 18px;
             flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .time-option.selected .time-checkbox {
-            background: var(--brand-blue);
+        .timezone-select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .timezone-select:focus {
+            outline: none;
             border-color: var(--brand-blue);
         }
 
-        .time-option.selected .time-checkbox::after {
-            content: '\\2713';
-            color: white;
-            font-size: 0.875rem;
+        /* Hour Grid */
+        .hour-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
         }
 
-        .time-info h4 {
-            margin: 0;
-            font-size: 1rem;
-            color: #1e293b;
-        }
-
-        .time-info p {
-            margin: 0.25rem 0 0;
+        .hour-chip {
+            padding: 0.625rem 0.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
             font-size: 0.85rem;
             color: #64748b;
+            transition: all 0.2s ease;
+            background: white;
+            text-align: center;
+        }
+
+        .hour-chip:hover {
+            border-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+
+        .hour-chip.selected {
+            background: var(--brand-blue);
+            border-color: var(--brand-blue);
+            color: white;
+        }
+
+        .time-period-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .time-period-label:first-child {
+            margin-top: 0;
+        }
+
+        .quick-select-btns {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-select-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background: white;
+            font-size: 0.8rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .quick-select-btn:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .quick-select-btn.active {
+            background: var(--brand-blue);
+            border-color: var(--brand-blue);
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .hour-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         /* Review Section */
@@ -774,7 +835,21 @@
                 <!-- Step 4: Availability -->
                 <div class="step-content" id="step4">
                     <h2 class="step-title">Your Availability</h2>
-                    <p class="step-description">When are you available for lessons?</p>
+                    <p class="step-description">Tell us when you're available for lessons so we can match you with the perfect tutor.</p>
+
+                    <div class="form-group timezone-selector">
+                        <label>Your Timezone</label>
+                        <div class="timezone-detected" id="timezoneDetected">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 6v6l4 2"></path>
+                            </svg>
+                            <span>Detected: <strong id="detectedTimezone">Loading...</strong></span>
+                        </div>
+                        <select class="timezone-select" id="timezoneSelect" onchange="updateTimezone()">
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
 
                     <div class="form-group">
                         <label>Preferred Days</label>
@@ -785,8 +860,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Preferred Times</label>
-                        <div class="time-options" id="timeOptions">
+                        <label>Preferred Hours <span style="font-weight: normal; color: #64748b;">(select all that work for you)</span></label>
+                        <div class="quick-select-btns">
+                            <button type="button" class="quick-select-btn" onclick="quickSelectTime('morning')">🌅 Morning (6-12)</button>
+                            <button type="button" class="quick-select-btn" onclick="quickSelectTime('afternoon')">☀️ Afternoon (12-18)</button>
+                            <button type="button" class="quick-select-btn" onclick="quickSelectTime('evening')">🌙 Evening (18-22)</button>
+                            <button type="button" class="quick-select-btn" onclick="quickSelectTime('clear')">Clear All</button>
+                        </div>
+                        <div class="time-period-label">Morning</div>
+                        <div class="hour-grid" id="hourGridMorning">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div class="time-period-label">Afternoon</div>
+                        <div class="hour-grid" id="hourGridAfternoon">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div class="time-period-label">Evening</div>
+                        <div class="hour-grid" id="hourGridEvening">
                             <!-- Populated by JS -->
                         </div>
                         <div class="error-message" id="preferredTimesError"></div>
@@ -838,11 +928,15 @@
                     <div class="review-section">
                         <h4>Availability</h4>
                         <div class="review-item">
+                            <span class="review-label">Timezone</span>
+                            <span class="review-value" id="reviewTimezone"></span>
+                        </div>
+                        <div class="review-item">
                             <span class="review-label">Days</span>
                             <div class="review-tags" id="reviewDays"></div>
                         </div>
                         <div class="review-item">
-                            <span class="review-label">Times</span>
+                            <span class="review-label">Hours</span>
                             <div class="review-tags" id="reviewTimes"></div>
                         </div>
                     </div>
@@ -873,7 +967,8 @@
             ENGLISH_LEVELS,
             LEARNING_GOALS,
             DAYS,
-            TIME_SLOTS
+            TIME_SLOTS,
+            TIMEZONES
         } from './registration-client.js';
 
         // Initialize registration form
@@ -900,8 +995,11 @@
             // Populate day chips
             populateDayChips();
 
-            // Populate time options
-            populateTimeOptions();
+            // Populate timezone selector
+            populateTimezoneSelector();
+
+            // Populate hour grids
+            populateHourGrids();
 
             // Restore form data
             restoreFormData();
@@ -953,17 +1051,71 @@
             `).join('');
         }
 
-        function populateTimeOptions() {
-            const container = document.getElementById('timeOptions');
-            container.innerHTML = TIME_SLOTS.map(time => `
-                <div class="time-option ${form.formData.preferredTimes.includes(time.id) ? 'selected' : ''}"
+        function populateTimezoneSelector() {
+            const select = document.getElementById('timezoneSelect');
+            const detectedTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+            // Check if detected timezone is in our list
+            const isInList = TIMEZONES.some(tz => tz.id === detectedTz);
+
+            // Build options
+            let options = '';
+
+            // Add detected timezone at top if not in list
+            if (!isInList) {
+                options += `<option value="${detectedTz}">${detectedTz} (Your timezone)</option>`;
+                options += '<option disabled>──────────</option>';
+            }
+
+            // Add all timezones
+            options += TIMEZONES.map(tz =>
+                `<option value="${tz.id}" ${tz.id === form.formData.timezone ? 'selected' : ''}>
+                    ${tz.name} (${tz.offset})
+                </option>`
+            ).join('');
+
+            select.innerHTML = options;
+
+            // Set value to current timezone
+            select.value = form.formData.timezone;
+
+            // Update detected display
+            const detectedDisplay = document.getElementById('detectedTimezone');
+            const tz = TIMEZONES.find(t => t.id === detectedTz);
+            detectedDisplay.textContent = tz ? tz.name : detectedTz;
+        }
+
+        function populateHourGrids() {
+            // Morning: 6 AM - 11 AM
+            const morningContainer = document.getElementById('hourGridMorning');
+            const morningSlots = TIME_SLOTS.filter(t => t.hour >= 6 && t.hour < 12);
+            morningContainer.innerHTML = morningSlots.map(time => `
+                <div class="hour-chip ${form.formData.preferredTimes.includes(time.id) ? 'selected' : ''}"
                      data-time="${time.id}"
                      onclick="toggleTime('${time.id}')">
-                    <div class="time-checkbox"></div>
-                    <div class="time-info">
-                        <h4>${time.name}</h4>
-                        <p>${time.description}</p>
-                    </div>
+                    ${time.name}
+                </div>
+            `).join('');
+
+            // Afternoon: 12 PM - 5 PM
+            const afternoonContainer = document.getElementById('hourGridAfternoon');
+            const afternoonSlots = TIME_SLOTS.filter(t => t.hour >= 12 && t.hour < 18);
+            afternoonContainer.innerHTML = afternoonSlots.map(time => `
+                <div class="hour-chip ${form.formData.preferredTimes.includes(time.id) ? 'selected' : ''}"
+                     data-time="${time.id}"
+                     onclick="toggleTime('${time.id}')">
+                    ${time.name}
+                </div>
+            `).join('');
+
+            // Evening: 6 PM - 10 PM
+            const eveningContainer = document.getElementById('hourGridEvening');
+            const eveningSlots = TIME_SLOTS.filter(t => t.hour >= 18 && t.hour <= 22);
+            eveningContainer.innerHTML = eveningSlots.map(time => `
+                <div class="hour-chip ${form.formData.preferredTimes.includes(time.id) ? 'selected' : ''}"
+                     data-time="${time.id}"
+                     onclick="toggleTime('${time.id}')">
+                    ${time.name}
                 </div>
             `).join('');
         }
@@ -1091,10 +1243,66 @@
             form.toggleArrayItem('preferredTimes', timeId);
 
             // Update UI
-            const option = document.querySelector(`.time-option[data-time="${timeId}"]`);
-            if (option) {
-                option.classList.toggle('selected', form.formData.preferredTimes.includes(timeId));
+            const chip = document.querySelector(`.hour-chip[data-time="${timeId}"]`);
+            if (chip) {
+                chip.classList.toggle('selected', form.formData.preferredTimes.includes(timeId));
             }
+        };
+
+        window.updateTimezone = function() {
+            const select = document.getElementById('timezoneSelect');
+            form.updateField('timezone', select.value);
+            form.saveToStorage();
+        };
+
+        window.quickSelectTime = function(period) {
+            let hoursToSelect = [];
+
+            if (period === 'morning') {
+                hoursToSelect = TIME_SLOTS.filter(t => t.hour >= 6 && t.hour < 12).map(t => t.id);
+            } else if (period === 'afternoon') {
+                hoursToSelect = TIME_SLOTS.filter(t => t.hour >= 12 && t.hour < 18).map(t => t.id);
+            } else if (period === 'evening') {
+                hoursToSelect = TIME_SLOTS.filter(t => t.hour >= 18 && t.hour <= 22).map(t => t.id);
+            } else if (period === 'clear') {
+                form.formData.preferredTimes = [];
+                form.saveToStorage();
+                // Update all chips
+                document.querySelectorAll('.hour-chip').forEach(chip => {
+                    chip.classList.remove('selected');
+                });
+                return;
+            }
+
+            // Check if all hours in this period are already selected
+            const allSelected = hoursToSelect.every(h => form.formData.preferredTimes.includes(h));
+
+            if (allSelected) {
+                // Deselect all hours in this period
+                hoursToSelect.forEach(hourId => {
+                    const index = form.formData.preferredTimes.indexOf(hourId);
+                    if (index > -1) {
+                        form.formData.preferredTimes.splice(index, 1);
+                    }
+                });
+            } else {
+                // Select all hours in this period (add ones not already selected)
+                hoursToSelect.forEach(hourId => {
+                    if (!form.formData.preferredTimes.includes(hourId)) {
+                        form.formData.preferredTimes.push(hourId);
+                    }
+                });
+            }
+
+            form.saveToStorage();
+
+            // Update UI
+            hoursToSelect.forEach(hourId => {
+                const chip = document.querySelector(`.hour-chip[data-time="${hourId}"]`);
+                if (chip) {
+                    chip.classList.toggle('selected', form.formData.preferredTimes.includes(hourId));
+                }
+            });
         };
 
         // Review population
@@ -1120,13 +1328,22 @@
             document.getElementById('reviewGoals').innerHTML = form.getLearningGoalsNames()
                 .map(g => `<span class="review-tag">${g}</span>`).join('');
 
+            // Timezone
+            document.getElementById('reviewTimezone').textContent = form.getTimezoneDisplay();
+
             // Days
             document.getElementById('reviewDays').innerHTML = form.getPreferredDaysNames()
                 .map(d => `<span class="review-tag">${d}</span>`).join('');
 
-            // Times
-            document.getElementById('reviewTimes').innerHTML = form.getPreferredTimesNames()
-                .map(t => `<span class="review-tag">${t}</span>`).join('');
+            // Times - group consecutive hours
+            const times = form.getPreferredTimesNames();
+            if (times.length > 6) {
+                // Summarize if many hours selected
+                document.getElementById('reviewTimes').innerHTML = `<span class="review-tag">${times.length} hours selected</span>`;
+            } else {
+                document.getElementById('reviewTimes').innerHTML = times
+                    .map(t => `<span class="review-tag">${t}</span>`).join('');
+            }
         }
 
         // Submit registration

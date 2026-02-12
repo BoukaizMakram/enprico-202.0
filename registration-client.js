@@ -55,11 +55,43 @@ export const DAYS = [
     { id: 'sunday', name: 'Sun' }
 ];
 
-// Time preferences
-export const TIME_SLOTS = [
-    { id: 'morning', name: 'Morning', description: '6 AM - 12 PM' },
-    { id: 'afternoon', name: 'Afternoon', description: '12 PM - 6 PM' },
-    { id: 'evening', name: 'Evening', description: '6 PM - 11 PM' }
+// Time slots (specific hours for full flexibility)
+export const TIME_SLOTS = [];
+for (let hour = 6; hour <= 22; hour++) {
+    const ampm = hour < 12 ? 'AM' : 'PM';
+    const displayHour = hour <= 12 ? hour : hour - 12;
+    const displayHourEnd = (hour + 1) <= 12 ? (hour + 1) : (hour + 1) - 12;
+    const ampmEnd = (hour + 1) < 12 ? 'AM' : 'PM';
+    TIME_SLOTS.push({
+        id: `hour_${hour}`,
+        hour: hour,
+        name: `${displayHour}:00 ${ampm}`,
+        description: `${displayHour}:00 ${ampm} - ${displayHourEnd}:00 ${ampmEnd}`
+    });
+}
+
+// Common timezones
+export const TIMEZONES = [
+    { id: 'America/New_York', name: 'Eastern Time (ET)', offset: 'UTC-5/UTC-4' },
+    { id: 'America/Chicago', name: 'Central Time (CT)', offset: 'UTC-6/UTC-5' },
+    { id: 'America/Denver', name: 'Mountain Time (MT)', offset: 'UTC-7/UTC-6' },
+    { id: 'America/Los_Angeles', name: 'Pacific Time (PT)', offset: 'UTC-8/UTC-7' },
+    { id: 'America/Toronto', name: 'Toronto (ET)', offset: 'UTC-5/UTC-4' },
+    { id: 'America/Vancouver', name: 'Vancouver (PT)', offset: 'UTC-8/UTC-7' },
+    { id: 'America/Montreal', name: 'Montreal (ET)', offset: 'UTC-5/UTC-4' },
+    { id: 'Europe/London', name: 'London (GMT/BST)', offset: 'UTC+0/UTC+1' },
+    { id: 'Europe/Paris', name: 'Paris (CET)', offset: 'UTC+1/UTC+2' },
+    { id: 'Europe/Berlin', name: 'Berlin (CET)', offset: 'UTC+1/UTC+2' },
+    { id: 'Asia/Dubai', name: 'Dubai (GST)', offset: 'UTC+4' },
+    { id: 'Asia/Kolkata', name: 'India (IST)', offset: 'UTC+5:30' },
+    { id: 'Asia/Shanghai', name: 'China (CST)', offset: 'UTC+8' },
+    { id: 'Asia/Tokyo', name: 'Tokyo (JST)', offset: 'UTC+9' },
+    { id: 'Australia/Sydney', name: 'Sydney (AEST)', offset: 'UTC+10/UTC+11' },
+    { id: 'Pacific/Auckland', name: 'Auckland (NZST)', offset: 'UTC+12/UTC+13' },
+    { id: 'Africa/Cairo', name: 'Cairo (EET)', offset: 'UTC+2' },
+    { id: 'Africa/Casablanca', name: 'Casablanca (WET)', offset: 'UTC+0/UTC+1' },
+    { id: 'America/Sao_Paulo', name: 'São Paulo (BRT)', offset: 'UTC-3' },
+    { id: 'America/Mexico_City', name: 'Mexico City (CST)', offset: 'UTC-6/UTC-5' }
 ];
 
 const STORAGE_KEY = 'enprico_registration';
@@ -392,8 +424,17 @@ export class RegistrationForm {
     getPreferredTimesNames() {
         return this.formData.preferredTimes.map(timeId => {
             const time = TIME_SLOTS.find(t => t.id === timeId);
-            return time ? `${time.name} (${time.description})` : timeId;
+            return time ? time.name : timeId;
         });
+    }
+
+    getTimezoneDisplay() {
+        const tz = TIMEZONES.find(t => t.id === this.formData.timezone);
+        if (tz) {
+            return `${tz.name} (${tz.offset})`;
+        }
+        // Return the raw timezone if not in our list
+        return this.formData.timezone;
     }
 }
 
