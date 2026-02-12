@@ -120,7 +120,8 @@ $postFields = [
     'line_items[0][price_data][unit_amount]' => $plan['amount'],
     'line_items[0][quantity]' => 1,
     'success_url' => $successUrl,
-    'cancel_url' => $cancelUrl
+    'cancel_url' => $cancelUrl,
+    'allow_promotion_codes' => 'true'
 ];
 
 // Add metadata
