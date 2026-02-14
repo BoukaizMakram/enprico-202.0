@@ -201,7 +201,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css?v=1.5">
+    <link rel="stylesheet" href="styles.css?v=1.9">
 
     <!-- Critical CSS for above-the-fold content -->
     <style>
@@ -305,14 +305,15 @@
         <div class="decorative-circle"></div>
         <div class="container hero-container">
             <div class="hero-content">
+                <p class="hero-label" data-i18n="heroLabel">WE OFFER</p>
                 <h1 class="hero-title hero-title-desktop" data-i18n="heroTitle">
-                    French for TEF<br>
-                    & TCF Exams
+                    Specialized Tutoring To<br>
+                    Prepare You For TEF/TCF
                 </h1>
-<button class="cta-button cta-desktop" data-i18n="ctaButton"
-        onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})">
-  Join Us
-</button>
+                <button class="cta-button cta-desktop" data-i18n="ctaButton"
+                        onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})">
+                    Enroll Now
+                </button>
 
                 <div class="level-badges level-badges-desktop">
                     <span class="badge">A1</span>
@@ -324,9 +325,10 @@
                 </div>
             </div>
 
+            <p class="hero-label hero-label-mobile" data-i18n="heroLabel">WE OFFER</p>
             <h1 class="hero-title hero-title-mobile">
-                French for TEF<br>
-                & TCF Exams
+                Specialized Tutoring To<br>
+                Prepare You For TEF/TCF
             </h1>
 
             <div class="level-badges level-badges-mobile">
@@ -339,19 +341,17 @@
             </div>
 
             <button class="cta-button cta-mobile" data-i18n="ctaButton"
-        onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})">Join Us</button>
+                    onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})">Enroll Now</button>
         </div>
     </section>
 
-    <!-- Tagline Section -->
-    <section class="tagline-section">
+    <!-- Intro Section -->
+    <section class="intro-section">
         <div class="container">
-            <p class="brand-label scroll-animate" data-i18n="brandLabel">enprico</p>
-            <div class="tagline-wrapper">
-                <h2 class="tagline scroll-animate" data-i18n="tagline">
-                    a <span class="text-cyan">new</span> way to <span class="text-pink">learn</span> french
-                </h2>
-            </div>
+            <h2 class="section-title scroll-animate" data-i18n="introTitle">Personalized French Tutoring To Meet Express Entry Requirements</h2>
+            <p class="intro-text scroll-animate" data-i18n="introText">
+                Learn French with expert tutors who adapt to your pace and learning style. From beginners to advanced learners, we have the perfect program for you. Our curriculum is specifically designed to help you succeed in TEF and TCF exams.
+            </p>
         </div>
     </section>
 
@@ -574,141 +574,148 @@
     <!-- Pricing Section -->
     <section class="pricing-section" id="pricing">
         <div class="container">
-            <div class="pricing-grid">
-                <!-- Plan 1 -->
+            <h2 class="section-title scroll-animate" data-i18n="pricingTitle">Our Classes And Fees</h2>
+            <p class="section-subtitle scroll-animate" data-i18n="pricingSubtitle">Choose the program that best fits your schedule and learning goals.</p>
+
+            <div class="pricing-grid pricing-grid-two">
+                <!-- 2-Hour Plan -->
                 <div class="pricing-card scroll-animate">
                     <div class="pricing-header pink-gradient">
-                        <span class="pricing-badge" data-i18n="pricingBadge">Starter</span>
+                        <span class="pricing-badge">Flexible</span>
                         <div class="price-info">
-                            <p class="price" data-i18n="pricingPrice1">$160</p>
-                            <p class="price-details" data-i18n="pricingDetails1">2 hours per week<br>$20 per hour</p>
+                            <p class="price">$160</p>
+                            <p class="price-details">2 hours per week<br>8 hours per month</p>
                         </div>
                     </div>
                     <div class="pricing-body">
+                        <h3 class="plan-title">2-Hrs One-on-One Program</h3>
+                        <p class="pricing-description">Designed for students with busy schedules or those who prefer a slower pace of learning</p>
                         <button class="enroll-btn pink-btn" data-plan="starter" onclick="handleEnrollClick('starter')">Enroll Now</button>
-                        <p class="pricing-description" data-i18n="pricingDesc">Perfect for steady progress</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>2 hours of live lessons weekly</span>
+                                    <span>Flexible Schedule: Customized to your availability</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Personalized learning plan</span>
+                                    <span>2 hours per week (1 hour, 2 days a week or 2 hours, 1 day a week)</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>All study materials included</span>
+                                    <span>Perfect for busy schedules</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Progress tracking</span>
+                                    <span>Slower pace of learning</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Email support</span>
+                                    <span>Personalized attention</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Plan 2 -->
-                <div class="pricing-card scroll-animate">
+                <!-- Standard Plan (Middle) -->
+                <div class="pricing-card pricing-card-featured scroll-animate">
                     <div class="pricing-header blue-gradient">
-                        <span class="pricing-badge" data-i18n="pricingBadge">Professional</span>
+                        <span class="pricing-badge">Standard</span>
                         <div class="price-info">
-                            <p class="price" data-i18n="pricingPrice2">$288</p>
-                            <p class="price-details" data-i18n="pricingDetails2">4 hours per week<br>$18 per hour</p>
+                            <p class="price">$280</p>
+                            <p class="price-details">4 hours per week<br>16 hours per month</p>
                         </div>
                     </div>
                     <div class="pricing-body">
+                        <h3 class="plan-title">Standard One-on-One (4 hours/week)</h3>
+                        <p class="pricing-description">Receive personalized French lessons tailored to your needs</p>
                         <button class="enroll-btn blue-btn" data-plan="professional" onclick="handleEnrollClick('professional')">Enroll Now</button>
-                        <p class="pricing-description" data-i18n="pricingDesc">Ideal for fast learning</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>4 hours of live lessons weekly</span>
+                                    <span>Flexible Schedule: Customized to your availability</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Advanced personalized curriculum</span>
+                                    <span>4 Hours per Week (1-Hr, 4 days a week or 2-Hrs, 2 days a week)</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Weekly progress reports</span>
+                                    <span>Classes typically set up within 2-5 days of enrollment</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Priority support 24/7</span>
+                                    <span>Personalized curriculum</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Exam preparation included</span>
+                                    <span>One-on-one attention</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Plan 3 -->
+                <!-- Contact Plan -->
                 <div class="pricing-card scroll-animate">
                     <div class="pricing-header purple-gradient">
-                        <span class="pricing-badge" data-i18n="pricingBadge">Enterprise</span>
+                        <span class="pricing-badge">Custom</span>
                         <div class="price-info">
-                            <h3 class="contact-us-title" data-i18n="pricingContact">Custom</h3>
+                            <p class="price" data-i18n="pricingContact">Contact Us</p>
+                            <p class="price-details">Tailored to your needs</p>
                         </div>
                     </div>
                     <div class="pricing-body">
+                        <h3 class="plan-title">Custom Program</h3>
+                        <p class="pricing-description">Have specific requirements? Let us create a personalized learning plan just for you.</p>
                         <a href="#contact" class="enroll-btn purple-btn" data-i18n="contactBtn">Contact Us</a>
-                        <p class="pricing-description" data-i18n="pricingDesc">For teams and organizations</p>
                         <div class="card-scroll-container">
                             <ul class="pricing-features scrollable-content">
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Unlimited flexible hours</span>
+                                    <span>Flexible hours based on your needs</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Dedicated account manager</span>
+                                    <span>Group lessons available</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Custom curriculum for your team</span>
+                                    <span>Corporate training options</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
                                         <path d="M16 6L8 14L4 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                    <span>Team performance analytics</span>
+                                    <span>Special scheduling arrangements</span>
                                 </li>
                                 <li>
                                     <svg class="check-icon-small" viewBox="0 0 20 20" fill="none">
@@ -717,6 +724,201 @@
                                     <span>Volume discounts available</span>
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Free Trial Section -->
+    <section class="free-trial-section" id="free-trial">
+        <div class="container">
+            <h2 class="scroll-animate" data-i18n="freeTrialTitle">Try A Free Class</h2>
+            <p class="scroll-animate" data-i18n="freeTrialText">Not ready to commit? Book a free demo session to experience our teaching methodology firsthand.</p>
+            <button class="cta-button scroll-animate" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" data-i18n="freeTrialBtn">Get Your Free Trial Class</button>
+            <p class="free-trial-note scroll-animate" data-i18n="freeTrialNote">* Note: Free trials are subject to availability and limited to one per student.</p>
+        </div>
+    </section>
+
+    <!-- Referral Section -->
+    <section class="referral-section" id="referral">
+        <div class="container">
+            <h2 class="scroll-animate" data-i18n="referralTitle">Join Our Referral Program</h2>
+            <p class="referral-highlight scroll-animate" data-i18n="referralHighlight">$50 Off Every Month For You And Your Friends</p>
+            <p class="scroll-animate" data-i18n="referralText">Help your friends learn French and save on your own education! It's a win-win for everyone involved in our community.</p>
+            <button class="cta-button scroll-animate" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" data-i18n="referralBtn">Contact Us To Refer</button>
+            <p class="referral-note scroll-animate" data-i18n="referralNote">Important Note: This referral discount applies only to the 4-hours/week program. Discounts cannot be combined or stacked with any other offers.</p>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <h2 class="scroll-animate" data-i18n="testimonialsTitle">What Our Students Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Enprico helped me achieve my TEF B2 in just 4 months! The personalized approach made all the difference."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SM</div>
+                        <div class="testimonial-info">
+                            <h4>Sarah M.</h4>
+                            <p>Canada Express Entry</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"My tutor was incredibly patient and adapted to my learning style. I went from A1 to B1 faster than I expected."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JC</div>
+                        <div class="testimonial-info">
+                            <h4>James C.</h4>
+                            <p>TCF Canada</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The flexible scheduling was perfect for my busy work life. Highly recommend for professionals!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">ML</div>
+                        <div class="testimonial-info">
+                            <h4>Maria L.</h4>
+                            <p>France Immigration</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"I passed my TCF with flying colors! The exam preparation was thorough and exactly what I needed."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AK</div>
+                        <div class="testimonial-info">
+                            <h4>Ahmed K.</h4>
+                            <p>Quebec Immigration</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Starting from zero French knowledge, I can now hold conversations confidently. Amazing teachers!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">EP</div>
+                        <div class="testimonial-info">
+                            <h4>Elena P.</h4>
+                            <p>Express Entry</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The one-on-one attention really accelerated my learning. Worth every penny!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">DW</div>
+                        <div class="testimonial-info">
+                            <h4>David W.</h4>
+                            <p>TEF Preparation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"My tutor made learning French fun and engaging. I look forward to every session!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">LN</div>
+                        <div class="testimonial-info">
+                            <h4>Lisa N.</h4>
+                            <p>France Visa</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The curriculum is well-structured and focused on real exam scenarios. Very effective!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">RB</div>
+                        <div class="testimonial-info">
+                            <h4>Robert B.</h4>
+                            <p>TCF Canada</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Excellent support team and professional tutors. They truly care about your success."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">NK</div>
+                        <div class="testimonial-info">
+                            <h4>Nina K.</h4>
+                            <p>Express Entry</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"I tried other platforms before, but Enprico's personalized approach is unmatched."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">TM</div>
+                        <div class="testimonial-info">
+                            <h4>Thomas M.</h4>
+                            <p>Quebec PEQ</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"From complete beginner to B2 in 6 months. The structured program really works!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SO</div>
+                        <div class="testimonial-info">
+                            <h4>Sandra O.</h4>
+                            <p>TEF Canada</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The 2-hour program fit perfectly into my schedule. Quality teaching in convenient sessions."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">PH</div>
+                        <div class="testimonial-info">
+                            <h4>Paul H.</h4>
+                            <p>France Immigration</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"My tutor identified my weak points quickly and focused on improving them. Very efficient!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AC</div>
+                        <div class="testimonial-info">
+                            <h4>Anna C.</h4>
+                            <p>TCF Preparation</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The referral program is great! I referred my friends and we all save money while learning."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">KR</div>
+                        <div class="testimonial-info">
+                            <h4>Kevin R.</h4>
+                            <p>Express Entry</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card scroll-animate">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Professional, punctual, and patient tutors. Enprico exceeded my expectations!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JD</div>
+                        <div class="testimonial-info">
+                            <h4>Jennifer D.</h4>
+                            <p>Canada Immigration</p>
                         </div>
                     </div>
                 </div>
@@ -1155,8 +1357,13 @@
                 loginBtn: 'Log In',
 
                 // Hero Section
-                heroTitle: 'French for TEF<br>& TCF Exams',
-                ctaButton: 'Join Us',
+                heroLabel: 'WE OFFER',
+                heroTitle: 'Specialized Tutoring To<br>Prepare You For TEF/TCF',
+                ctaButton: 'Enroll Now',
+
+                // Intro Section
+                introTitle: 'Personalized French Tutoring To Meet Express Entry Requirements',
+                introText: 'Learn French with expert tutors who adapt to your pace and learning style. From beginners to advanced learners, we have the perfect program for you. Our curriculum is specifically designed to help you succeed in TEF and TCF exams.',
 
                 // Tagline
                 brandLabel: 'enprico',
@@ -1193,15 +1400,33 @@
                 guaranteeText: 'Satisfaction guaranteed!',
 
                 // Pricing
+                pricingTitle: 'Our Classes And Fees',
+                pricingSubtitle: 'Choose the program that best fits your schedule and learning goals.',
                 pricingBadge: 'Professional',
                 pricingPrice1: '$160',
-                pricingDetails1: '2 hours per week<br>20$ per hour',
-                pricingPrice2: '$288',
-                pricingDetails2: '4 hours per week<br>18$ per hour',
+                pricingDetails1: '2 hours per week<br>8 hours per month',
+                pricingPrice2: '$280',
+                pricingDetails2: '4 hours per week<br>16 hours per month',
                 pricingContact: 'Contact Us',
                 enrollBtn: 'Enroll Now',
                 contactBtn: 'Contact Us',
                 pricingDesc: 'Perfect for exam preparation',
+
+                // Free Trial Section
+                freeTrialTitle: 'Try A Free Class',
+                freeTrialText: 'Not ready to commit? Book a free demo session to experience our teaching methodology firsthand.',
+                freeTrialBtn: 'Get Your Free Trial Class',
+                freeTrialNote: '* Note: Free trials are subject to availability and limited to one per student.',
+
+                // Referral Section
+                referralTitle: 'Join Our Referral Program',
+                referralHighlight: '$50 Off Every Month For You And Your Friends',
+                referralText: 'Help your friends learn French and save on your own education! It\'s a win-win for everyone involved in our community.',
+                referralBtn: 'Contact Us To Refer',
+                referralNote: 'Important Note: This referral discount applies only to the 4-hours/week program. Discounts cannot be combined or stacked with any other offers.',
+
+                // Testimonials Section
+                testimonialsTitle: 'What Our Students Say',
 
                 // Footer
                 footerContact: 'CONTACT US',
@@ -1282,8 +1507,13 @@
                 loginBtn: 'Se connecter',
 
                 // Hero Section
-                heroTitle: 'Français pour<br>TEF & TCF',
-                ctaButton: 'Rejoignez-nous',
+                heroLabel: 'NOUS OFFRONS',
+                heroTitle: 'Tutorat Spécialisé Pour<br>Vous Préparer au TEF/TCF',
+                ctaButton: 'S\'inscrire',
+
+                // Intro Section
+                introTitle: 'Tutorat Français Personnalisé Pour Répondre aux Exigences d\'Entrée Express',
+                introText: 'Apprenez le français avec des tuteurs experts qui s\'adaptent à votre rythme et à votre style d\'apprentissage. Des débutants aux apprenants avancés, nous avons le programme parfait pour vous. Notre programme est spécifiquement conçu pour vous aider à réussir les examens TEF et TCF.',
 
                 // Tagline
                 brandLabel: 'enprico',
@@ -1320,15 +1550,33 @@
                 guaranteeText: 'Satisfaction garantie !',
 
                 // Pricing
+                pricingTitle: 'Nos Cours et Tarifs',
+                pricingSubtitle: 'Choisissez le programme qui correspond le mieux à votre emploi du temps et vos objectifs d\'apprentissage.',
                 pricingBadge: 'Professionnel',
                 pricingPrice1: '160$',
-                pricingDetails1: '2 heures par semaine<br>20$ par heure',
-                pricingPrice2: '288$',
-                pricingDetails2: '4 heures par semaine<br>18$ par heure',
+                pricingDetails1: '2 heures par semaine<br>8 heures par mois',
+                pricingPrice2: '280$',
+                pricingDetails2: '4 heures par semaine<br>16 heures par mois',
                 pricingContact: 'Contactez-nous',
                 enrollBtn: 'S\'inscrire maintenant',
                 contactBtn: 'Contactez-nous',
                 pricingDesc: 'Parfait pour la préparation aux examens',
+
+                // Free Trial Section
+                freeTrialTitle: 'Essayez un Cours Gratuit',
+                freeTrialText: 'Pas encore prêt à vous engager ? Réservez une séance de démonstration gratuite pour découvrir notre méthodologie d\'enseignement.',
+                freeTrialBtn: 'Obtenez Votre Cours d\'Essai Gratuit',
+                freeTrialNote: '* Note : Les essais gratuits sont soumis à disponibilité et limités à un par étudiant.',
+
+                // Referral Section
+                referralTitle: 'Rejoignez Notre Programme de Parrainage',
+                referralHighlight: '50$ de Réduction Chaque Mois Pour Vous et Vos Amis',
+                referralText: 'Aidez vos amis à apprendre le français et économisez sur votre propre éducation ! C\'est gagnant-gagnant pour tous les membres de notre communauté.',
+                referralBtn: 'Contactez-nous Pour Parrainer',
+                referralNote: 'Note importante : Cette réduction de parrainage s\'applique uniquement au programme de 4 heures/semaine. Les réductions ne peuvent pas être combinées ou cumulées avec d\'autres offres.',
+
+                // Testimonials Section
+                testimonialsTitle: 'Ce Que Disent Nos Étudiants',
 
                 // Footer
                 footerContact: 'CONTACTEZ-NOUS',

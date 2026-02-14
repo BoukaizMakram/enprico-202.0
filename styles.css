@@ -423,6 +423,20 @@ html, body {
     gap: 2rem;
 }
 
+.hero-label {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--brand-yellow);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.hero-label-mobile {
+    display: none;
+}
+
 .hero-title {
     font-size: 3.75rem;
     font-weight: 700;
@@ -595,6 +609,174 @@ html, body {
     background: #f4cdd4;
     padding: 0.1em 0.4em;
     border-radius: 8px;
+}
+
+/* Intro Section */
+.intro-section {
+    background: white;
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.intro-section .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.intro-text {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    line-height: 1.8;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Free Trial Section */
+.free-trial-section {
+    background: linear-gradient(135deg, var(--brand-blue) 0%, #0056b3 100%);
+    padding: 5rem 0;
+    text-align: center;
+    color: white;
+}
+
+.free-trial-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.free-trial-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.free-trial-section .cta-button {
+    background: var(--brand-yellow);
+    font-size: 1.25rem;
+    padding: 1rem 2.5rem;
+}
+
+.free-trial-note {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: 1.5rem;
+}
+
+/* Referral Section */
+.referral-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.referral-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.referral-highlight {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--brand-blue);
+    margin-bottom: 1.5rem;
+}
+
+.referral-section p {
+    font-size: 1.125rem;
+    color: var(--gray-600);
+    max-width: 700px;
+    margin: 0 auto 2rem;
+}
+
+.referral-note {
+    font-size: 0.95rem;
+    color: var(--gray-500);
+    font-style: italic;
+    max-width: 600px;
+    margin: 1.5rem auto 0;
+}
+
+.referral-section .cta-button {
+    background: var(--brand-blue);
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    background: white;
+    padding: 5rem 0;
+}
+
+.testimonials-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.testimonial-card {
+    background: var(--gray-50);
+    border-radius: 1rem;
+    padding: 2rem;
+    position: relative;
+}
+
+.testimonial-stars {
+    color: #fbbf24;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.testimonial-text {
+    font-size: 1rem;
+    color: var(--gray-700);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.testimonial-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--brand-blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.testimonial-info h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+}
+
+.testimonial-info p {
+    font-size: 0.875rem;
+    color: var(--gray-500);
 }
 
 /* Scroll Animation Classes */
@@ -1019,10 +1201,35 @@ html, body {
     padding: 5rem 0;
 }
 
+.pricing-section .container {
+    max-width: 1600px;
+    padding: 0 2rem;
+}
+
 .pricing-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+}
+
+.pricing-grid-two {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 100%;
+    margin: 0 auto;
+    gap: 2.5rem;
+}
+
+.pricing-card-featured {
+    transform: scale(1.05);
+    box-shadow: 0 8px 40px rgba(0, 118, 199, 0.25);
+    z-index: 1;
+}
+
+.plan-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
 }
 
 .pricing-card {
@@ -2130,6 +2337,46 @@ html, body {
 
     .guarantee-section p {
         font-size: 1.75rem;
+    }
+
+    .hero-label-mobile {
+        display: block;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--brand-yellow);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-label {
+        display: none;
+    }
+
+    .intro-section .section-title {
+        font-size: 2rem;
+    }
+
+    .intro-text {
+        font-size: 1.1rem;
+    }
+
+    .pricing-grid-two {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .free-trial-section h2,
+    .referral-section h2,
+    .testimonials-section h2 {
+        font-size: 2rem;
+    }
+
+    .referral-highlight {
+        font-size: 1.5rem;
     }
 }
 
