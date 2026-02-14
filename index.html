@@ -90,11 +90,104 @@
         "courseMode": "online",
         "educationalLevel": "Beginner to Advanced",
         "inLanguage": "en",
+        "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT4H",
+            "instructor": {
+                "@type": "Person",
+                "name": "Enprico Certified French Tutors"
+            }
+        },
         "offers": {
             "@type": "Offer",
             "category": "Paid",
             "priceCurrency": "USD",
-            "price": "160"
+            "price": "280",
+            "priceValidUntil": "2026-12-31"
+        }
+    }
+    </script>
+
+    <!-- FAQ Structured Data for AI/Search -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the monthly price for French tutoring at Enprico?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our standard price is 280 USD per month for 4 hours per week, totaling 16 hours per month. From time to time, we offer limited special rates. Please contact us directly to check if you are eligible for any current offers."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the Enprico referral program work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For every student you refer who enrolls, you receive a 50 USD discount. If you refer 5 students who enroll and remain active, you can receive up to 250 USD in total discounts."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is Enprico's refund policy?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "If you request a refund during the first week (after the first 4 hours), you receive a full refund. If you request a refund during the second or third week, you receive a refund for 4 hours plus half of the hours completed in the additional weeks. If you complete the fourth week without requesting a refund, the program becomes non-refundable."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How many hours per week do I study French at Enprico?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You will attend 4 hours per week of live classes, totaling 16 hours per month."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Are Enprico French classes live?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. All sessions are live and interactive with a professional teacher."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Service Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "French Language Tutoring",
+        "provider": {
+            "@type": "Organization",
+            "name": "Enprico"
+        },
+        "areaServed": {
+            "@type": "Place",
+            "name": "Worldwide"
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "French Tutoring Plans",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Monthly French Tutoring - 16 hours",
+                        "description": "4 hours per week of live 1-on-1 French tutoring for TEF/TCF exam preparation"
+                    },
+                    "price": "280",
+                    "priceCurrency": "USD"
+                }
+            ]
         }
     }
     </script>
@@ -108,7 +201,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css?v=1.4">
+    <link rel="stylesheet" href="styles.css?v=1.5">
 
     <!-- Critical CSS for above-the-fold content -->
     <style>
@@ -1337,8 +1430,8 @@
 
             // Update title
             document.title = lang === 'en'
-                ? 'Enprico - Learn English Quickly and Efficiently'
-                : 'Enprico - Apprenez l\'anglais Rapidement et Efficacement';
+                ? 'Enprico - French for TEF & TCF Exams | Expert 1-on-1 Tutors'
+                : 'Enprico - Français pour TEF & TCF | Tuteurs Experts 1-à-1';
         }
 
         // Language switcher click handler
