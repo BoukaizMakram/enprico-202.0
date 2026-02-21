@@ -1187,6 +1187,33 @@
         </div>
     </div>
 
+    <!-- Email Capture Modal -->
+    <div class="modal" id="emailCaptureModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content email-capture-content">
+            <button class="modal-close" aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="email-capture-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h2 class="modal-title">Get Free French Tips!</h2>
+            <p class="modal-subtitle">Join our community and receive exclusive learning resources, tips, and special offers directly in your inbox.</p>
+            <form class="email-capture-form" id="emailCaptureForm">
+                <div class="form-group">
+                    <label for="captureEmail">Email Address</label>
+                    <input type="email" id="captureEmail" name="email" required placeholder="your@email.com">
+                </div>
+                <button type="submit" class="submit-btn">Subscribe Now</button>
+            </form>
+            <p class="email-capture-privacy">We respect your privacy. Unsubscribe at any time.</p>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-container">
@@ -1912,6 +1939,75 @@
                     closeModal(modal.id);
                 });
             }
+        });
+
+        // Email Capture Modal
+        document.addEventListener('DOMContentLoaded', () => {
+            const emailCaptureModal = document.getElementById('emailCaptureModal');
+            const emailCaptureForm = document.getElementById('emailCaptureForm');
+            const STORAGE_KEY = 'enprico_email_popup_shown';
+
+            // Check if popup has been shown before
+            const hasSeenPopup = localStorage.getItem(STORAGE_KEY);
+
+            if (!hasSeenPopup && emailCaptureModal) {
+                // Show popup after a short delay (3 seconds)
+                setTimeout(() => {
+                    openModal('emailCaptureModal');
+                    localStorage.setItem(STORAGE_KEY, 'true');
+                }, 3000);
+
+                // Setup close handlers
+                const closeBtn = emailCaptureModal.querySelector('.modal-close');
+                const overlay = emailCaptureModal.querySelector('.modal-overlay');
+
+                closeBtn?.addEventListener('click', () => closeModal('emailCaptureModal'));
+                overlay?.addEventListener('click', () => closeModal('emailCaptureModal'));
+            }
+
+            // Handle form submission
+            emailCaptureForm?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const submitBtn = emailCaptureForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                const email = emailCaptureForm.email.value;
+
+                // Disable button and show loading state
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Subscribing...';
+
+                try {
+                    const response = await fetch('/send-email.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            name: 'Newsletter Subscriber',
+                            email: email,
+                            subject: 'New Newsletter Subscription',
+                            message: `New email subscription from: ${email}`
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert('Thank you for subscribing! Check your inbox for updates.');
+                        emailCaptureForm.reset();
+                        closeModal('emailCaptureModal');
+                    } else {
+                        alert(result.message || 'Failed to subscribe. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Email capture error:', error);
+                    alert('An error occurred. Please try again later.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
         });
 
         // Articles Loading and Display
