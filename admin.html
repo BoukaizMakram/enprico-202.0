@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Enprico</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #0c5ff9;
+            --brand-dark: #083d7a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-500: #64748b;
+            --gray-700: #334155;
+            --gray-900: #0f172a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gray-100);
+            min-height: 100vh;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--brand-blue), var(--brand-dark));
+        }
+
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box h1 {
+            font-size: 1.5rem;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .login-box p {
+            color: var(--gray-500);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-box .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .login-box label {
+            display: block;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--brand-blue);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .login-btn:hover {
+            background: var(--brand-dark);
+        }
+
+        .login-error {
+            color: var(--danger);
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Admin Dashboard */
+        .admin-container {
+            display: none;
+        }
+
+        .admin-container.active {
+            display: block;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: var(--gray-900);
+            color: white;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .sidebar-logo span {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-500);
+            margin-bottom: 0.75rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            color: var(--gray-300);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: var(--brand-blue);
+            color: white;
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background: var(--brand-blue);
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .nav-item.active .badge {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            color: var(--gray-900);
+        }
+
+        .page-subtitle {
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--brand-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--brand-dark);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon.blue { background: rgba(12, 95, 249, 0.1); color: var(--brand-blue); }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .stat-icon.yellow { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .stat-icon.red { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .stat-label {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        /* Data Table */
+        .data-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .data-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .data-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gray-100);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            width: 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        .search-box svg {
+            color: var(--gray-500);
+            width: 18px;
+            height: 18px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+        }
+
+        .data-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table tr {
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .status-pending { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .status-inactive { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .status-expired { background: rgba(100, 116, 139, 0.1); color: var(--gray-500); }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .action-btn.view { background: rgba(12, 95, 249, 0.1); color: var(--brand-blue); }
+        .action-btn.edit { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .action-btn.delete { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Tabs */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gray-100);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--brand-blue);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: var(--gray-500);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-200);
+            border-top-color: var(--brand-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray-500);
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Logout button */
+        .logout-btn {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+                padding: 1rem;
+            }
+
+            .sidebar-logo span,
+            .nav-section-title,
+            .nav-item span {
+                display: none;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 0.75rem;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <h1>Admin Dashboard</h1>
+            <p>Sign in to manage your Enprico platform</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="adminEmail">Email</label>
+                    <input type="email" id="adminEmail" required placeholder="admin@enprico.com">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" required placeholder="Enter password">
+                </div>
+                <button type="submit" class="login-btn">Sign In</button>
+                <p class="login-error" id="loginError">Invalid credentials</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-container" id="adminContainer">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="images/favicon.png" alt="Enprico" onerror="this.style.display='none'">
+                <span>Enprico Admin</span>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-section-title">Overview</div>
+                    <div class="nav-item active" data-tab="dashboard">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="9" rx="1"/>
+                            <rect x="14" y="3" width="7" height="5" rx="1"/>
+                            <rect x="14" y="12" width="7" height="9" rx="1"/>
+                            <rect x="3" y="16" width="7" height="5" rx="1"/>
+                        </svg>
+                        <span>Dashboard</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Management</div>
+                    <div class="nav-item" data-tab="subscribers">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <span>Subscribers</span>
+                        <span class="badge" id="subscriberCount">0</span>
+                    </div>
+                    <div class="nav-item" data-tab="students">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        <span>Students</span>
+                        <span class="badge" id="studentCount">0</span>
+                    </div>
+                    <div class="nav-item" data-tab="registrations">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="8.5" cy="7" r="4"/>
+                            <line x1="20" y1="8" x2="20" y2="14"/>
+                            <line x1="23" y1="11" x2="17" y2="11"/>
+                        </svg>
+                        <span>Registrations</span>
+                        <span class="badge" id="registrationCount">0</span>
+                    </div>
+                    <div class="nav-item" data-tab="subscriptions">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                            <line x1="1" y1="10" x2="23" y2="10"/>
+                        </svg>
+                        <span>Subscriptions</span>
+                    </div>
+                </div>
+            </nav>
+
+            <button class="nav-item logout-btn" onclick="logout()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                <span>Logout</span>
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Tab -->
+            <div class="tab-content active" id="tab-dashboard">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Dashboard</h1>
+                        <p class="page-subtitle">Welcome back! Here's an overview of your platform.</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="refreshData()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23 4 23 10 17 10"/>
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                            </svg>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-icon blue">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="statSubscribers">-</div>
+                        <div class="stat-label">Newsletter Subscribers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-icon green">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="statStudents">-</div>
+                        <div class="stat-label">Active Students</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-icon yellow">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="8.5" cy="7" r="4"/>
+                                    <line x1="20" y1="8" x2="20" y2="14"/>
+                                    <line x1="23" y1="11" x2="17" y2="11"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="statPending">-</div>
+                        <div class="stat-label">Pending Registrations</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-icon red">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                    <line x1="1" y1="10" x2="23" y2="10"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="statRevenue">-</div>
+                        <div class="stat-label">Active Subscriptions</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">Recent Subscribers</h2>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Source</th>
+                                <th>Subscribed</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentSubscribers">
+                            <tr><td colspan="4" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Subscribers Tab -->
+            <div class="tab-content" id="tab-subscribers">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Newsletter Subscribers</h1>
+                        <p class="page-subtitle">Manage your email subscribers</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="exportSubscribers()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">All Subscribers</h2>
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" placeholder="Search subscribers..." id="searchSubscribers" oninput="filterSubscribers()">
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Source</th>
+                                <th>Subscribed Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscribersTable">
+                            <tr><td colspan="5" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Students Tab -->
+            <div class="tab-content" id="tab-students">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Students</h1>
+                        <p class="page-subtitle">Manage student profiles and details</p>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">All Students</h2>
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" placeholder="Search students..." id="searchStudents" oninput="filterStudents()">
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Level</th>
+                                <th>Plan</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTable">
+                            <tr><td colspan="6" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Registrations Tab -->
+            <div class="tab-content" id="tab-registrations">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Pending Registrations</h1>
+                        <p class="page-subtitle">Users who started registration but haven't completed payment</p>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">All Registrations</h2>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Plan</th>
+                                <th>Level</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationsTable">
+                            <tr><td colspan="7" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Subscriptions Tab -->
+            <div class="tab-content" id="tab-subscriptions">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Subscriptions</h1>
+                        <p class="page-subtitle">Manage active and past subscriptions</p>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">All Subscriptions</h2>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Plan</th>
+                                <th>Amount</th>
+                                <th>Start Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscriptionsTable">
+                            <tr><td colspan="6" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Student Modal -->
+    <div class="modal-overlay" id="editStudentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Student</h2>
+                <button class="modal-close" onclick="closeModal('editStudentModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editStudentForm">
+                    <input type="hidden" id="editStudentId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editFullName">Full Name</label>
+                            <input type="text" id="editFullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input type="email" id="editEmail" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editPhone">Phone</label>
+                            <input type="tel" id="editPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="editLevel">French Level</label>
+                            <select id="editLevel">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="native">Native</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTimezone">Timezone</label>
+                        <input type="text" id="editTimezone">
+                    </div>
+                    <div class="form-group">
+                        <label for="editGoals">Goals Description</label>
+                        <textarea id="editGoals" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('editStudentModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveStudent()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Details Modal -->
+    <div class="modal-overlay" id="viewDetailsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="viewDetailsTitle">Details</h2>
+                <button class="modal-close" onclick="closeModal('viewDetailsModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="viewDetailsContent">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('viewDetailsModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin credentials (in production, this should be server-side)
+        const ADMIN_EMAIL = 'admin@enprico.com';
+        const ADMIN_PASSWORD = 'Enprico2025!';
+
+        // State
+        let subscribers = [];
+        let students = [];
+        let registrations = [];
+        let subscriptions = [];
+
+        // Check if already logged in
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            showDashboard();
+        }
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                showDashboard();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        });
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminContainer').classList.add('active');
+            loadAllData();
+        }
+
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            location.reload();
+        }
+
+        // Tab Navigation
+        document.querySelectorAll('.nav-item[data-tab]').forEach(item => {
+            item.addEventListener('click', () => {
+                // Update nav
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                // Show tab
+                const tabId = item.dataset.tab;
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                document.getElementById('tab-' + tabId).classList.add('active');
+            });
+        });
+
+        // Load all data
+        async function loadAllData() {
+            await Promise.all([
+                loadSubscribers(),
+                loadStudents(),
+                loadRegistrations(),
+                loadSubscriptions()
+            ]);
+            updateStats();
+        }
+
+        function refreshData() {
+            loadAllData();
+        }
+
+        // API calls
+        async function loadSubscribers() {
+            try {
+                const response = await fetch('/api/admin/subscribers.php');
+                const data = await response.json();
+                if (data.success) {
+                    subscribers = data.data || [];
+                    renderSubscribers();
+                    renderRecentSubscribers();
+                }
+            } catch (error) {
+                console.error('Error loading subscribers:', error);
+                subscribers = [];
+                renderSubscribers();
+            }
+        }
+
+        async function loadStudents() {
+            try {
+                const response = await fetch('/api/admin/students.php');
+                const data = await response.json();
+                if (data.success) {
+                    students = data.data || [];
+                    renderStudents();
+                }
+            } catch (error) {
+                console.error('Error loading students:', error);
+                students = [];
+                renderStudents();
+            }
+        }
+
+        async function loadRegistrations() {
+            try {
+                const response = await fetch('/api/admin/registrations.php');
+                const data = await response.json();
+                if (data.success) {
+                    registrations = data.data || [];
+                    renderRegistrations();
+                }
+            } catch (error) {
+                console.error('Error loading registrations:', error);
+                registrations = [];
+                renderRegistrations();
+            }
+        }
+
+        async function loadSubscriptions() {
+            try {
+                const response = await fetch('/api/admin/subscriptions.php');
+                const data = await response.json();
+                if (data.success) {
+                    subscriptions = data.data || [];
+                    renderSubscriptions();
+                }
+            } catch (error) {
+                console.error('Error loading subscriptions:', error);
+                subscriptions = [];
+                renderSubscriptions();
+            }
+        }
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('statSubscribers').textContent = subscribers.length;
+            document.getElementById('statStudents').textContent = students.length;
+            document.getElementById('statPending').textContent = registrations.filter(r => r.status === 'pending').length;
+            document.getElementById('statRevenue').textContent = subscriptions.filter(s => s.status === 'active').length;
+
+            document.getElementById('subscriberCount').textContent = subscribers.length;
+            document.getElementById('studentCount').textContent = students.length;
+            document.getElementById('registrationCount').textContent = registrations.filter(r => r.status === 'pending').length;
+        }
+
+        // Render functions
+        function renderSubscribers() {
+            const tbody = document.getElementById('subscribersTable');
+            if (subscribers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No subscribers yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = subscribers.map(sub => `
+                <tr>
+                    <td>${sub.email}</td>
+                    <td>${sub.source || 'website'}</td>
+                    <td>${formatDate(sub.subscribed_at)}</td>
+                    <td><span class="status-badge ${sub.is_active ? 'status-active' : 'status-inactive'}">${sub.is_active ? 'Active' : 'Unsubscribed'}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn delete" onclick="deleteSubscriber('${sub.id}')" title="Delete">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderRecentSubscribers() {
+            const tbody = document.getElementById('recentSubscribers');
+            const recent = subscribers.slice(0, 5);
+
+            if (recent.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No subscribers yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = recent.map(sub => `
+                <tr>
+                    <td>${sub.email}</td>
+                    <td>${sub.source || 'website'}</td>
+                    <td>${formatDate(sub.subscribed_at)}</td>
+                    <td><span class="status-badge ${sub.is_active ? 'status-active' : 'status-inactive'}">${sub.is_active ? 'Active' : 'Unsubscribed'}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function renderStudents() {
+            const tbody = document.getElementById('studentsTable');
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No students yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = students.map(student => `
+                <tr>
+                    <td>${student.full_name || '-'}</td>
+                    <td>${student.email || '-'}</td>
+                    <td>${student.phone || '-'}</td>
+                    <td>${capitalizeFirst(student.french_level) || '-'}</td>
+                    <td>${student.plan_type ? capitalizeFirst(student.plan_type) : '-'}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn view" onclick="viewStudent('${student.id}')" title="View">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <button class="action-btn edit" onclick="editStudent('${student.id}')" title="Edit">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderRegistrations() {
+            const tbody = document.getElementById('registrationsTable');
+            if (registrations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No pending registrations</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = registrations.map(reg => `
+                <tr>
+                    <td>${reg.full_name}</td>
+                    <td>${reg.email}</td>
+                    <td>${capitalizeFirst(reg.plan_type)}</td>
+                    <td>${capitalizeFirst(reg.french_level)}</td>
+                    <td><span class="status-badge status-${reg.status}">${capitalizeFirst(reg.status)}</span></td>
+                    <td>${formatDate(reg.created_at)}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn view" onclick="viewRegistration('${reg.id}')" title="View">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderSubscriptions() {
+            const tbody = document.getElementById('subscriptionsTable');
+            if (subscriptions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No subscriptions yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = subscriptions.map(sub => `
+                <tr>
+                    <td>${sub.user_name || sub.user_email || '-'}</td>
+                    <td>${capitalizeFirst(sub.plan_type)}</td>
+                    <td>$${sub.amount || '-'} CAD</td>
+                    <td>${formatDate(sub.start_date)}</td>
+                    <td><span class="status-badge status-${sub.status}">${capitalizeFirst(sub.status)}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn view" onclick="viewSubscription('${sub.id}')" title="View">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Student actions
+        function viewStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (!student) return;
+
+            document.getElementById('viewDetailsTitle').textContent = student.full_name || 'Student Details';
+            document.getElementById('viewDetailsContent').innerHTML = `
+                <div class="form-group"><label>Email</label><p>${student.email || '-'}</p></div>
+                <div class="form-group"><label>Phone</label><p>${student.phone || '-'}</p></div>
+                <div class="form-group"><label>French Level</label><p>${capitalizeFirst(student.french_level) || '-'}</p></div>
+                <div class="form-group"><label>Timezone</label><p>${student.timezone || '-'}</p></div>
+                <div class="form-group"><label>Goals</label><p>${student.goals_description || '-'}</p></div>
+                <div class="form-group"><label>Preferred Days</label><p>${(student.preferred_days || []).join(', ') || '-'}</p></div>
+                <div class="form-group"><label>Preferred Times</label><p>${(student.preferred_times || []).join(', ') || '-'}</p></div>
+            `;
+            openModal('viewDetailsModal');
+        }
+
+        function editStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (!student) return;
+
+            document.getElementById('editStudentId').value = student.id;
+            document.getElementById('editFullName').value = student.full_name || '';
+            document.getElementById('editEmail').value = student.email || '';
+            document.getElementById('editPhone').value = student.phone || '';
+            document.getElementById('editLevel').value = student.french_level || 'beginner';
+            document.getElementById('editTimezone').value = student.timezone || '';
+            document.getElementById('editGoals').value = student.goals_description || '';
+
+            openModal('editStudentModal');
+        }
+
+        async function saveStudent() {
+            const id = document.getElementById('editStudentId').value;
+            const data = {
+                id: id,
+                full_name: document.getElementById('editFullName').value,
+                email: document.getElementById('editEmail').value,
+                phone: document.getElementById('editPhone').value,
+                french_level: document.getElementById('editLevel').value,
+                timezone: document.getElementById('editTimezone').value,
+                goals_description: document.getElementById('editGoals').value
+            };
+
+            try {
+                const response = await fetch('/api/admin/students.php', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    closeModal('editStudentModal');
+                    loadStudents();
+                    alert('Student updated successfully!');
+                } else {
+                    alert(result.message || 'Failed to update student');
+                }
+            } catch (error) {
+                alert('Error updating student');
+            }
+        }
+
+        function viewRegistration(id) {
+            const reg = registrations.find(r => r.id === id);
+            if (!reg) return;
+
+            document.getElementById('viewDetailsTitle').textContent = reg.full_name;
+            document.getElementById('viewDetailsContent').innerHTML = `
+                <div class="form-group"><label>Email</label><p>${reg.email}</p></div>
+                <div class="form-group"><label>Phone</label><p>${reg.phone || '-'}</p></div>
+                <div class="form-group"><label>Plan</label><p>${capitalizeFirst(reg.plan_type)}</p></div>
+                <div class="form-group"><label>French Level</label><p>${capitalizeFirst(reg.french_level)}</p></div>
+                <div class="form-group"><label>Learning Goals</label><p>${(reg.learning_goals || []).join(', ') || '-'}</p></div>
+                <div class="form-group"><label>Goals Description</label><p>${reg.goals_description || '-'}</p></div>
+                <div class="form-group"><label>Preferred Days</label><p>${(reg.preferred_days || []).join(', ') || '-'}</p></div>
+                <div class="form-group"><label>Preferred Times</label><p>${(reg.preferred_times || []).join(', ') || '-'}</p></div>
+                <div class="form-group"><label>Timezone</label><p>${reg.timezone || '-'}</p></div>
+                <div class="form-group"><label>Status</label><p>${capitalizeFirst(reg.status)}</p></div>
+                <div class="form-group"><label>Created</label><p>${formatDate(reg.created_at)}</p></div>
+            `;
+            openModal('viewDetailsModal');
+        }
+
+        function viewSubscription(id) {
+            const sub = subscriptions.find(s => s.id === id);
+            if (!sub) return;
+
+            document.getElementById('viewDetailsTitle').textContent = 'Subscription Details';
+            document.getElementById('viewDetailsContent').innerHTML = `
+                <div class="form-group"><label>Student</label><p>${sub.user_name || sub.user_email || '-'}</p></div>
+                <div class="form-group"><label>Plan</label><p>${capitalizeFirst(sub.plan_type)}</p></div>
+                <div class="form-group"><label>Amount</label><p>$${sub.amount || '-'} CAD</p></div>
+                <div class="form-group"><label>Status</label><p>${capitalizeFirst(sub.status)}</p></div>
+                <div class="form-group"><label>Start Date</label><p>${formatDate(sub.start_date)}</p></div>
+                <div class="form-group"><label>End Date</label><p>${formatDate(sub.end_date)}</p></div>
+                <div class="form-group"><label>Stripe Customer ID</label><p>${sub.stripe_customer_id || '-'}</p></div>
+            `;
+            openModal('viewDetailsModal');
+        }
+
+        async function deleteSubscriber(id) {
+            if (!confirm('Are you sure you want to delete this subscriber?')) return;
+
+            try {
+                const response = await fetch('/api/admin/subscribers.php', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    loadSubscribers();
+                    updateStats();
+                } else {
+                    alert(result.message || 'Failed to delete subscriber');
+                }
+            } catch (error) {
+                alert('Error deleting subscriber');
+            }
+        }
+
+        // Export functions
+        function exportSubscribers() {
+            if (subscribers.length === 0) {
+                alert('No subscribers to export');
+                return;
+            }
+
+            const csv = [
+                ['Email', 'Source', 'Subscribed Date', 'Status'].join(','),
+                ...subscribers.map(s => [
+                    s.email,
+                    s.source || 'website',
+                    s.subscribed_at,
+                    s.is_active ? 'Active' : 'Unsubscribed'
+                ].join(','))
+            ].join('\n');
+
+            downloadCSV(csv, 'enprico-subscribers.csv');
+        }
+
+        function downloadCSV(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Filter functions
+        function filterSubscribers() {
+            const search = document.getElementById('searchSubscribers').value.toLowerCase();
+            const filtered = subscribers.filter(s => s.email.toLowerCase().includes(search));
+            const tbody = document.getElementById('subscribersTable');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No matching subscribers</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(sub => `
+                <tr>
+                    <td>${sub.email}</td>
+                    <td>${sub.source || 'website'}</td>
+                    <td>${formatDate(sub.subscribed_at)}</td>
+                    <td><span class="status-badge ${sub.is_active ? 'status-active' : 'status-inactive'}">${sub.is_active ? 'Active' : 'Unsubscribed'}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn delete" onclick="deleteSubscriber('${sub.id}')" title="Delete">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterStudents() {
+            const search = document.getElementById('searchStudents').value.toLowerCase();
+            const filtered = students.filter(s =>
+                (s.full_name || '').toLowerCase().includes(search) ||
+                (s.email || '').toLowerCase().includes(search)
+            );
+            const tbody = document.getElementById('studentsTable');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No matching students</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(student => `
+                <tr>
+                    <td>${student.full_name || '-'}</td>
+                    <td>${student.email || '-'}</td>
+                    <td>${student.phone || '-'}</td>
+                    <td>${capitalizeFirst(student.french_level) || '-'}</td>
+                    <td>${student.plan_type ? capitalizeFirst(student.plan_type) : '-'}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn view" onclick="viewStudent('${student.id}')" title="View">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <button class="action-btn edit" onclick="editStudent('${student.id}')" title="Edit">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Modal functions
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Helper functions
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function capitalizeFirst(str) {
+            if (!str) return '';
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
