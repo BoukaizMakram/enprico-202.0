@@ -1279,6 +1279,13 @@ html, body {
     line-height: 1;
 }
 
+.price-info .price .currency-label {
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0.9;
+    vertical-align: middle;
+}
+
 .price-details {
     font-size: 1.125rem;
     opacity: 0.95;

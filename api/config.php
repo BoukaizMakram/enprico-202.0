@@ -93,16 +93,18 @@ define('STRIPE_WEBHOOK_SECRET', env('STRIPE_WEBHOOK_SECRET'));
 define('STRIPE_PRICE_STARTER', env('STRIPE_PRICE_STARTER'));
 define('STRIPE_PRICE_PROFESSIONAL', env('STRIPE_PRICE_PROFESSIONAL'));
 
-// Plan configurations
+// Plan configurations (CAD)
 define('PLANS', [
     'starter' => [
-        'price' => 160,
+        'price' => 250,
         'hours' => 8,
+        'currency' => 'cad',
         'priceId' => STRIPE_PRICE_STARTER
     ],
     'professional' => [
-        'price' => 288,
+        'price' => 400,
         'hours' => 16,
+        'currency' => 'cad',
         'priceId' => STRIPE_PRICE_PROFESSIONAL
     ]
 ]);

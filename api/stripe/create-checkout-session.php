@@ -33,15 +33,15 @@ validateConfig(['STRIPE_SECRET_KEY']);
 
 $stripeSecretKey = STRIPE_SECRET_KEY;
 
-// Plan configurations with Stripe Price IDs
+// Plan configurations with Stripe Price IDs (CAD)
 $planPrices = [
     'starter' => [
         'priceId' => STRIPE_PRICE_STARTER,
-        'amount' => 16000  // $160.00 in cents (fallback for ad-hoc pricing)
+        'amount' => 25000  // $250.00 CAD in cents (fallback for ad-hoc pricing)
     ],
     'professional' => [
         'priceId' => STRIPE_PRICE_PROFESSIONAL,
-        'amount' => 28800  // $288.00 in cents (fallback for ad-hoc pricing)
+        'amount' => 40000  // $400.00 CAD in cents (fallback for ad-hoc pricing)
     ]
 ];
 
@@ -112,7 +112,7 @@ $postFields = [
     'payment_method_types[0]' => 'card',
     'mode' => 'payment',
     'customer_email' => $userEmail,
-    'line_items[0][price_data][currency]' => 'usd',
+    'line_items[0][price_data][currency]' => 'cad',
     'line_items[0][price_data][product_data][name]' => ucfirst($planType) . ' Plan - Enprico French Tutoring',
     'line_items[0][price_data][product_data][description]' => $planType === 'starter'
         ? '8 hours of 1-on-1 French tutoring for TEF/TCF (2 hours/week)'

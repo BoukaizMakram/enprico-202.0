@@ -3,27 +3,30 @@
  * Uses Stripe Checkout Sessions for payments
  */
 
-// Plan configurations
+// Plan configurations (CAD)
 export const PLANS = {
     starter: {
-        name: 'Starter Plan',
-        price: 160,
+        name: 'Flexible Plan',
+        price: 250,
+        currency: 'CAD',
         hours: 8,
         hoursPerWeek: 2,
-        pricePerHour: 20,
-        description: '2 hours of English tutoring per week ($20/hour)'
+        pricePerHour: 31.25,
+        description: '2 hours of French tutoring per week ($31.25 CAD/hour)'
     },
     professional: {
-        name: 'Professional Plan',
-        price: 288,
+        name: 'Standard Plan',
+        price: 400,
+        currency: 'CAD',
         hours: 16,
         hoursPerWeek: 4,
-        pricePerHour: 18,
-        description: '4 hours of English tutoring per week ($18/hour)'
+        pricePerHour: 25,
+        description: '4 hours of French tutoring per week ($25 CAD/hour)'
     },
     enterprise: {
         name: 'Enterprise Plan',
         price: 0,
+        currency: 'CAD',
         hours: 0,
         description: 'Custom plan for teams and organizations'
     }
