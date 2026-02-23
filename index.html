@@ -2259,6 +2259,52 @@
             100% { transform: rotate(360deg); }
         }
     </style>
+
+    <!-- UTM Traffic Tracking -->
+    <script>
+    (function() {
+        // Only track if there are UTM parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmSource = urlParams.get('utm_source');
+
+        // Only proceed if utm_source is present
+        if (!utmSource) return;
+
+        // Check if already tracked this session
+        const sessionKey = 'enprico_tracked_' + (utmSource || 'direct');
+        if (sessionStorage.getItem(sessionKey)) return;
+
+        // Generate session ID
+        const sessionId = 'sess_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+
+        // Collect visitor data
+        const trafficData = {
+            utm_source: utmSource,
+            utm_medium: urlParams.get('utm_medium'),
+            utm_campaign: urlParams.get('utm_campaign'),
+            utm_term: urlParams.get('utm_term'),
+            utm_content: urlParams.get('utm_content'),
+            referrer: document.referrer || null,
+            landing_page: window.location.pathname,
+            user_agent: navigator.userAgent,
+            screen_resolution: window.screen.width + 'x' + window.screen.height,
+            language: navigator.language || navigator.userLanguage,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            session_id: sessionId
+        };
+
+        // Send to tracking API
+        fetch('/api/traffic/track.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(trafficData)
+        }).then(() => {
+            sessionStorage.setItem(sessionKey, 'true');
+        }).catch(err => {
+            console.log('Traffic tracking error:', err);
+        });
+    })();
+    </script>
 </body>
 </html>
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17824978170"></script>

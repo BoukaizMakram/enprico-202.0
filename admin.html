@@ -721,6 +721,13 @@
                         </svg>
                         <span>Subscriptions</span>
                     </div>
+                    <div class="nav-item" data-tab="traffic">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                        <span>Traffic</span>
+                        <span class="badge" id="trafficCount">0</span>
+                    </div>
                 </div>
             </nav>
 
@@ -977,6 +984,106 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Traffic Tab -->
+            <div class="tab-content" id="tab-traffic">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Traffic Analytics</h1>
+                        <p class="page-subtitle">Track visitors from UTM campaigns (Reddit, Facebook, etc.)</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="exportTraffic()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Traffic Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-icon blue">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="statTotalVisits">-</div>
+                        <div class="stat-label">Total UTM Visits</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-icon green">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="statTodayVisits">-</div>
+                        <div class="stat-label">Today's Visits</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-icon yellow">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="statTopSource">-</div>
+                        <div class="stat-label">Top Source</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-icon red">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                    <line x1="8" y1="21" x2="16" y2="21"/>
+                                    <line x1="12" y1="17" x2="12" y2="21"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="statTopDevice">-</div>
+                        <div class="stat-label">Top Device</div>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">All Traffic</h2>
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            <input type="text" placeholder="Filter by source..." id="searchTraffic" oninput="filterTraffic()">
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Source</th>
+                                <th>Medium</th>
+                                <th>Campaign</th>
+                                <th>Device</th>
+                                <th>Browser</th>
+                                <th>Location</th>
+                                <th>Visited</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trafficTable">
+                            <tr><td colspan="7" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -1067,6 +1174,7 @@
         let students = [];
         let registrations = [];
         let subscriptions = [];
+        let traffic = [];
 
         // Check if already logged in
         if (localStorage.getItem('adminLoggedIn') === 'true') {
@@ -1118,7 +1226,8 @@
                 loadSubscribers(),
                 loadStudents(),
                 loadRegistrations(),
-                loadSubscriptions()
+                loadSubscriptions(),
+                loadTraffic()
             ]);
             updateStats();
         }
@@ -1189,6 +1298,22 @@
             }
         }
 
+        async function loadTraffic() {
+            try {
+                const response = await fetch('/api/admin/traffic.php');
+                const data = await response.json();
+                if (data.success) {
+                    traffic = data.data || [];
+                    renderTraffic();
+                    updateTrafficStats();
+                }
+            } catch (error) {
+                console.error('Error loading traffic:', error);
+                traffic = [];
+                renderTraffic();
+            }
+        }
+
         // Update stats
         function updateStats() {
             document.getElementById('statSubscribers').textContent = subscribers.length;
@@ -1199,6 +1324,35 @@
             document.getElementById('subscriberCount').textContent = subscribers.length;
             document.getElementById('studentCount').textContent = students.length;
             document.getElementById('registrationCount').textContent = registrations.filter(r => r.status === 'pending').length;
+            document.getElementById('trafficCount').textContent = traffic.length;
+        }
+
+        function updateTrafficStats() {
+            // Total visits
+            document.getElementById('statTotalVisits').textContent = traffic.length;
+
+            // Today's visits
+            const today = new Date().toDateString();
+            const todayVisits = traffic.filter(t => new Date(t.visited_at).toDateString() === today).length;
+            document.getElementById('statTodayVisits').textContent = todayVisits;
+
+            // Top source
+            const sourceCounts = {};
+            traffic.forEach(t => {
+                const source = t.utm_source || 'direct';
+                sourceCounts[source] = (sourceCounts[source] || 0) + 1;
+            });
+            const topSource = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1])[0];
+            document.getElementById('statTopSource').textContent = topSource ? topSource[0] : '-';
+
+            // Top device
+            const deviceCounts = {};
+            traffic.forEach(t => {
+                const device = t.device_type || 'unknown';
+                deviceCounts[device] = (deviceCounts[device] || 0) + 1;
+            });
+            const topDevice = Object.entries(deviceCounts).sort((a, b) => b[1] - a[1])[0];
+            document.getElementById('statTopDevice').textContent = topDevice ? capitalizeFirst(topDevice[0]) : '-';
         }
 
         // Render functions
@@ -1337,6 +1491,76 @@
                     </td>
                 </tr>
             `).join('');
+        }
+
+        function renderTraffic() {
+            const tbody = document.getElementById('trafficTable');
+            if (traffic.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No traffic data yet. Share your UTM link to start tracking!</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = traffic.map(t => `
+                <tr>
+                    <td><strong>${t.utm_source || '-'}</strong></td>
+                    <td>${t.utm_medium || '-'}</td>
+                    <td>${t.utm_campaign || '-'}</td>
+                    <td>${capitalizeFirst(t.device_type) || '-'}</td>
+                    <td>${t.browser || '-'}</td>
+                    <td>${t.timezone || '-'}</td>
+                    <td>${formatDate(t.visited_at)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function filterTraffic() {
+            const search = document.getElementById('searchTraffic').value.toLowerCase();
+            const filtered = traffic.filter(t =>
+                (t.utm_source || '').toLowerCase().includes(search) ||
+                (t.utm_medium || '').toLowerCase().includes(search) ||
+                (t.utm_campaign || '').toLowerCase().includes(search)
+            );
+            const tbody = document.getElementById('trafficTable');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No matching traffic</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(t => `
+                <tr>
+                    <td><strong>${t.utm_source || '-'}</strong></td>
+                    <td>${t.utm_medium || '-'}</td>
+                    <td>${t.utm_campaign || '-'}</td>
+                    <td>${capitalizeFirst(t.device_type) || '-'}</td>
+                    <td>${t.browser || '-'}</td>
+                    <td>${t.timezone || '-'}</td>
+                    <td>${formatDate(t.visited_at)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function exportTraffic() {
+            if (traffic.length === 0) {
+                alert('No traffic data to export');
+                return;
+            }
+
+            const csv = [
+                ['Source', 'Medium', 'Campaign', 'Device', 'Browser', 'OS', 'Timezone', 'Visited At'].join(','),
+                ...traffic.map(t => [
+                    t.utm_source || '',
+                    t.utm_medium || '',
+                    t.utm_campaign || '',
+                    t.device_type || '',
+                    t.browser || '',
+                    t.os || '',
+                    t.timezone || '',
+                    t.visited_at || ''
+                ].join(','))
+            ].join('\n');
+
+            downloadCSV(csv, 'enprico-traffic.csv');
         }
 
         // Student actions
