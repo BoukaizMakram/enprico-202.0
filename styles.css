@@ -946,29 +946,6 @@ html, body {
     border-radius: 4px;
 }
 
-/* Write Review Link */
-.write-review-link {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.write-review-link a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #1a73e8;
-    font-size: 0.875rem;
-    font-weight: 500;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: background 0.2s ease;
-}
-
-.write-review-link a:hover {
-    background: #e8f0fe;
-}
-
 /* Responsive Testimonials */
 @media (max-width: 1024px) {
     .testimonial-card {
