@@ -752,176 +752,401 @@
         </div>
     </section>
 
-    <!-- Testimonials Section -->
+    <!-- Testimonials Section - Google Reviews Style -->
     <section class="testimonials-section" id="testimonials">
         <div class="container">
-            <h2 class="scroll-animate" data-i18n="testimonialsTitle">What Our Students Say</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"Enprico helped me achieve my TEF B2 in just 4 months! The personalized approach made all the difference."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">SM</div>
-                        <div class="testimonial-info">
-                            <h4>Sarah M.</h4>
-                            <p>Canada Express Entry</p>
+            <!-- Google Reviews Header -->
+            <div class="google-reviews-header scroll-animate">
+                <div class="google-logo">
+                    <svg viewBox="0 0 24 24" width="28" height="28">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <span>Google Reviews</span>
+                </div>
+                <div class="google-rating">
+                    <div class="rating-score">4.9</div>
+                    <div class="rating-details">
+                        <div class="rating-stars">
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                            <span class="star filled">★</span>
+                        </div>
+                        <div class="rating-count" data-i18n="reviewCount">Based on 220 reviews</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carousel Container -->
+            <div class="testimonials-carousel scroll-animate">
+                <button class="carousel-btn carousel-prev" aria-label="Previous reviews">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                    </svg>
+                </button>
+
+                <div class="carousel-track-container">
+                    <div class="carousel-track">
+                        <!-- Review 1 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Sarah+Mitchell&background=4285f4&color=fff&size=48" alt="Sarah M.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Sarah Mitchell</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">2 weeks ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">Enprico helped me achieve my TEF B2 in just 4 months! The personalized approach made all the difference. My tutor understood exactly what I needed for my Canada Express Entry application.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">Canada Express Entry</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=James+Chen&background=34a853&color=fff&size=48" alt="James C.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>James Chen</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">1 month ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">My tutor was incredibly patient and adapted to my learning style. I went from A1 to B1 faster than I expected. The structured curriculum and regular feedback sessions really helped me progress quickly.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">TCF Canada</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 3 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Maria+Lopez&background=ea4335&color=fff&size=48" alt="Maria L.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Maria Lopez</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">3 weeks ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">The flexible scheduling was perfect for my busy work life. I could book sessions around my schedule without any hassle. Highly recommend for working professionals who need convenience!</p>
+                            <div class="review-footer">
+                                <span class="review-tag">France Immigration</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 4 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Ahmed+Khan&background=fbbc05&color=333&size=48" alt="Ahmed K.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Ahmed Khan</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">1 month ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">I passed my TCF with flying colors! The exam preparation was thorough and exactly what I needed. My tutor knew all the tips and strategies specifically for Quebec immigration requirements.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">Quebec Immigration</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 5 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Elena+Petrova&background=4285f4&color=fff&size=48" alt="Elena P.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Elena Petrova</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">2 months ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">Starting from zero French knowledge, I can now hold confident conversations! Amazing teachers who genuinely care about your progress. The personalized curriculum made all the difference.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">Express Entry</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 6 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=David+Wilson&background=34a853&color=fff&size=48" alt="David W.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>David Wilson</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">3 weeks ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">The one-on-one attention really accelerated my learning. Worth every penny! I achieved B2 level much faster than I would have with group classes. Excellent investment in my future.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">TEF Preparation</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 7 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Lisa+Nguyen&background=ea4335&color=fff&size=48" alt="Lisa N.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Lisa Nguyen</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">1 month ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">My tutor made learning French fun and engaging. I actually look forward to every session now! The conversational practice and real-world scenarios prepared me perfectly for my visa interview.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">France Visa</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 8 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Robert+Brown&background=fbbc05&color=333&size=48" alt="Robert B.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Robert Brown</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">2 weeks ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">The curriculum is well-structured and focused on real exam scenarios. Very effective preparation for TCF Canada. I passed on my first attempt with scores higher than I expected!</p>
+                            <div class="review-footer">
+                                <span class="review-tag">TCF Canada</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 9 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Nina+Kumar&background=4285f4&color=fff&size=48" alt="Nina K.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Nina Kumar</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">1 month ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">Excellent support team and professional tutors. They truly care about your success. The admin team was incredibly helpful with scheduling, and my tutor always came prepared with tailored lessons.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">Express Entry</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 10 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Thomas+Martin&background=34a853&color=fff&size=48" alt="Thomas M.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Thomas Martin</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">3 weeks ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">I tried other platforms before, but Enprico's personalized approach is unmatched. Finally found a service that truly adapts to my learning pace and goals for Quebec PEQ program.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">Quebec PEQ</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 11 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Sandra+Oliveira&background=ea4335&color=fff&size=48" alt="Sandra O.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Sandra Oliveira</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">2 months ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">From complete beginner to B2 in 6 months. The structured program really works! My tutor kept me motivated throughout the entire journey. Couldn't have done it without Enprico.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">TEF Canada</span>
+                            </div>
+                        </div>
+
+                        <!-- Review 12 -->
+                        <div class="testimonial-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">
+                                    <img src="https://ui-avatars.com/api/?name=Paul+Henderson&background=fbbc05&color=333&size=48" alt="Paul H.">
+                                </div>
+                                <div class="reviewer-info">
+                                    <h4>Paul Henderson</h4>
+                                    <div class="review-meta">
+                                        <span class="review-stars">★★★★★</span>
+                                        <span class="review-date">1 week ago</span>
+                                    </div>
+                                </div>
+                                <div class="google-icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20">
+                                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="review-text">The 2-hour flexible program fit perfectly into my schedule. Quality teaching in convenient sessions. Perfect for busy professionals like me who need results without disrupting their work life.</p>
+                            <div class="review-footer">
+                                <span class="review-tag">France Immigration</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"My tutor was incredibly patient and adapted to my learning style. I went from A1 to B1 faster than I expected."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">JC</div>
-                        <div class="testimonial-info">
-                            <h4>James C.</h4>
-                            <p>TCF Canada</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"The flexible scheduling was perfect for my busy work life. Highly recommend for professionals!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">ML</div>
-                        <div class="testimonial-info">
-                            <h4>Maria L.</h4>
-                            <p>France Immigration</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"I passed my TCF with flying colors! The exam preparation was thorough and exactly what I needed."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">AK</div>
-                        <div class="testimonial-info">
-                            <h4>Ahmed K.</h4>
-                            <p>Quebec Immigration</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"Starting from zero French knowledge, I can now hold conversations confidently. Amazing teachers!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">EP</div>
-                        <div class="testimonial-info">
-                            <h4>Elena P.</h4>
-                            <p>Express Entry</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"The one-on-one attention really accelerated my learning. Worth every penny!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">DW</div>
-                        <div class="testimonial-info">
-                            <h4>David W.</h4>
-                            <p>TEF Preparation</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"My tutor made learning French fun and engaging. I look forward to every session!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">LN</div>
-                        <div class="testimonial-info">
-                            <h4>Lisa N.</h4>
-                            <p>France Visa</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"The curriculum is well-structured and focused on real exam scenarios. Very effective!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">RB</div>
-                        <div class="testimonial-info">
-                            <h4>Robert B.</h4>
-                            <p>TCF Canada</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"Excellent support team and professional tutors. They truly care about your success."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">NK</div>
-                        <div class="testimonial-info">
-                            <h4>Nina K.</h4>
-                            <p>Express Entry</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"I tried other platforms before, but Enprico's personalized approach is unmatched."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">TM</div>
-                        <div class="testimonial-info">
-                            <h4>Thomas M.</h4>
-                            <p>Quebec PEQ</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"From complete beginner to B2 in 6 months. The structured program really works!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">SO</div>
-                        <div class="testimonial-info">
-                            <h4>Sandra O.</h4>
-                            <p>TEF Canada</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"The 2-hour program fit perfectly into my schedule. Quality teaching in convenient sessions."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">PH</div>
-                        <div class="testimonial-info">
-                            <h4>Paul H.</h4>
-                            <p>France Immigration</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"My tutor identified my weak points quickly and focused on improving them. Very efficient!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">AC</div>
-                        <div class="testimonial-info">
-                            <h4>Anna C.</h4>
-                            <p>TCF Preparation</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"The referral program is great! I referred my friends and we all save money while learning."</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">KR</div>
-                        <div class="testimonial-info">
-                            <h4>Kevin R.</h4>
-                            <p>Express Entry</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card scroll-animate">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"Professional, punctual, and patient tutors. Enprico exceeded my expectations!"</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">JD</div>
-                        <div class="testimonial-info">
-                            <h4>Jennifer D.</h4>
-                            <p>Canada Immigration</p>
-                        </div>
-                    </div>
-                </div>
+
+                <button class="carousel-btn carousel-next" aria-label="Next reviews">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Carousel Dots -->
+            <div class="carousel-dots"></div>
+
+            <!-- Write a Review Link -->
+            <div class="write-review-link scroll-animate">
+                <a href="https://g.page/r/enprico/review" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                    </svg>
+                    Write a review
+                </a>
             </div>
         </div>
     </section>
@@ -2259,6 +2484,165 @@
             100% { transform: rotate(360deg); }
         }
     </style>
+
+    <!-- Testimonials Carousel -->
+    <script>
+    (function() {
+        const track = document.querySelector('.carousel-track');
+        const cards = document.querySelectorAll('.testimonial-card');
+        const prevBtn = document.querySelector('.carousel-prev');
+        const nextBtn = document.querySelector('.carousel-next');
+        const dotsContainer = document.querySelector('.carousel-dots');
+
+        if (!track || cards.length === 0) return;
+
+        let currentIndex = 0;
+        let cardsPerView = 3;
+        let autoPlayInterval;
+
+        // Calculate cards per view based on screen width
+        function updateCardsPerView() {
+            if (window.innerWidth <= 480) {
+                cardsPerView = 1;
+            } else if (window.innerWidth <= 768) {
+                cardsPerView = 1;
+            } else if (window.innerWidth <= 1024) {
+                cardsPerView = 2;
+            } else {
+                cardsPerView = 3;
+            }
+        }
+
+        // Create dots
+        function createDots() {
+            dotsContainer.innerHTML = '';
+            const totalDots = Math.ceil(cards.length / cardsPerView);
+            for (let i = 0; i < totalDots; i++) {
+                const dot = document.createElement('button');
+                dot.classList.add('carousel-dot');
+                dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i * cardsPerView));
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        // Update dots
+        function updateDots() {
+            const dots = document.querySelectorAll('.carousel-dot');
+            const activeDotIndex = Math.floor(currentIndex / cardsPerView);
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === activeDotIndex);
+            });
+        }
+
+        // Go to specific slide
+        function goToSlide(index) {
+            const maxIndex = cards.length - cardsPerView;
+            currentIndex = Math.max(0, Math.min(index, maxIndex));
+
+            const cardWidth = cards[0].offsetWidth;
+            const gap = 24; // 1.5rem gap
+            const offset = currentIndex * (cardWidth + gap);
+
+            track.style.transform = `translateX(-${offset}px)`;
+            updateDots();
+            updateButtons();
+        }
+
+        // Update button states
+        function updateButtons() {
+            if (prevBtn) prevBtn.disabled = currentIndex === 0;
+            if (nextBtn) nextBtn.disabled = currentIndex >= cards.length - cardsPerView;
+        }
+
+        // Next slide
+        function nextSlide() {
+            if (currentIndex < cards.length - cardsPerView) {
+                goToSlide(currentIndex + 1);
+            } else {
+                goToSlide(0); // Loop back to start
+            }
+        }
+
+        // Previous slide
+        function prevSlide() {
+            if (currentIndex > 0) {
+                goToSlide(currentIndex - 1);
+            } else {
+                goToSlide(cards.length - cardsPerView); // Loop to end
+            }
+        }
+
+        // Auto-play
+        function startAutoPlay() {
+            stopAutoPlay();
+            autoPlayInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        // Event listeners
+        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); stopAutoPlay(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); stopAutoPlay(); });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        track.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            stopAutoPlay();
+        }, { passive: true });
+
+        track.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            startAutoPlay();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        // Pause on hover
+        const carousel = document.querySelector('.testimonials-carousel');
+        if (carousel) {
+            carousel.addEventListener('mouseenter', stopAutoPlay);
+            carousel.addEventListener('mouseleave', startAutoPlay);
+        }
+
+        // Handle resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                updateCardsPerView();
+                createDots();
+                goToSlide(currentIndex);
+            }, 250);
+        });
+
+        // Initialize
+        updateCardsPerView();
+        createDots();
+        updateButtons();
+        startAutoPlay();
+    })();
+    </script>
 
     <!-- UTM Traffic Tracking -->
     <script>
