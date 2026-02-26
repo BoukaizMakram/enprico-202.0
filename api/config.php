@@ -93,7 +93,11 @@ define('STRIPE_WEBHOOK_SECRET', env('STRIPE_WEBHOOK_SECRET'));
 define('STRIPE_PRICE_STARTER', env('STRIPE_PRICE_STARTER'));
 define('STRIPE_PRICE_PROFESSIONAL', env('STRIPE_PRICE_PROFESSIONAL'));
 
-// Plan configurations (CAD)
+// English Stripe Price IDs
+define('STRIPE_ENGLISH_FLEXIBLE', env('STRIPE_ENGLISH_FLEXIBLE'));
+define('STRIPE_ENGLISH_STANDARD', env('STRIPE_ENGLISH_STANDARD'));
+
+// French Plan configurations (CAD)
 define('PLANS', [
     'starter' => [
         'price' => 250,
@@ -106,6 +110,22 @@ define('PLANS', [
         'hours' => 16,
         'currency' => 'cad',
         'priceId' => STRIPE_PRICE_PROFESSIONAL
+    ]
+]);
+
+// English Plan configurations (USD)
+define('ENGLISH_PLANS', [
+    'flexible' => [
+        'price' => 160,
+        'hours' => 8,
+        'currency' => 'usd',
+        'priceId' => STRIPE_ENGLISH_FLEXIBLE
+    ],
+    'standard' => [
+        'price' => 300,
+        'hours' => 16,
+        'currency' => 'usd',
+        'priceId' => STRIPE_ENGLISH_STANDARD
     ]
 ]);
 
