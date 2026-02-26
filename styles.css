@@ -1436,7 +1436,7 @@ html, body {
 }
 
 .pricing-grid {
-    display: grid;
+    /* display: grid; */
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
 }
@@ -2491,7 +2491,7 @@ html, body {
     }
 
     .pricing-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
     }
 }
 
