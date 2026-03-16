@@ -125,12 +125,6 @@ $postFields = [
     'allow_promotion_codes' => 'true'
 ];
 
-// Add customer name if available
-if ($customerName && trim($customerName) !== '') {
-    $postFields['customer_creation'] = 'always';
-    $postFields['customer_data[name]'] = trim($customerName);
-}
-
 // Add metadata
 foreach ($metadata as $key => $value) {
     $postFields["metadata[$key]"] = $value;

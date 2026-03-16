@@ -379,33 +379,54 @@ function supabaseRequest($method, $endpoint, $data = null) {
  * Send admin notification email
  */
 function sendAdminNotification($customerEmail, $planType, $amount, $hours, $transactionId, $userType = 'EXISTING USER') {
-    $adminEmail = 'learn@enprico.com';
-    $subject = "New Stripe Payment: $planType plan ($userType)";
+    $smtp_host = 'smtp.hostinger.com';
+    $smtp_port = 465;
+    $smtp_user = 'learn@enprico.com';
+    $smtp_pass = 'Mboukaiz42*@';
 
-    $message = "A payment was received via Stripe!\n\n";
-    $message .= "User Type: $userType\n";
-    $message .= "Customer Email: $customerEmail\n";
-    $message .= "Plan: " . ucfirst($planType) . "\n";
-    $message .= "Amount: \$$amount\n";
-    $message .= "Hours: $hours\n";
-    $message .= "Transaction ID: $transactionId\n";
-    $message .= "Time: " . date('Y-m-d H:i:s') . "\n";
+    $planName = ucfirst($planType) . ' Package';
+    $subject = "New Payment Received: $planName ($userType)";
 
-    // Try to send via the existing send-email.php mechanism
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://enprico.com/send-email.php');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-        'name' => 'Enprico System',
-        'email' => 'noreply@enprico.com',
-        'subject' => $subject,
-        'message' => $message
-    ]));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    $body = "
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #0076c7, #0C5FF9); color: white; padding: 30px; border-radius: 8px 8px 0 0; text-align: center; }
+        .content { background: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
+        .info { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .info p { margin: 8px 0; }
+        .info strong { color: #0076c7; }
+        .footer { background: #f8f9fa; color: #666; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; font-size: 13px; border: 1px solid #e0e0e0; border-top: none; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1 style='margin:0; font-size: 24px;'>New Payment Received!</h1>
+        </div>
+        <div class='content'>
+            <p>A student has just completed a payment.</p>
+            <div class='info'>
+                <p><strong>User Type:</strong> $userType</p>
+                <p><strong>Student Email:</strong> " . htmlspecialchars($customerEmail) . "</p>
+                <p><strong>Plan:</strong> $planName</p>
+                <p><strong>Amount:</strong> \$$amount</p>
+                <p><strong>Hours:</strong> $hours hours/month</p>
+                <p><strong>Transaction ID:</strong> $transactionId</p>
+                <p><strong>Date:</strong> " . date('Y-m-d H:i:s') . "</p>
+            </div>
+        </div>
+        <div class='footer'>
+            &copy; " . date('Y') . " Enprico - Admin Notification
+        </div>
+    </div>
+</body>
+</html>";
 
-    curl_exec($ch);
-    curl_close($ch);
+    return sendDirectSMTP($smtp_host, $smtp_port, $smtp_user, $smtp_pass, 'learn@enprico.com', $subject, $body);
 }
 
 /**
@@ -441,11 +462,14 @@ function generateUserPassword($fullName, $hours) {
  * Send welcome email with login credentials
  */
 function sendWelcomeEmail($email, $fullName, $password, $planType, $hours) {
-    // Get first name for greeting
+    $smtp_host = 'smtp.hostinger.com';
+    $smtp_port = 465;
+    $smtp_user = 'learn@enprico.com';
+    $smtp_pass = 'Mboukaiz42*@';
+
     $nameParts = explode(' ', trim($fullName));
     $firstName = ucfirst(strtolower($nameParts[0]));
 
-    // Plan name
     $planName = ucfirst($planType) . ' Package';
     if ($planType === 'starter') {
         $planName = 'Starter Package (2 hours/week)';
@@ -455,41 +479,123 @@ function sendWelcomeEmail($email, $fullName, $password, $planType, $hours) {
 
     $subject = "Welcome to Enprico - Your Account Details";
 
-    $message = "Hello $firstName,\n\n";
-    $message .= "Thank you for your payment and for choosing Enprico's $planName for French tutoring and TEF/TCF exam preparation. We truly appreciate your trust.\n\n";
-    $message .= "Our team will review your request and will be in touch within 5 business days with the next steps to start your French learning journey.\n\n";
-    $message .= "Your account details:\n\n";
-    $message .= "Email: $email\n";
-    $message .= "Temporary password: $password\n";
-    $message .= "Login: https://enprico.com/login.html\n\n";
-    $message .= "For security reasons, we strongly recommend changing your password after your first login.\n\n";
-    $message .= "If you need any further information or assistance, feel free to contact us at learn@enprico.com.\n\n";
-    $message .= "Best regards,\n";
-    $message .= "The Enprico Team";
+    $body = "
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #0076c7, #0C5FF9); color: white; padding: 30px; border-radius: 8px 8px 0 0; text-align: center; }
+        .content { background: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
+        .credentials { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .credentials p { margin: 8px 0; }
+        .credentials strong { color: #0076c7; }
+        .footer { background: #f8f9fa; color: #666; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; font-size: 13px; border: 1px solid #e0e0e0; border-top: none; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1 style='margin:0; font-size: 28px;'>Welcome to Enprico!</h1>
+        </div>
+        <div class='content'>
+            <p>Hello $firstName,</p>
+            <p>Thank you for your payment and for choosing Enprico's <strong>$planName</strong>. We truly appreciate your trust.</p>
+            <p>Our team will review your request and will be in touch within 5 business days with the next steps.</p>
+            <div class='credentials'>
+                <p style='margin-bottom: 15px; font-weight: bold; color: #333;'>Your Account Details:</p>
+                <p><strong>Email:</strong> $email</p>
+                <p><strong>Temporary Password:</strong> $password</p>
+                <p><strong>Login:</strong> <a href='https://enprico.com/login.html' style='color: #0076c7;'>https://enprico.com/login.html</a></p>
+            </div>
+            <p><strong style='color: #dc2626;'>Important:</strong> For security reasons, we strongly recommend changing your password after your first login.</p>
+            <p>If you need any further information or assistance, feel free to contact us at <a href='mailto:learn@enprico.com' style='color: #0076c7;'>learn@enprico.com</a>.</p>
+            <p>Best regards,<br><strong>The Enprico Team</strong></p>
+        </div>
+        <div class='footer'>
+            &copy; " . date('Y') . " Enprico - Learn French with Expert Tutors<br>
+            <a href='https://enprico.com' style='color: #0076c7;'>www.enprico.com</a>
+        </div>
+    </div>
+</body>
+</html>";
 
-    // Send email to user
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://enprico.com/send-email.php');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-        'name' => 'Enprico',
-        'email' => 'learn@enprico.com',
-        'to' => $email,
-        'subject' => $subject,
-        'message' => $message
-    ]));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    return sendDirectSMTP($smtp_host, $smtp_port, $smtp_user, $smtp_pass, $email, $subject, $body);
+}
 
-    $response = curl_exec($ch);
-    $success = curl_getinfo($ch, CURLINFO_HTTP_CODE) === 200;
-    curl_close($ch);
+function sendDirectSMTP($host, $port, $user, $pass, $to, $subject, $body) {
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: Enprico <{$user}>\r\n";
+    $headers .= "Reply-To: Enprico <{$user}>\r\n";
 
-    if ($success) {
-        error_log("Welcome email sent to: $email");
-    } else {
-        error_log("Failed to send welcome email to: $email - Response: $response");
+    $context = stream_context_create([
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ]
+    ]);
+
+    $socket = @stream_socket_client(
+        "ssl://{$host}:{$port}",
+        $errno,
+        $errstr,
+        30,
+        STREAM_CLIENT_CONNECT,
+        $context
+    );
+
+    if (!$socket) {
+        error_log("SMTP connection failed: $errstr ($errno)");
+        return false;
     }
 
-    return $success;
+    $response = fgets($socket, 515);
+
+    fputs($socket, "EHLO enprico.com\r\n");
+    while ($line = fgets($socket, 515)) {
+        if (substr($line, 3, 1) == ' ') break;
+    }
+
+    fputs($socket, "AUTH LOGIN\r\n");
+    fgets($socket, 515);
+
+    fputs($socket, base64_encode($user) . "\r\n");
+    fgets($socket, 515);
+
+    fputs($socket, base64_encode($pass) . "\r\n");
+    $auth_response = fgets($socket, 515);
+
+    if (substr($auth_response, 0, 3) != '235') {
+        error_log("SMTP auth failed: $auth_response");
+        fclose($socket);
+        return false;
+    }
+
+    fputs($socket, "MAIL FROM:<{$user}>\r\n");
+    fgets($socket, 515);
+
+    fputs($socket, "RCPT TO:<{$to}>\r\n");
+    fgets($socket, 515);
+
+    fputs($socket, "DATA\r\n");
+    fgets($socket, 515);
+
+    $msg = "To: {$to}\r\n";
+    $msg .= "Subject: {$subject}\r\n";
+    $msg .= $headers;
+    $msg .= "\r\n";
+    $msg .= $body;
+    $msg .= "\r\n.\r\n";
+
+    fputs($socket, $msg);
+    fgets($socket, 515);
+
+    fputs($socket, "QUIT\r\n");
+    fclose($socket);
+
+    error_log("Welcome email sent to: $to");
+    return true;
 }

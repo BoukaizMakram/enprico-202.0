@@ -964,7 +964,7 @@
         import {
             RegistrationForm,
             PLANS,
-            ENGLISH_LEVELS,
+            FRENCH_LEVELS,
             LEARNING_GOALS,
             DAYS,
             TIME_SLOTS,
@@ -1015,7 +1015,7 @@
 
         function populateLevelGrid() {
             const grid = document.getElementById('levelGrid');
-            grid.innerHTML = ENGLISH_LEVELS.map(level => `
+            grid.innerHTML = FRENCH_LEVELS.map(level => `
                 <div class="level-card ${form.formData.englishLevel === level.id ? 'selected' : ''}"
                      data-level="${level.id}"
                      onclick="selectLevel('${level.id}')">

@@ -84,14 +84,33 @@ if ($isNewUser && $registrationId) {
 
     // Check if registration already completed (user already exists)
     if ($registration['status'] === 'completed') {
-        // User was already created by webhook - just return success
+        // User was already created by webhook - send email again as backup and return success
         $existingUser = getUserByEmailFromAuth($supabaseUrl, $supabaseServiceKey, $registration['email']);
         if ($existingUser) {
+            // Re-generate password and send welcome email as backup
+            $generatedPassword = generateUserPassword($registration['full_name'], $plan['hours']);
+            sendWelcomeEmailDirect(
+                $registration['email'],
+                $registration['full_name'],
+                $generatedPassword,
+                $planType,
+                $plan['hours']
+            );
+            sendAdminNotificationDirect(
+                $registration['email'],
+                $registration['full_name'],
+                $planType,
+                $plan['hours'],
+                $sessionId,
+                'NEW USER'
+            );
+
             echo json_encode([
                 'success' => true,
                 'alreadyCompleted' => true,
                 'userEmail' => $registration['email'],
                 'fullName' => $registration['full_name'],
+                'temporaryPassword' => $generatedPassword,
                 'planType' => $planType,
                 'hours' => $plan['hours'],
                 'message' => 'Your account is ready. Check your email for login credentials.'

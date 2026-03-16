@@ -31,8 +31,6 @@ export const FRENCH_LEVELS = [
     { id: 'native', name: 'Native/Fluent', description: 'I want to refine my skills' }
 ];
 
-// Keep for backwards compatibility
-export const ENGLISH_LEVELS = FRENCH_LEVELS;
 
 // Learning goals
 export const LEARNING_GOALS = [
@@ -404,7 +402,7 @@ export class RegistrationForm {
     }
 
     getEnglishLevelName() {
-        const level = ENGLISH_LEVELS.find(l => l.id === this.formData.englishLevel);
+        const level = FRENCH_LEVELS.find(l => l.id === this.formData.englishLevel);
         return level ? level.name : '';
     }
 

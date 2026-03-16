@@ -724,37 +724,6 @@
                 </div>
 
                 <div class="nav-section">
-                    <div class="nav-section-title">English Tutoring</div>
-                    <div class="nav-item" data-tab="english-students">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="9" cy="7" r="4"/>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                        </svg>
-                        <span>English Students</span>
-                        <span class="badge" id="englishStudentCount">0</span>
-                    </div>
-                    <div class="nav-item" data-tab="english-registrations">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                            <circle cx="8.5" cy="7" r="4"/>
-                            <line x1="20" y1="8" x2="20" y2="14"/>
-                            <line x1="23" y1="11" x2="17" y2="11"/>
-                        </svg>
-                        <span>English Registrations</span>
-                        <span class="badge" id="englishRegistrationCount">0</span>
-                    </div>
-                    <div class="nav-item" data-tab="english-subscriptions">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                            <line x1="1" y1="10" x2="23" y2="10"/>
-                        </svg>
-                        <span>English Subscriptions</span>
-                    </div>
-                </div>
-
-                <div class="nav-section">
                     <div class="nav-section-title">Analytics</div>
                     <div class="nav-item" data-tab="traffic">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1020,107 +989,6 @@
                 </div>
             </div>
 
-            <!-- English Students Tab -->
-            <div class="tab-content" id="tab-english-students">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">English Students</h1>
-                        <p class="page-subtitle">Manage English tutoring student profiles</p>
-                    </div>
-                </div>
-
-                <div class="data-card">
-                    <div class="data-card-header">
-                        <h2 class="data-card-title">All English Students</h2>
-                        <div class="search-box">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"/>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            </svg>
-                            <input type="text" placeholder="Search English students..." id="searchEnglishStudents" oninput="filterEnglishStudents()">
-                        </div>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Level</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="englishStudentsTable">
-                            <tr><td colspan="6" class="loading"><div class="spinner"></div></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- English Registrations Tab -->
-            <div class="tab-content" id="tab-english-registrations">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">English Registrations</h1>
-                        <p class="page-subtitle">English tutoring registration requests</p>
-                    </div>
-                </div>
-
-                <div class="data-card">
-                    <div class="data-card-header">
-                        <h2 class="data-card-title">All English Registrations</h2>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Plan</th>
-                                <th>Level</th>
-                                <th>Status</th>
-                                <th>Created</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="englishRegistrationsTable">
-                            <tr><td colspan="7" class="loading"><div class="spinner"></div></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- English Subscriptions Tab -->
-            <div class="tab-content" id="tab-english-subscriptions">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">English Subscriptions</h1>
-                        <p class="page-subtitle">Manage English tutoring subscriptions</p>
-                    </div>
-                </div>
-
-                <div class="data-card">
-                    <div class="data-card-header">
-                        <h2 class="data-card-title">All English Subscriptions</h2>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Student</th>
-                                <th>Plan</th>
-                                <th>Amount</th>
-                                <th>Hours</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="englishSubscriptionsTable">
-                            <tr><td colspan="6" class="loading"><div class="spinner"></div></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
             <!-- Traffic Tab -->
             <div class="tab-content" id="tab-traffic">
                 <div class="page-header">
@@ -1311,10 +1179,6 @@
         let registrations = [];
         let subscriptions = [];
         let traffic = [];
-        // English State
-        let englishStudents = [];
-        let englishRegistrations = [];
-        let englishSubscriptions = [];
 
         // Check if already logged in
         if (localStorage.getItem('adminLoggedIn') === 'true') {
@@ -1367,10 +1231,7 @@
                 loadStudents(),
                 loadRegistrations(),
                 loadSubscriptions(),
-                loadTraffic(),
-                loadEnglishStudents(),
-                loadEnglishRegistrations(),
-                loadEnglishSubscriptions()
+                loadTraffic()
             ]);
             updateStats();
         }
@@ -1457,67 +1318,18 @@
             }
         }
 
-        // English API calls
-        async function loadEnglishStudents() {
-            try {
-                const response = await fetch('/api/admin/english-students.php');
-                const data = await response.json();
-                if (data.success) {
-                    englishStudents = data.data || [];
-                    renderEnglishStudents();
-                }
-            } catch (error) {
-                console.error('Error loading English students:', error);
-                englishStudents = [];
-                renderEnglishStudents();
-            }
-        }
-
-        async function loadEnglishRegistrations() {
-            try {
-                const response = await fetch('/api/admin/english-registrations.php');
-                const data = await response.json();
-                if (data.success) {
-                    englishRegistrations = data.data || [];
-                    renderEnglishRegistrations();
-                }
-            } catch (error) {
-                console.error('Error loading English registrations:', error);
-                englishRegistrations = [];
-                renderEnglishRegistrations();
-            }
-        }
-
-        async function loadEnglishSubscriptions() {
-            try {
-                const response = await fetch('/api/admin/english-subscriptions.php');
-                const data = await response.json();
-                if (data.success) {
-                    englishSubscriptions = data.data || [];
-                    renderEnglishSubscriptions();
-                }
-            } catch (error) {
-                console.error('Error loading English subscriptions:', error);
-                englishSubscriptions = [];
-                renderEnglishSubscriptions();
-            }
-        }
-
         // Update stats
         function updateStats() {
             document.getElementById('statSubscribers').textContent = subscribers.length;
-            document.getElementById('statStudents').textContent = students.length + englishStudents.length;
-            document.getElementById('statPending').textContent = registrations.filter(r => r.status === 'pending').length + englishRegistrations.filter(r => r.status === 'pending').length;
-            document.getElementById('statRevenue').textContent = subscriptions.filter(s => s.status === 'active').length + englishSubscriptions.filter(s => s.status === 'active').length;
+            document.getElementById('statStudents').textContent = students.length;
+            document.getElementById('statPending').textContent = registrations.filter(r => r.status === 'pending').length;
+            document.getElementById('statRevenue').textContent = subscriptions.filter(s => s.status === 'active').length;
 
             document.getElementById('subscriberCount').textContent = subscribers.length;
             document.getElementById('studentCount').textContent = students.length;
             document.getElementById('registrationCount').textContent = registrations.filter(r => r.status === 'pending').length;
             document.getElementById('trafficCount').textContent = traffic.length;
 
-            // English counts
-            document.getElementById('englishStudentCount').textContent = englishStudents.length;
-            document.getElementById('englishRegistrationCount').textContent = englishRegistrations.filter(r => r.status === 'pending').length;
         }
 
         function updateTrafficStats() {
@@ -1702,180 +1514,6 @@
                     <td>${t.browser || '-'}</td>
                     <td>${t.timezone || '-'}</td>
                     <td>${formatDate(t.visited_at)}</td>
-                </tr>
-            `).join('');
-        }
-
-        // English Render Functions
-        function renderEnglishStudents() {
-            const tbody = document.getElementById('englishStudentsTable');
-            if (englishStudents.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No English students yet</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = englishStudents.map(student => `
-                <tr>
-                    <td>${student.full_name || '-'}</td>
-                    <td>${student.email || '-'}</td>
-                    <td>${student.phone || '-'}</td>
-                    <td>${capitalizeFirst(student.english_level) || '-'}</td>
-                    <td><span class="status-badge status-${student.status || 'active'}">${capitalizeFirst(student.status) || 'Active'}</span></td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="action-btn view" onclick="viewEnglishStudent('${student.id}')" title="View">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function renderEnglishRegistrations() {
-            const tbody = document.getElementById('englishRegistrationsTable');
-            if (englishRegistrations.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No English registrations yet</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = englishRegistrations.map(reg => `
-                <tr>
-                    <td>${reg.full_name}</td>
-                    <td>${reg.email}</td>
-                    <td>${capitalizeFirst(reg.plan_type)}</td>
-                    <td>${capitalizeFirst(reg.english_level)}</td>
-                    <td><span class="status-badge status-${reg.status}">${capitalizeFirst(reg.status)}</span></td>
-                    <td>${formatDate(reg.created_at)}</td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="action-btn view" onclick="viewEnglishRegistration('${reg.id}')" title="View">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function renderEnglishSubscriptions() {
-            const tbody = document.getElementById('englishSubscriptionsTable');
-            if (englishSubscriptions.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No English subscriptions yet</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = englishSubscriptions.map(sub => `
-                <tr>
-                    <td>${sub.student_name || sub.student_email || '-'}</td>
-                    <td>${capitalizeFirst(sub.plan_type)}</td>
-                    <td>$${(sub.amount_paid / 100) || '-'} USD</td>
-                    <td>${sub.hours_total || '-'} hours</td>
-                    <td><span class="status-badge status-${sub.status}">${capitalizeFirst(sub.status)}</span></td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="action-btn view" onclick="viewEnglishSubscription('${sub.id}')" title="View">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // English View Functions
-        function viewEnglishStudent(id) {
-            const student = englishStudents.find(s => s.id === id);
-            if (!student) return;
-
-            document.getElementById('viewDetailsTitle').textContent = student.full_name || 'English Student Details';
-            document.getElementById('viewDetailsContent').innerHTML = `
-                <div class="form-group"><label>Email</label><p>${student.email || '-'}</p></div>
-                <div class="form-group"><label>Phone</label><p>${student.phone || '-'}</p></div>
-                <div class="form-group"><label>English Level</label><p>${capitalizeFirst(student.english_level) || '-'}</p></div>
-                <div class="form-group"><label>Learning Goals</label><p>${student.learning_goals || '-'}</p></div>
-                <div class="form-group"><label>Timezone</label><p>${student.timezone || '-'}</p></div>
-                <div class="form-group"><label>Status</label><p>${capitalizeFirst(student.status) || 'Active'}</p></div>
-                <div class="form-group"><label>Notes</label><p>${student.notes || '-'}</p></div>
-                <div class="form-group"><label>Created</label><p>${formatDate(student.created_at)}</p></div>
-            `;
-            openModal('viewDetailsModal');
-        }
-
-        function viewEnglishRegistration(id) {
-            const reg = englishRegistrations.find(r => r.id === id);
-            if (!reg) return;
-
-            document.getElementById('viewDetailsTitle').textContent = reg.full_name;
-            document.getElementById('viewDetailsContent').innerHTML = `
-                <div class="form-group"><label>Email</label><p>${reg.email}</p></div>
-                <div class="form-group"><label>Phone</label><p>${reg.phone || '-'}</p></div>
-                <div class="form-group"><label>Plan</label><p>${capitalizeFirst(reg.plan_type)}</p></div>
-                <div class="form-group"><label>English Level</label><p>${capitalizeFirst(reg.english_level)}</p></div>
-                <div class="form-group"><label>Learning Goals</label><p>${reg.learning_goals || '-'}</p></div>
-                <div class="form-group"><label>Status</label><p>${capitalizeFirst(reg.status)}</p></div>
-                <div class="form-group"><label>Created</label><p>${formatDate(reg.created_at)}</p></div>
-            `;
-            openModal('viewDetailsModal');
-        }
-
-        function viewEnglishSubscription(id) {
-            const sub = englishSubscriptions.find(s => s.id === id);
-            if (!sub) return;
-
-            document.getElementById('viewDetailsTitle').textContent = 'English Subscription Details';
-            document.getElementById('viewDetailsContent').innerHTML = `
-                <div class="form-group"><label>Student</label><p>${sub.student_name || sub.student_email || '-'}</p></div>
-                <div class="form-group"><label>Plan</label><p>${capitalizeFirst(sub.plan_type)}</p></div>
-                <div class="form-group"><label>Amount</label><p>$${(sub.amount_paid / 100) || '-'} USD</p></div>
-                <div class="form-group"><label>Hours Total</label><p>${sub.hours_total || '-'}</p></div>
-                <div class="form-group"><label>Hours Remaining</label><p>${sub.hours_remaining || '-'}</p></div>
-                <div class="form-group"><label>Status</label><p>${capitalizeFirst(sub.status)}</p></div>
-                <div class="form-group"><label>Period Start</label><p>${formatDate(sub.current_period_start)}</p></div>
-                <div class="form-group"><label>Period End</label><p>${formatDate(sub.current_period_end)}</p></div>
-            `;
-            openModal('viewDetailsModal');
-        }
-
-        function filterEnglishStudents() {
-            const search = document.getElementById('searchEnglishStudents').value.toLowerCase();
-            const filtered = englishStudents.filter(s =>
-                (s.full_name || '').toLowerCase().includes(search) ||
-                (s.email || '').toLowerCase().includes(search)
-            );
-            const tbody = document.getElementById('englishStudentsTable');
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No matching English students</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = filtered.map(student => `
-                <tr>
-                    <td>${student.full_name || '-'}</td>
-                    <td>${student.email || '-'}</td>
-                    <td>${student.phone || '-'}</td>
-                    <td>${capitalizeFirst(student.english_level) || '-'}</td>
-                    <td><span class="status-badge status-${student.status || 'active'}">${capitalizeFirst(student.status) || 'Active'}</span></td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="action-btn view" onclick="viewEnglishStudent('${student.id}')" title="View">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </td>
                 </tr>
             `).join('');
         }

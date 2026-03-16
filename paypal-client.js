@@ -12,13 +12,13 @@ export const PLANS = {
         name: 'Starter Plan',
         price: 160,
         hours: 8, // 2 hours per week x 4 weeks
-        description: '2 hours of English tutoring per week ($20/hour)'
+        description: '2 hours of French tutoring per week ($20/hour)'
     },
     professional: {
         name: 'Professional Plan',
         price: 288,
         hours: 16, // 4 hours per week x 4 weeks
-        description: '4 hours of English tutoring per week ($18/hour)'
+        description: '4 hours of French tutoring per week ($18/hour)'
     },
     enterprise: {
         name: 'Enterprise Plan',
