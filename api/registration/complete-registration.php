@@ -55,7 +55,7 @@ $plans = [
 // ============================================
 $session = getStripeSession($stripeSecretKey, $sessionId);
 
-if (!$session || $session['payment_status'] !== 'paid') {
+if (!$session || !in_array($session['payment_status'], ['paid', 'no_payment_required'])) {
     http_response_code(400);
     echo json_encode(['error' => 'Payment not verified']);
     exit;

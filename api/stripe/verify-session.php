@@ -70,8 +70,8 @@ if ($httpCode !== 200) {
     exit;
 }
 
-// Check if payment was successful
-if ($session['payment_status'] !== 'paid') {
+// Check if payment was successful (includes 'no_payment_required' for 100% promo codes)
+if (!in_array($session['payment_status'], ['paid', 'no_payment_required'])) {
     http_response_code(400);
     echo json_encode([
         'error' => 'Payment not completed',
