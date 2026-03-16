@@ -58,6 +58,7 @@ if (!$data) {
 // Validate required fields
 $planType = $data['planType'] ?? null;
 $userEmail = $data['userEmail'] ?? null;
+$customerName = $data['customerName'] ?? null;
 $successUrl = $data['successUrl'] ?? null;
 $cancelUrl = $data['cancelUrl'] ?? null;
 $isNewUser = ($data['isNewUser'] ?? false) === true;
@@ -123,6 +124,12 @@ $postFields = [
     'cancel_url' => $cancelUrl,
     'allow_promotion_codes' => 'true'
 ];
+
+// Add customer name if available
+if ($customerName && trim($customerName) !== '') {
+    $postFields['customer_creation'] = 'always';
+    $postFields['customer_data[name]'] = trim($customerName);
+}
 
 // Add metadata
 foreach ($metadata as $key => $value) {

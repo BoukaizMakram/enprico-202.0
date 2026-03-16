@@ -161,13 +161,23 @@ if ($isNewUser && $registrationId) {
     // Mark registration completed
     markRegistrationCompleted($registrationId, $sessionId);
 
-    // Send welcome email
+    // Send welcome email to student
     $emailSent = sendWelcomeEmailDirect(
         $registration['email'],
         $registration['full_name'],
         $generatedPassword,
         $planType,
         $plan['hours']
+    );
+
+    // Send admin notification to learn@enprico.com
+    sendAdminNotificationDirect(
+        $registration['email'],
+        $registration['full_name'],
+        $planType,
+        $plan['hours'],
+        $sessionId,
+        'NEW USER'
     );
 
     echo json_encode([
@@ -191,6 +201,24 @@ if ($isNewUser && $registrationId) {
 if ($existingUserId) {
     // Just create subscription
     createSubscriptionIfNeeded($supabaseUrl, $supabaseServiceKey, $existingUserId, $planType, $plan, $sessionId, $session);
+
+    // Get user email for notifications
+    $customerEmail = $session['customer_email'] ?? $session['customer_details']['email'] ?? '';
+
+    // Send confirmation email to student
+    if ($customerEmail) {
+        sendHoursAddedEmail($customerEmail, $planType, $plan['hours']);
+    }
+
+    // Send admin notification to learn@enprico.com
+    sendAdminNotificationDirect(
+        $customerEmail,
+        'Existing User',
+        $planType,
+        $plan['hours'],
+        $sessionId,
+        'EXISTING USER'
+    );
 
     echo json_encode([
         'success' => true,
@@ -403,7 +431,7 @@ function sendWelcomeEmailDirect($email, $fullName, $password, $planType, $hours)
             <p>Best regards,<br><strong>The Enprico Team</strong></p>
         </div>
         <div class='footer'>
-            &copy; " . date('Y') . " Enprico - Learn English with Expert Tutors<br>
+            &copy; " . date('Y') . " Enprico - Learn French with Expert Tutors<br>
             <a href='https://enprico.com' style='color: #0076c7;'>www.enprico.com</a>
         </div>
     </div>
@@ -487,4 +515,119 @@ function sendSMTPEmail($host, $port, $user, $pass, $to, $subject, $body) {
 
     error_log("Welcome email sent to: $to");
     return true;
+}
+
+function sendAdminNotificationDirect($customerEmail, $customerName, $planType, $hours, $sessionId, $userType = 'NEW USER') {
+    $smtp_host = 'smtp.hostinger.com';
+    $smtp_port = 465;
+    $smtp_user = 'learn@enprico.com';
+    $smtp_pass = 'Mboukaiz42*@';
+
+    $planName = ucfirst($planType) . ' Package';
+    if ($planType === 'starter') {
+        $planName = 'Starter Package (2 hours/week)';
+    } elseif ($planType === 'professional') {
+        $planName = 'Professional Package (4 hours/week)';
+    }
+
+    $subject = "New Payment Received: $planName ($userType)";
+
+    $body = "
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #0076c7, #0C5FF9); color: white; padding: 30px; border-radius: 8px 8px 0 0; text-align: center; }
+        .content { background: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
+        .info { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .info p { margin: 8px 0; }
+        .info strong { color: #0076c7; }
+        .footer { background: #f8f9fa; color: #666; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; font-size: 13px; border: 1px solid #e0e0e0; border-top: none; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1 style='margin:0; font-size: 24px;'>New Payment Received!</h1>
+        </div>
+        <div class='content'>
+            <p>A student has just completed a payment.</p>
+            <div class='info'>
+                <p><strong>User Type:</strong> $userType</p>
+                <p><strong>Student Name:</strong> " . htmlspecialchars($customerName) . "</p>
+                <p><strong>Student Email:</strong> " . htmlspecialchars($customerEmail) . "</p>
+                <p><strong>Plan:</strong> $planName</p>
+                <p><strong>Hours:</strong> $hours hours/month</p>
+                <p><strong>Session ID:</strong> $sessionId</p>
+                <p><strong>Date:</strong> " . date('Y-m-d H:i:s') . "</p>
+            </div>
+        </div>
+        <div class='footer'>
+            &copy; " . date('Y') . " Enprico - Admin Notification
+        </div>
+    </div>
+</body>
+</html>";
+
+    return sendSMTPEmail($smtp_host, $smtp_port, $smtp_user, $smtp_pass, 'learn@enprico.com', $subject, $body);
+}
+
+function sendHoursAddedEmail($email, $planType, $hours) {
+    $smtp_host = 'smtp.hostinger.com';
+    $smtp_port = 465;
+    $smtp_user = 'learn@enprico.com';
+    $smtp_pass = 'Mboukaiz42*@';
+
+    $planName = ucfirst($planType) . ' Package';
+    if ($planType === 'starter') {
+        $planName = 'Starter Package (2 hours/week)';
+    } elseif ($planType === 'professional') {
+        $planName = 'Professional Package (4 hours/week)';
+    }
+
+    $subject = "Payment Confirmed - Hours Added to Your Account";
+
+    $body = "
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #0076c7, #0C5FF9); color: white; padding: 30px; border-radius: 8px 8px 0 0; text-align: center; }
+        .content { background: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
+        .info { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin: 20px 0; }
+        .info p { margin: 8px 0; }
+        .info strong { color: #0076c7; }
+        .footer { background: #f8f9fa; color: #666; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; font-size: 13px; border: 1px solid #e0e0e0; border-top: none; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1 style='margin:0; font-size: 28px;'>Payment Confirmed!</h1>
+        </div>
+        <div class='content'>
+            <p>Hello,</p>
+            <p>Thank you for your payment! Your hours have been added to your account.</p>
+            <div class='info'>
+                <p><strong>Plan:</strong> $planName</p>
+                <p><strong>Hours Added:</strong> $hours hours/month</p>
+                <p><strong>Login:</strong> <a href='https://enprico.com/login.html' style='color: #0076c7;'>https://enprico.com/login.html</a></p>
+            </div>
+            <p>Our team will be in touch within 5 business days to schedule your sessions.</p>
+            <p>If you have any questions, feel free to contact us at <a href='mailto:learn@enprico.com' style='color: #0076c7;'>learn@enprico.com</a>.</p>
+            <p>Best regards,<br><strong>The Enprico Team</strong></p>
+        </div>
+        <div class='footer'>
+            &copy; " . date('Y') . " Enprico - Learn French with Expert Tutors<br>
+            <a href='https://enprico.com' style='color: #0076c7;'>www.enprico.com</a>
+        </div>
+    </div>
+</body>
+</html>";
+
+    return sendSMTPEmail($smtp_host, $smtp_port, $smtp_user, $smtp_pass, $email, $subject, $body);
 }

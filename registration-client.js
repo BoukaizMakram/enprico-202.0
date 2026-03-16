@@ -378,6 +378,7 @@ export class RegistrationForm {
             body: JSON.stringify({
                 registrationId: registrationId,
                 userEmail: this.formData.email,
+                customerName: this.formData.fullName,
                 planType: this.formData.planType,
                 isNewUser: true,
                 successUrl: window.location.origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
