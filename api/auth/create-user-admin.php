@@ -92,8 +92,10 @@ function createUserProfile($userId, $profileData) {
         'registration_source' => 'checkout_2025'
     ];
 
+    // Use upsert (resolution=merge-duplicates) so that if a trigger already created
+    // a bare profile row, we merge the full registration data into it
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "$supabaseUrl/rest/v1/profiles");
+    curl_setopt($ch, CURLOPT_URL, "$supabaseUrl/rest/v1/profiles?on_conflict=id");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($profile));
@@ -101,15 +103,15 @@ function createUserProfile($userId, $profileData) {
         'apikey: ' . $serviceKey,
         'Authorization: Bearer ' . $serviceKey,
         'Content-Type: application/json',
-        'Prefer: return=representation'
+        'Prefer: return=representation,resolution=merge-duplicates'
     ]);
 
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    if ($httpCode !== 201) {
-        error_log("Failed to create profile (HTTP $httpCode): $response");
+    if ($httpCode !== 200 && $httpCode !== 201) {
+        error_log("Failed to create/update profile (HTTP $httpCode): $response");
         return false;
     }
 
