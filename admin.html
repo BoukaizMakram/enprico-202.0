@@ -1569,13 +1569,32 @@
         }
 
         // Student actions
+        function generatePassword(fullName, hours) {
+            const name = (fullName || '').trim().toLowerCase();
+            const parts = name.split(/\s+/);
+            let prefix;
+            if (parts.length >= 2) {
+                prefix = parts[0].charAt(0) + parts[parts.length - 1];
+            } else {
+                prefix = parts[0];
+            }
+            prefix = prefix.replace(/[^a-z]/g, '');
+            return prefix + '_' + hours + '_enprico';
+        }
+
         function viewStudent(id) {
             const student = students.find(s => s.id === id);
             if (!student) return;
 
+            // Find student's subscription to get hours for password
+            const sub = subscriptions.find(s => s.user_id === id);
+            const hours = sub ? sub.hours_per_month : 8;
+            const password = generatePassword(student.full_name, hours);
+
             document.getElementById('viewDetailsTitle').textContent = student.full_name || 'Student Details';
             document.getElementById('viewDetailsContent').innerHTML = `
                 <div class="form-group"><label>Email</label><p>${student.email || '-'}</p></div>
+                <div class="form-group"><label>Password</label><p style="font-family: monospace; background: #f8f9fa; padding: 4px 8px; border-radius: 4px; display: inline-block;">${password}</p></div>
                 <div class="form-group"><label>Phone</label><p>${student.phone || '-'}</p></div>
                 <div class="form-group"><label>French Level</label><p>${capitalizeFirst(student.french_level) || '-'}</p></div>
                 <div class="form-group"><label>Timezone</label><p>${student.timezone || '-'}</p></div>

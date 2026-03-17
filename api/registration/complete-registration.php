@@ -166,7 +166,7 @@ if ($isNewUser && $registrationId) {
         'email' => $registration['email'],
         'full_name' => $registration['full_name'],
         'phone' => $registration['phone'] ?? null,
-        'english_level' => $registration['english_level'] ?? null,
+        'french_level' => $registration['french_level'] ?? null,
         'learning_goals' => $registration['learning_goals'] ?? null,
         'goals_description' => $registration['goals_description'] ?? null,
         'preferred_days' => $registration['preferred_days'] ?? null,
