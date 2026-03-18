@@ -500,6 +500,68 @@
         .error-text { color: #dc2626; font-size: 0.8rem; margin-top: 0.35rem; }
         .success-text { color: #10b981; font-size: 0.8rem; margin-top: 0.35rem; }
 
+        /* Exercise items */
+        .exercise-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .exercise-item:last-child { border-bottom: none; }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .exercise-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--gray-900);
+        }
+
+        .exercise-type-badge {
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            background: rgba(12, 95, 249, 0.08);
+            color: var(--brand-blue);
+            text-transform: uppercase;
+        }
+
+        .exercise-instructions {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .qcm-question-block {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .qcm-question-text {
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .qcm-option-item {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            padding: 0.15rem 0;
+        }
+
+        .qcm-option-item.correct {
+            color: var(--success);
+            font-weight: 600;
+        }
+
         /* Tabs */
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -538,6 +600,10 @@
                 <div class="nav-item" data-tab="exams">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
                     <span>Exams</span>
+                </div>
+                <div class="nav-item" data-tab="exercises">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <span>Exercises</span>
                 </div>
                 <a href="index.html#contact" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -672,6 +738,23 @@
             </div>
         </div>
 
+        <!-- Exercises Tab -->
+        <div class="tab-content" id="tab-exercises">
+            <div class="page-header">
+                <h1 class="page-title">Exercises</h1>
+                <p class="page-subtitle">Exercises and quizzes from your tutor</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">All Exercises</h2>
+                </div>
+                <div id="allExercisesList">
+                    <div class="empty-state">No exercises received yet</div>
+                </div>
+            </div>
+        </div>
+
         <!-- Error State -->
         <div id="errorState" style="display: none;">
             <div class="error-message" id="errorMessage"></div>
@@ -722,6 +805,7 @@
         } from './auth-client.js';
 
         let examsData = [];
+        let exercisesData = [];
 
         async function checkAuth() {
             const { user, error } = await getCurrentUser();
@@ -805,6 +889,85 @@
             allList.innerHTML = examsData.map(renderExamItem).join('');
         }
 
+        async function loadExercises(userId) {
+            try {
+                const res = await fetch(`/api/student/exercises.php?user_id=${userId}`);
+                const result = await res.json();
+                if (result.success) {
+                    exercisesData = result.data || [];
+                    renderExercisesStudent();
+                }
+            } catch (e) {
+                console.error('Failed to load exercises:', e);
+            }
+        }
+
+        function renderExercisesStudent() {
+            const list = document.getElementById('allExercisesList');
+
+            if (exercisesData.length === 0) {
+                list.innerHTML = '<div class="empty-state">No exercises received yet</div>';
+                return;
+            }
+
+            const typeLabels = { video: 'Video', pdf: 'PDF', text: 'Text', qcm: 'QCM' };
+
+            list.innerHTML = exercisesData.map(ex => {
+                let content = '';
+
+                if (ex.instructions) {
+                    content += `<div class="exercise-instructions">${esc(ex.instructions)}</div>`;
+                }
+
+                if (ex.type === 'video' && ex.video_url) {
+                    content += `<div style="margin-bottom: 0.5rem;"><a href="${esc(ex.video_url)}" target="_blank" style="color: var(--brand-blue); font-size: 0.85rem; font-weight: 500; text-decoration: none;">Watch Video</a></div>`;
+                }
+
+                if (ex.type === 'pdf' && ex.file_url) {
+                    content += `<div style="margin-bottom: 0.5rem;"><a href="${esc(ex.file_url)}" target="_blank" style="color: var(--brand-blue); font-size: 0.85rem; font-weight: 500; text-decoration: none;">Download PDF</a></div>`;
+                }
+
+                if (ex.type === 'qcm' && ex.questions && ex.questions.length > 0) {
+                    content += ex.questions.map((q, i) => {
+                        const opts = typeof q.options === 'string' ? JSON.parse(q.options) : q.options;
+                        return `
+                            <div class="qcm-question-block">
+                                <div class="qcm-question-text">${i + 1}. ${esc(q.question)}</div>
+                                ${opts.map((o, oi) => `
+                                    <div class="qcm-option-item ${ex.status === 'graded' && oi === q.correct_answer ? 'correct' : ''}">
+                                        ${String.fromCharCode(65 + oi)}. ${esc(o)}
+                                        ${ex.status === 'graded' && oi === q.correct_answer ? ' ✓' : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                return `
+                    <div class="exercise-item">
+                        <div class="exercise-header">
+                            <div>
+                                <div class="exercise-title">${esc(ex.title)}</div>
+                                <div class="exam-meta" style="margin-top: 0.25rem;">
+                                    <span class="exercise-type-badge">${typeLabels[ex.type] || ex.type}</span>
+                                    <span class="status-badge status-${ex.status}">${ex.status}</span>
+                                    <span>${formatDate(ex.created_at)}</span>
+                                </div>
+                            </div>
+                            ${ex.status === 'graded' && ex.score !== null ? `
+                                <div class="score-display">
+                                    <div class="score-value">${ex.score}</div>
+                                    <div class="score-label">/ 100</div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        ${content}
+                    </div>
+                `;
+            }).join('');
+        }
+
         async function loadDashboard() {
             const user = await checkAuth();
             if (!user) return;
@@ -886,8 +1049,8 @@
                     `).join('');
                 }
 
-                // Load exams
-                await loadExams(user.id);
+                // Load exams and exercises
+                await Promise.all([loadExams(user.id), loadExercises(user.id)]);
 
                 // Show content
                 document.getElementById('loadingState').style.display = 'none';

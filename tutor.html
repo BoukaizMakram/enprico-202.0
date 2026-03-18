@@ -469,9 +469,26 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
                     <span>Exams</span>
                 </div>
+                <div class="nav-item" data-tab="exercises">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <span>Exercises</span>
+                </div>
                 <div class="nav-item" data-tab="payments">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                     <span>Payments</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Resources</div>
+                <div class="nav-item" data-tab="materials">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    <span>Study Materials</span>
+                </div>
+                <div class="nav-item" data-tab="notifications">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span>Notifications</span>
+                    <span class="badge" id="notifBadge" style="display:none;">0</span>
                 </div>
             </div>
         </nav>
@@ -670,6 +687,69 @@
                 </table>
             </div>
         </div>
+        <!-- Exercises Tab -->
+        <div class="tab-content" id="tab-exercises">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Exercises</h1>
+                    <p class="page-subtitle">Create and manage exercises for your students</p>
+                </div>
+                <button class="btn btn-primary" onclick="openCreateExerciseModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    New Exercise
+                </button>
+            </div>
+
+            <div class="data-card">
+                <div class="data-card-header">
+                    <h2 class="data-card-title">All Exercises</h2>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Student</th>
+                            <th>Status</th>
+                            <th>Score</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exercisesTable">
+                        <tr><td colspan="7" class="empty-state">No exercises yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Study Materials Tab -->
+        <div class="tab-content" id="tab-materials">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Study Materials</h1>
+                    <p class="page-subtitle">Resources shared by admin</p>
+                </div>
+            </div>
+
+            <div id="materialsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="empty-state" style="grid-column: 1 / -1;">No study materials available</div>
+            </div>
+        </div>
+
+        <!-- Notifications Tab -->
+        <div class="tab-content" id="tab-notifications">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Notifications</h1>
+                    <p class="page-subtitle">Messages from admin</p>
+                </div>
+            </div>
+
+            <div id="notificationsList">
+                <div class="empty-state">No notifications</div>
+            </div>
+        </div>
     </main>
 
     <!-- Edit Hours Modal -->
@@ -758,6 +838,86 @@
         </div>
     </div>
 
+    <!-- Create Exercise Modal -->
+    <div class="modal-overlay" id="createExerciseModal">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2 class="modal-title">New Exercise</h2>
+                <button class="modal-close" onclick="closeModal('createExerciseModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Student</label>
+                    <select id="exerciseStudent"></select>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="exerciseTitle" placeholder="e.g. Listening Comprehension #5">
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="exerciseType" onchange="window._toggleExerciseFields()">
+                        <option value="text">Text Instructions</option>
+                        <option value="pdf">PDF Document</option>
+                        <option value="video">Video</option>
+                        <option value="qcm">QCM (Multiple Choice)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Instructions</label>
+                    <textarea id="exerciseInstructions" rows="3" placeholder="Instructions for the student..."></textarea>
+                </div>
+                <div class="form-group" id="exerciseFileGroup" style="display: none;">
+                    <label>File (PDF)</label>
+                    <input type="file" id="exerciseFile" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg">
+                </div>
+                <div class="form-group" id="exerciseVideoGroup" style="display: none;">
+                    <label>Video URL (YouTube, Vimeo, etc.)</label>
+                    <input type="url" id="exerciseVideoUrl" placeholder="https://youtube.com/watch?v=...">
+                </div>
+                <div id="qcmBuilder" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <label style="font-weight: 600; color: var(--gray-700); font-size: 0.85rem;">Questions</label>
+                        <button class="btn btn-secondary btn-sm" onclick="window._addQcmQuestion()" type="button">+ Add Question</button>
+                    </div>
+                    <div id="qcmQuestionsList"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('createExerciseModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="createExercise()" id="createExerciseBtn">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Exercise Modal -->
+    <div class="modal-overlay" id="gradeExerciseModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Grade Exercise</h2>
+                <button class="modal-close" onclick="closeModal('gradeExerciseModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--gray-500); font-size: 0.85rem; margin-bottom: 1rem;">
+                    Grading: <strong id="gradeExerciseTitle">Exercise</strong>
+                </p>
+                <div class="form-group">
+                    <label>Score (0 - 100)</label>
+                    <input type="number" id="gradeExerciseScoreInput" min="0" max="100" step="0.5" placeholder="e.g. 85">
+                </div>
+                <input type="hidden" id="gradeExerciseId">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('gradeExerciseModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="gradeExercise()">Submit Grade</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
@@ -770,6 +930,9 @@
         let studentsData = [];
         let examsData = [];
         let paymentRequestsData = [];
+        let exercisesData = [];
+        let materialsData = [];
+        let notificationsData = [];
 
         // Auth check
         async function init() {
@@ -800,7 +963,7 @@
             document.querySelector('.page-title').textContent = `${greeting}, ${name.split(' ')[0]}`;
 
             // Load all data
-            await Promise.all([loadStudents(), loadExams(), loadPaymentRequests()]);
+            await Promise.all([loadStudents(), loadExams(), loadPaymentRequests(), loadExercises(), loadMaterials(), loadNotifications()]);
 
             // Show dashboard
             document.getElementById('loadingState').style.display = 'none';
@@ -1227,6 +1390,332 @@
 
             btn.disabled = false;
             btn.textContent = 'Submit Request';
+        };
+
+        // ============================================
+        // EXERCISES
+        // ============================================
+
+        async function loadExercises() {
+            try {
+                const res = await fetch(`/api/tutor/exercises.php?tutor_id=${currentUser.id}`);
+                const result = await res.json();
+                if (result.success) {
+                    exercisesData = result.data || [];
+                    renderExercises();
+                }
+            } catch (e) {
+                console.error('Failed to load exercises:', e);
+            }
+        }
+
+        function renderExercises() {
+            const table = document.getElementById('exercisesTable');
+            if (exercisesData.length === 0) {
+                table.innerHTML = '<tr><td colspan="7" class="empty-state">No exercises yet</td></tr>';
+                return;
+            }
+
+            const typeLabels = { video: 'Video', pdf: 'PDF', text: 'Text', qcm: 'QCM' };
+
+            table.innerHTML = exercisesData.map(e => `
+                <tr>
+                    <td>
+                        <strong>${esc(e.title)}</strong>
+                        ${e.instructions ? `<br><span style="font-size:0.8rem; color:var(--gray-500);">${esc(e.instructions).substring(0, 60)}${e.instructions.length > 60 ? '...' : ''}</span>` : ''}
+                    </td>
+                    <td><span class="status-badge" style="background: rgba(12,95,249,0.08); color: var(--brand-blue);">${typeLabels[e.type] || e.type}</span></td>
+                    <td>${esc(e.student_name)}</td>
+                    <td><span class="status-badge status-${e.status}">${e.status}</span></td>
+                    <td>${e.score !== null && e.score !== undefined ? e.score + '/100' : '-'}</td>
+                    <td>${formatDate(e.created_at)}</td>
+                    <td>
+                        ${e.status === 'sent' ? `<button class="btn btn-sm btn-primary" onclick="window._openGradeExercise('${e.id}', '${esc(e.title)}')">Grade</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        window.openCreateExerciseModal = function() {
+            const select = document.getElementById('exerciseStudent');
+            select.innerHTML = studentsData.map(s =>
+                `<option value="${s.id}">${esc(s.full_name)}</option>`
+            ).join('');
+            document.getElementById('exerciseTitle').value = '';
+            document.getElementById('exerciseType').value = 'text';
+            document.getElementById('exerciseInstructions').value = '';
+            document.getElementById('exerciseFile').value = '';
+            document.getElementById('exerciseVideoUrl').value = '';
+            document.getElementById('qcmQuestionsList').innerHTML = '';
+            window._toggleExerciseFields();
+            document.getElementById('createExerciseModal').classList.add('active');
+        };
+
+        window._toggleExerciseFields = function() {
+            const type = document.getElementById('exerciseType').value;
+            document.getElementById('exerciseFileGroup').style.display = type === 'pdf' ? 'block' : 'none';
+            document.getElementById('exerciseVideoGroup').style.display = type === 'video' ? 'block' : 'none';
+            document.getElementById('qcmBuilder').style.display = type === 'qcm' ? 'block' : 'none';
+        };
+
+        let qcmQuestionCount = 0;
+
+        window._addQcmQuestion = function() {
+            qcmQuestionCount++;
+            const qId = qcmQuestionCount;
+            const div = document.createElement('div');
+            div.id = `qcm-q-${qId}`;
+            div.style.cssText = 'background: var(--gray-50); border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; border: 1px solid var(--gray-100);';
+            div.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <strong style="font-size: 0.85rem;">Question ${qId}</strong>
+                    <button class="btn btn-sm" style="color: var(--danger); background: none; padding: 0.2rem 0.5rem;" onclick="document.getElementById('qcm-q-${qId}').remove()">Remove</button>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <input type="text" class="qcm-question-text" placeholder="Enter question..." style="font-size: 0.85rem;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.5rem;">
+                    <label style="font-size: 0.75rem;">Options (mark correct answer)</label>
+                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+                            <input type="radio" name="correct-${qId}" value="0" checked> <input type="text" class="qcm-option" placeholder="Option A" style="flex:1; padding: 0.4rem 0.6rem; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 0.85rem; font-family: inherit;">
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+                            <input type="radio" name="correct-${qId}" value="1"> <input type="text" class="qcm-option" placeholder="Option B" style="flex:1; padding: 0.4rem 0.6rem; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 0.85rem; font-family: inherit;">
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+                            <input type="radio" name="correct-${qId}" value="2"> <input type="text" class="qcm-option" placeholder="Option C" style="flex:1; padding: 0.4rem 0.6rem; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 0.85rem; font-family: inherit;">
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+                            <input type="radio" name="correct-${qId}" value="3"> <input type="text" class="qcm-option" placeholder="Option D" style="flex:1; padding: 0.4rem 0.6rem; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 0.85rem; font-family: inherit;">
+                        </label>
+                    </div>
+                </div>
+            `;
+            document.getElementById('qcmQuestionsList').appendChild(div);
+        };
+
+        window.createExercise = async function() {
+            const studentId = document.getElementById('exerciseStudent').value;
+            const title = document.getElementById('exerciseTitle').value;
+            const type = document.getElementById('exerciseType').value;
+            const instructions = document.getElementById('exerciseInstructions').value;
+            const btn = document.getElementById('createExerciseBtn');
+
+            if (!title) { showToast('Title is required', 'error'); return; }
+
+            btn.disabled = true;
+            btn.textContent = 'Creating...';
+
+            let fileUrl = null;
+            let videoUrl = null;
+
+            if (type === 'pdf') {
+                const fileInput = document.getElementById('exerciseFile');
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const fileName = `exercises/${Date.now()}-${file.name}`;
+                    try {
+                        const { data, error } = await supabase.storage.from('exam-files').upload(fileName, file);
+                        if (error) { showToast('File upload failed: ' + error.message, 'error'); btn.disabled = false; btn.textContent = 'Create'; return; }
+                        const { data: urlData } = supabase.storage.from('exam-files').getPublicUrl(fileName);
+                        fileUrl = urlData.publicUrl;
+                    } catch (e) { showToast('File upload failed', 'error'); btn.disabled = false; btn.textContent = 'Create'; return; }
+                }
+            }
+
+            if (type === 'video') {
+                videoUrl = document.getElementById('exerciseVideoUrl').value;
+            }
+
+            let questions = [];
+            if (type === 'qcm') {
+                const qDivs = document.querySelectorAll('#qcmQuestionsList > div');
+                for (const qDiv of qDivs) {
+                    const qText = qDiv.querySelector('.qcm-question-text').value;
+                    const opts = Array.from(qDiv.querySelectorAll('.qcm-option')).map(i => i.value).filter(v => v);
+                    const correctRadio = qDiv.querySelector('input[type="radio"]:checked');
+                    const correct = correctRadio ? parseInt(correctRadio.value) : 0;
+                    if (qText && opts.length >= 2) {
+                        questions.push({ question: qText, options: opts, correct_answer: correct });
+                    }
+                }
+                if (questions.length === 0) { showToast('Add at least one question with options', 'error'); btn.disabled = false; btn.textContent = 'Create'; return; }
+            }
+
+            try {
+                const res = await fetch('/api/tutor/exercises.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tutor_id: currentUser.id,
+                        student_id: studentId,
+                        title, type, instructions,
+                        file_url: fileUrl,
+                        video_url: videoUrl,
+                        questions
+                    })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    showToast('Exercise created', 'success');
+                    closeModal('createExerciseModal');
+                    await loadExercises();
+                } else {
+                    showToast(result.message || 'Failed to create exercise', 'error');
+                }
+            } catch (e) {
+                showToast('Failed to create exercise', 'error');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Create';
+        };
+
+        window._openGradeExercise = function(id, title) {
+            document.getElementById('gradeExerciseTitle').textContent = title;
+            document.getElementById('gradeExerciseId').value = id;
+            document.getElementById('gradeExerciseScoreInput').value = '';
+            document.getElementById('gradeExerciseModal').classList.add('active');
+        };
+
+        window.gradeExercise = async function() {
+            const id = document.getElementById('gradeExerciseId').value;
+            const score = parseFloat(document.getElementById('gradeExerciseScoreInput').value);
+
+            if (isNaN(score) || score < 0 || score > 100) {
+                showToast('Score must be between 0 and 100', 'error');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/tutor/exercises.php', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, score })
+                });
+                const result = await res.json();
+                if (result.success) {
+                    showToast('Exercise graded', 'success');
+                    closeModal('gradeExerciseModal');
+                    await loadExercises();
+                } else {
+                    showToast(result.message || 'Failed to grade', 'error');
+                }
+            } catch (e) {
+                showToast('Failed to grade exercise', 'error');
+            }
+        };
+
+        // ============================================
+        // STUDY MATERIALS
+        // ============================================
+
+        async function loadMaterials() {
+            try {
+                const res = await fetch('/api/tutor/study-materials.php');
+                const result = await res.json();
+                if (result.success) {
+                    materialsData = result.data || [];
+                    renderMaterials();
+                }
+            } catch (e) {
+                console.error('Failed to load materials:', e);
+            }
+        }
+
+        function renderMaterials() {
+            const grid = document.getElementById('materialsGrid');
+            if (materialsData.length === 0) {
+                grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;">No study materials available</div>';
+                return;
+            }
+
+            const typeIcons = {
+                pdf: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+                video: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>',
+                default: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>'
+            };
+
+            grid.innerHTML = materialsData.map(m => `
+                <div class="data-card" style="margin-bottom: 0;">
+                    <div style="padding: 1.25rem;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                            <div style="color: var(--brand-blue);">${typeIcons[m.file_type] || typeIcons.default}</div>
+                            <div>
+                                <div style="font-weight: 600; font-size: 0.9rem;">${esc(m.title)}</div>
+                                ${m.file_type ? `<span style="font-size: 0.75rem; color: var(--gray-400); text-transform: uppercase;">${esc(m.file_type)}</span>` : ''}
+                            </div>
+                        </div>
+                        ${m.description ? `<p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 0.75rem;">${esc(m.description)}</p>` : ''}
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.75rem; color: var(--gray-400);">${formatDate(m.created_at)}</span>
+                            <a href="${esc(m.file_url)}" target="_blank" class="btn btn-secondary btn-sm">Download</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================
+        // NOTIFICATIONS
+        // ============================================
+
+        async function loadNotifications() {
+            try {
+                const res = await fetch(`/api/tutor/notifications.php?tutor_id=${currentUser.id}`);
+                const result = await res.json();
+                if (result.success) {
+                    notificationsData = result.data || [];
+                    renderNotifications();
+                }
+            } catch (e) {
+                console.error('Failed to load notifications:', e);
+            }
+        }
+
+        function renderNotifications() {
+            const list = document.getElementById('notificationsList');
+            const unread = notificationsData.filter(n => !n.is_read).length;
+            const badge = document.getElementById('notifBadge');
+
+            if (unread > 0) {
+                badge.textContent = unread;
+                badge.style.display = 'inline';
+            } else {
+                badge.style.display = 'none';
+            }
+
+            if (notificationsData.length === 0) {
+                list.innerHTML = '<div class="empty-state">No notifications</div>';
+                return;
+            }
+
+            list.innerHTML = notificationsData.map(n => `
+                <div class="data-card" style="margin-bottom: 0.75rem; ${!n.is_read ? 'border-left: 3px solid var(--brand-blue);' : ''}">
+                    <div style="padding: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.35rem;">
+                            <strong style="font-size: 0.9rem;">${esc(n.title)}</strong>
+                            <span style="font-size: 0.75rem; color: var(--gray-400); white-space: nowrap; margin-left: 1rem;">${formatDate(n.created_at)}</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 0.5rem;">${esc(n.message)}</p>
+                        ${!n.is_read ? `<button class="btn btn-sm btn-secondary" onclick="window._markRead('${n.id}')">Mark as read</button>` : '<span style="font-size: 0.75rem; color: var(--gray-400);">Read</span>'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window._markRead = async function(id) {
+            try {
+                await fetch('/api/tutor/notifications.php', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                await loadNotifications();
+            } catch (e) {
+                showToast('Failed to update', 'error');
+            }
         };
 
         // Helpers

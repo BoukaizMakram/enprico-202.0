@@ -741,6 +741,19 @@
                         <span>Payment Requests</span>
                         <span class="badge" id="paymentRequestCount">0</span>
                     </div>
+                    <div class="nav-item" data-tab="studyMaterials">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span>Study Materials</span>
+                    </div>
+                    <div class="nav-item" data-tab="tutorNotifications">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                        <span>Notifications</span>
+                    </div>
                 </div>
 
                 <div class="nav-section">
@@ -1077,6 +1090,78 @@
                 </div>
             </div>
 
+            <!-- Study Materials Tab -->
+            <div class="tab-content" id="tab-studyMaterials">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Study Materials</h1>
+                        <p class="page-subtitle">Upload materials shared with all tutors</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="openModal('uploadMaterialModal')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Upload Material
+                        </button>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">All Materials</h2>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Uploaded</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studyMaterialsTable">
+                            <tr><td colspan="5" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tutor Notifications Tab -->
+            <div class="tab-content" id="tab-tutorNotifications">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Tutor Notifications</h1>
+                        <p class="page-subtitle">Send notifications to tutors</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="openModal('sendNotificationModal')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Send Notification
+                        </button>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">Sent Notifications</h2>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Message</th>
+                                <th>Sent To</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="notificationsTable">
+                            <tr><td colspan="5" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- Traffic Tab -->
             <div class="tab-content" id="tab-traffic">
                 <div class="page-header">
@@ -1310,6 +1395,77 @@
         </div>
     </div>
 
+    <!-- Upload Material Modal -->
+    <div class="modal-overlay" id="uploadMaterialModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Upload Study Material</h2>
+                <button class="modal-close" onclick="closeModal('uploadMaterialModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="materialTitle" required placeholder="e.g. TEF Preparation Guide">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="materialDescription" rows="3" placeholder="Brief description of the material..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>File URL</label>
+                    <input type="url" id="materialFileUrl" required placeholder="https://... (upload to Supabase Storage first)">
+                </div>
+                <div class="form-group">
+                    <label>File Type</label>
+                    <select id="materialFileType">
+                        <option value="pdf">PDF</option>
+                        <option value="video">Video</option>
+                        <option value="doc">Document</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('uploadMaterialModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="uploadMaterial()" id="uploadMaterialBtn">Upload</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Notification Modal -->
+    <div class="modal-overlay" id="sendNotificationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Send Notification to Tutors</h2>
+                <button class="modal-close" onclick="closeModal('sendNotificationModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Send To</label>
+                    <select id="notifTarget">
+                        <option value="all">All Tutors</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="notifTitle" required placeholder="Notification title">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="notifMessage" rows="4" required placeholder="Write your message here..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('sendNotificationModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="sendNotification()" id="sendNotifBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Admin credentials (in production, this should be server-side)
         const ADMIN_EMAIL = 'admin@enprico.com';
@@ -1323,6 +1479,8 @@
         let traffic = [];
         let tutors = [];
         let paymentRequests = [];
+        let studyMaterials = [];
+        let tutorNotifications = [];
 
         // Check if already logged in
         if (localStorage.getItem('adminLoggedIn') === 'true') {
@@ -1377,7 +1535,9 @@
                 loadSubscriptions(),
                 loadTraffic(),
                 loadTutors(),
-                loadPaymentRequests()
+                loadPaymentRequests(),
+                loadStudyMaterials(),
+                loadTutorNotifications()
             ]);
             // Re-render students now that subscriptions are loaded (for plan_type lookup)
             renderStudents();
@@ -2092,6 +2252,7 @@
         function renderTutors() {
             const tbody = document.getElementById('tutorsTable');
             document.getElementById('tutorCount').textContent = tutors.length;
+            if (typeof updateNotifTargetOptions === 'function') updateNotifTargetOptions();
 
             if (tutors.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No tutors yet</td></tr>';
@@ -2336,6 +2497,238 @@
             } catch (error) {
                 alert('Error updating payment request');
             }
+        }
+        // ============================================
+        // STUDY MATERIALS
+        // ============================================
+
+        async function loadStudyMaterials() {
+            try {
+                const response = await fetch('/api/admin/study-materials.php');
+                const data = await response.json();
+                if (data.success) {
+                    studyMaterials = data.data || [];
+                    renderStudyMaterials();
+                }
+            } catch (error) {
+                console.error('Error loading study materials:', error);
+                studyMaterials = [];
+                renderStudyMaterials();
+            }
+        }
+
+        function renderStudyMaterials() {
+            const tbody = document.getElementById('studyMaterialsTable');
+            if (studyMaterials.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No study materials yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = studyMaterials.map(m => `
+                <tr>
+                    <td><strong>${m.title || '-'}</strong></td>
+                    <td>${m.description ? m.description.substring(0, 80) + (m.description.length > 80 ? '...' : '') : '-'}</td>
+                    <td>${m.file_type ? capitalizeFirst(m.file_type) : '-'}</td>
+                    <td>${formatDate(m.created_at)}</td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="${m.file_url}" target="_blank" class="action-btn view" title="View">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </a>
+                            <button class="action-btn delete" onclick="deleteStudyMaterial('${m.id}', '${(m.title || '').replace(/'/g, "\\'")}')" title="Delete" style="color: #dc2626;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function uploadMaterial() {
+            const title = document.getElementById('materialTitle').value.trim();
+            const description = document.getElementById('materialDescription').value.trim();
+            const fileUrl = document.getElementById('materialFileUrl').value.trim();
+            const fileType = document.getElementById('materialFileType').value;
+            const btn = document.getElementById('uploadMaterialBtn');
+
+            if (!title || !fileUrl) {
+                alert('Title and file URL are required');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Uploading...';
+
+            try {
+                const response = await fetch('/api/admin/study-materials.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, description, file_url: fileUrl, file_type: fileType })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    closeModal('uploadMaterialModal');
+                    document.getElementById('materialTitle').value = '';
+                    document.getElementById('materialDescription').value = '';
+                    document.getElementById('materialFileUrl').value = '';
+                    await loadStudyMaterials();
+                    alert('Study material uploaded!');
+                } else {
+                    alert(result.message || 'Failed to upload');
+                }
+            } catch (error) {
+                alert('Error uploading material');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Upload';
+        }
+
+        async function deleteStudyMaterial(id, title) {
+            if (!confirm(`Delete study material "${title}"?`)) return;
+
+            try {
+                const response = await fetch('/api/admin/study-materials.php', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    await loadStudyMaterials();
+                } else {
+                    alert(result.message || 'Failed to delete');
+                }
+            } catch (error) {
+                alert('Error deleting material');
+            }
+        }
+
+        // ============================================
+        // TUTOR NOTIFICATIONS
+        // ============================================
+
+        async function loadTutorNotifications() {
+            try {
+                const response = await fetch('/api/admin/notifications.php');
+                const data = await response.json();
+                if (data.success) {
+                    tutorNotifications = data.data || [];
+                    renderTutorNotifications();
+                }
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+                tutorNotifications = [];
+                renderTutorNotifications();
+            }
+        }
+
+        function renderTutorNotifications() {
+            const tbody = document.getElementById('notificationsTable');
+            if (tutorNotifications.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No notifications sent yet</td></tr>';
+                return;
+            }
+
+            // Group by title+message+created_at to show unique notifications
+            tbody.innerHTML = tutorNotifications.map(n => {
+                const tutorName = tutors.find(t => t.id === n.tutor_id);
+                return `
+                <tr>
+                    <td><strong>${n.title || '-'}</strong></td>
+                    <td>${n.message ? n.message.substring(0, 80) + (n.message.length > 80 ? '...' : '') : '-'}</td>
+                    <td>${tutorName ? tutorName.full_name : 'All tutors'}</td>
+                    <td>${formatDate(n.created_at)}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn delete" onclick="deleteNotification('${n.id}')" title="Delete" style="color: #dc2626;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+
+        async function sendNotification() {
+            const target = document.getElementById('notifTarget').value;
+            const title = document.getElementById('notifTitle').value.trim();
+            const message = document.getElementById('notifMessage').value.trim();
+            const btn = document.getElementById('sendNotifBtn');
+
+            if (!title || !message) {
+                alert('Title and message are required');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            const payload = { title, message };
+            if (target !== 'all') {
+                payload.tutor_id = target;
+            }
+
+            try {
+                const response = await fetch('/api/admin/notifications.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    closeModal('sendNotificationModal');
+                    document.getElementById('notifTitle').value = '';
+                    document.getElementById('notifMessage').value = '';
+                    await loadTutorNotifications();
+                    alert('Notification sent!');
+                } else {
+                    alert(result.message || 'Failed to send');
+                }
+            } catch (error) {
+                alert('Error sending notification');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Send';
+        }
+
+        async function deleteNotification(id) {
+            if (!confirm('Delete this notification?')) return;
+
+            try {
+                const response = await fetch('/api/admin/notifications.php', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    await loadTutorNotifications();
+                } else {
+                    alert(result.message || 'Failed to delete');
+                }
+            } catch (error) {
+                alert('Error deleting notification');
+            }
+        }
+
+        // Populate notification target select with tutors
+        function updateNotifTargetOptions() {
+            const select = document.getElementById('notifTarget');
+            select.innerHTML = '<option value="all">All Tutors</option>' +
+                tutors.map(t => `<option value="${t.id}">${t.full_name || t.email}</option>`).join('');
         }
     </script>
 </body>
