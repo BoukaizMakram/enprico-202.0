@@ -283,13 +283,22 @@
     </div>
 
     <script type="module">
-        import { signIn, getCurrentUser } from './auth-client.js';
+        import { signIn, getCurrentUser, getUserProfile } from './auth-client.js';
+
+        async function redirectByRole(userId) {
+            const { data: profile } = await getUserProfile(userId);
+            if (profile && profile.role === 'tutor') {
+                window.location.href = 'tutor.html';
+            } else {
+                window.location.href = 'dashboard.html';
+            }
+        }
 
         // Check if already logged in
         async function checkExistingSession() {
             const { user } = await getCurrentUser();
             if (user) {
-                window.location.href = 'dashboard.html';
+                await redirectByRole(user.id);
             }
         }
 
@@ -318,8 +327,7 @@
                 }
 
                 if (data.user) {
-                    // Success! Redirect to dashboard
-                    window.location.href = 'dashboard.html';
+                    await redirectByRole(data.user.id);
                 }
             } catch (error) {
                 console.error('Login error:', error);

@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Dashboard - Enprico</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="images/fav icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #0c5ff9;
+            --brand-dark: #083d7a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-900: #0f172a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gray-50);
+            min-height: 100vh;
+            color: var(--gray-900);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            padding: 1.5rem;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-logo img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        .sidebar-logo span {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--gray-900);
+        }
+
+        .nav-section { margin-bottom: 1.5rem; }
+
+        .nav-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--gray-400);
+            margin-bottom: 0.5rem;
+            padding-left: 0.75rem;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 0.75rem;
+            border-radius: 8px;
+            color: var(--gray-600);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            margin-bottom: 2px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-item:hover { background: var(--gray-50); color: var(--gray-900); }
+        .nav-item.active { background: var(--gray-100); color: var(--gray-900); font-weight: 600; }
+        .nav-item svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background: var(--brand-blue);
+            color: white;
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+        }
+
+        .tutor-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--gray-50);
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+        }
+
+        .tutor-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--brand-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .tutor-meta { flex: 1; min-width: 0; }
+        .tutor-meta .name { font-weight: 600; font-size: 0.85rem; color: var(--gray-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tutor-meta .role { font-size: 0.75rem; color: var(--gray-500); }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title { font-size: 1.5rem; font-weight: 700; color: var(--gray-900); }
+        .page-subtitle { color: var(--gray-500); font-size: 0.9rem; margin-top: 0.15rem; }
+
+        /* Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid var(--gray-100);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon.blue { background: rgba(12, 95, 249, 0.08); color: var(--brand-blue); }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.08); color: var(--success); }
+        .stat-icon.yellow { background: rgba(245, 158, 11, 0.08); color: var(--warning); }
+
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--gray-900); }
+        .stat-label { color: var(--gray-500); font-size: 0.8rem; margin-top: 0.15rem; }
+
+        /* Data Card */
+        .data-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--gray-100);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .data-card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .data-card-title { font-size: 1rem; font-weight: 600; color: var(--gray-900); }
+
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th, .data-table td { padding: 0.75rem 1.5rem; text-align: left; font-size: 0.875rem; }
+        .data-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .data-table tr { border-bottom: 1px solid var(--gray-100); }
+        .data-table tr:last-child { border-bottom: none; }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: inherit;
+        }
+
+        .btn-primary { background: var(--gray-900); color: white; }
+        .btn-primary:hover { background: var(--gray-700); }
+        .btn-secondary { background: white; color: var(--gray-700); border: 1px solid var(--gray-200); }
+        .btn-secondary:hover { background: var(--gray-50); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-sm { padding: 0.375rem 0.75rem; font-size: 0.8rem; }
+
+        .status-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-sent { background: rgba(12, 95, 249, 0.08); color: var(--brand-blue); }
+        .status-graded { background: rgba(16, 185, 129, 0.08); color: var(--success); }
+        .status-pending { background: rgba(245, 158, 11, 0.08); color: var(--warning); }
+        .status-approved { background: rgba(16, 185, 129, 0.08); color: var(--success); }
+        .status-paid { background: rgba(12, 95, 249, 0.08); color: var(--brand-blue); }
+        .status-rejected { background: rgba(239, 68, 68, 0.08); color: var(--danger); }
+
+        /* Tabs */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title { font-size: 1.1rem; font-weight: 600; }
+
+        .modal-close {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gray-100);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body { padding: 1.5rem; }
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--gray-100);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: 500; color: var(--gray-700); margin-bottom: 0.35rem; font-size: 0.85rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.625rem 0.75rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: border-color 0.15s;
+            background: white;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gray-900);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2.5rem;
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 32px; height: 32px;
+            border: 3px solid var(--gray-200);
+            border-top-color: var(--gray-900);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Payment summary card */
+        .payment-summary {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--gray-100);
+        }
+
+        .payment-summary h3 { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .payment-row:last-child { border-bottom: none; }
+        .payment-row .label { color: var(--gray-500); }
+        .payment-row .value { font-weight: 600; }
+
+        .payment-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0 0;
+            margin-top: 0.5rem;
+            border-top: 2px solid var(--gray-200);
+            font-size: 1.1rem;
+        }
+
+        .payment-total .value { font-weight: 700; color: var(--gray-900); }
+
+        .inline-form {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            margin-top: 1rem;
+        }
+
+        .inline-form .form-group { margin-bottom: 0; flex: 1; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--gray-900);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            z-index: 2000;
+            display: none;
+            font-weight: 500;
+        }
+
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+
+        @media (max-width: 1024px) {
+            .sidebar { width: 70px; padding: 1rem 0.5rem; }
+            .sidebar-logo span, .nav-section-title, .nav-item span, .nav-item .badge, .sidebar-footer { display: none; }
+            .nav-item { justify-content: center; padding: 0.75rem; }
+            .main-content { margin-left: 70px; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 1rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="images/fav icon.png" alt="Enprico" onerror="this.style.display='none'">
+            <span>Enprico</span>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <div class="nav-item active" data-tab="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    <span>Dashboard</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Manage</div>
+                <div class="nav-item" data-tab="students">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                    <span>Students</span>
+                    <span class="badge" id="studentBadge">0</span>
+                </div>
+                <div class="nav-item" data-tab="exams">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>Exams</span>
+                </div>
+                <div class="nav-item" data-tab="payments">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <span>Payments</span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="tutor-info">
+                <div class="tutor-avatar" id="tutorAvatar">T</div>
+                <div class="tutor-meta">
+                    <div class="name" id="tutorName">Tutor</div>
+                    <div class="role">Tutor</div>
+                </div>
+            </div>
+            <div class="nav-item" id="logoutBtn" style="color: var(--gray-500);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span>Log out</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Loading -->
+        <div id="loadingState" class="loading"><div class="spinner"></div></div>
+
+        <!-- Dashboard Tab -->
+        <div class="tab-content" id="tab-dashboard">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Good morning, <span id="greetingName">Tutor</span></h1>
+                    <p class="page-subtitle">Here's your teaching overview</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-icon blue">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="statStudents">0</div>
+                    <div class="stat-label">Assigned Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-icon green">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="statHours">0</div>
+                    <div class="stat-label">Hours Taught This Month</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-icon yellow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="statExams">0</div>
+                    <div class="stat-label">Exams to Grade</div>
+                </div>
+            </div>
+
+            <!-- Quick Student List -->
+            <div class="data-card">
+                <div class="data-card-header">
+                    <h2 class="data-card-title">Your Students</h2>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Plan</th>
+                            <th>Hours Left</th>
+                            <th>Hours Used</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashStudentsTable">
+                        <tr><td colspan="4" class="empty-state">No students assigned yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Students Tab -->
+        <div class="tab-content" id="tab-students">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Students</h1>
+                    <p class="page-subtitle">Manage your assigned students and their hours</p>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <div class="data-card-header">
+                    <h2 class="data-card-title">Assigned Students</h2>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Email</th>
+                            <th>Plan</th>
+                            <th>Remaining Hours</th>
+                            <th>Total Hours</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTable">
+                        <tr><td colspan="6" class="empty-state">No students assigned yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Exams Tab -->
+        <div class="tab-content" id="tab-exams">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Mock Exams & Exercises</h1>
+                    <p class="page-subtitle">Send and grade student assignments</p>
+                </div>
+                <button class="btn btn-primary" onclick="openSendExamModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Send Exam
+                </button>
+            </div>
+
+            <div class="data-card">
+                <div class="data-card-header">
+                    <h2 class="data-card-title">All Exams</h2>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Student</th>
+                            <th>Status</th>
+                            <th>Score</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="examsTable">
+                        <tr><td colspan="6" class="empty-state">No exams yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Payments Tab -->
+        <div class="tab-content" id="tab-payments">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Payment Requests</h1>
+                    <p class="page-subtitle">Submit and track your monthly payments</p>
+                </div>
+            </div>
+
+            <div class="payment-summary" id="paymentSummary">
+                <h3>Current Month Summary</h3>
+                <div id="paymentBreakdown">
+                    <p class="empty-state">Loading...</p>
+                </div>
+                <div class="inline-form" id="paymentForm" style="display: none;">
+                    <div class="form-group">
+                        <label>Hourly Rate (CAD)</label>
+                        <input type="number" id="hourlyRate" min="0" step="0.01" placeholder="e.g. 25.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Amount (CAD)</label>
+                        <input type="text" id="totalAmount" readonly style="background: var(--gray-50);">
+                    </div>
+                    <button class="btn btn-primary" onclick="submitPaymentRequest()" id="submitPaymentBtn">Submit Request</button>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <div class="data-card-header">
+                    <h2 class="data-card-title">Request History</h2>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Hours</th>
+                            <th>Rate</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentHistoryTable">
+                        <tr><td colspan="6" class="empty-state">No payment requests yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Hours Modal -->
+    <div class="modal-overlay" id="editHoursModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Hours</h2>
+                <button class="modal-close" onclick="closeModal('editHoursModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--gray-500); font-size: 0.85rem; margin-bottom: 1rem;">
+                    Editing hours for <strong id="editHoursStudentName">Student</strong>
+                </p>
+                <div class="form-group">
+                    <label>Remaining Hours (max: <span id="editHoursMax">0</span>)</label>
+                    <input type="number" id="editHoursInput" min="0" step="0.5">
+                </div>
+                <input type="hidden" id="editHoursStudentId">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('editHoursModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveHours()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Exam Modal -->
+    <div class="modal-overlay" id="sendExamModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Send Exam / Exercise</h2>
+                <button class="modal-close" onclick="closeModal('sendExamModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Student</label>
+                    <select id="examStudent"></select>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="examTitle" placeholder="e.g. TEF Mock Exam #3">
+                </div>
+                <div class="form-group">
+                    <label>Notes / Instructions</label>
+                    <textarea id="examNotes" rows="3" placeholder="Instructions for the student..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>File (PDF, DOC, etc.)</label>
+                    <input type="file" id="examFile" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('sendExamModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="sendExam()" id="sendExamBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grade Exam Modal -->
+    <div class="modal-overlay" id="gradeExamModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Grade Exam</h2>
+                <button class="modal-close" onclick="closeModal('gradeExamModal')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--gray-500); font-size: 0.85rem; margin-bottom: 1rem;">
+                    Grading: <strong id="gradeExamTitle">Exam</strong>
+                </p>
+                <div class="form-group">
+                    <label>Score (0 - 100)</label>
+                    <input type="number" id="gradeScoreInput" min="0" max="100" step="0.5" placeholder="e.g. 85">
+                </div>
+                <input type="hidden" id="gradeExamId">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('gradeExamModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="gradeExam()">Submit Grade</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script type="module">
+        import { getCurrentUser, getUserProfile, signOut, supabase } from './auth-client.js';
+
+        // State
+        let currentUser = null;
+        let currentProfile = null;
+        let studentsData = [];
+        let examsData = [];
+        let paymentRequestsData = [];
+
+        // Auth check
+        async function init() {
+            const { user, error } = await getCurrentUser();
+            if (error || !user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const { data: profile } = await getUserProfile(user.id);
+            if (!profile || profile.role !== 'tutor') {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            currentUser = user;
+            currentProfile = profile;
+
+            // Set tutor info
+            const name = profile.full_name || 'Tutor';
+            document.getElementById('tutorName').textContent = name;
+            document.getElementById('tutorAvatar').textContent = name.charAt(0).toUpperCase();
+            document.getElementById('greetingName').textContent = name.split(' ')[0];
+
+            // Set greeting based on time
+            const hour = new Date().getHours();
+            const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+            document.querySelector('.page-title').textContent = `${greeting}, ${name.split(' ')[0]}`;
+
+            // Load all data
+            await Promise.all([loadStudents(), loadExams(), loadPaymentRequests()]);
+
+            // Show dashboard
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('tab-dashboard').classList.add('active');
+        }
+
+        // Navigation
+        document.querySelectorAll('.nav-item[data-tab]').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                item.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                document.getElementById('tab-' + item.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await signOut();
+            window.location.href = 'login.html';
+        });
+
+        // Load students
+        async function loadStudents() {
+            try {
+                const res = await fetch(`/api/tutor/students.php?tutor_id=${currentUser.id}`);
+                const result = await res.json();
+                if (result.success) {
+                    studentsData = result.data;
+                    renderStudents();
+                    updateStats();
+                }
+            } catch (e) {
+                console.error('Failed to load students:', e);
+            }
+        }
+
+        function renderStudents() {
+            // Dashboard quick table
+            const dashTable = document.getElementById('dashStudentsTable');
+            const fullTable = document.getElementById('studentsTable');
+
+            if (studentsData.length === 0) {
+                dashTable.innerHTML = '<tr><td colspan="4" class="empty-state">No students assigned yet</td></tr>';
+                fullTable.innerHTML = '<tr><td colspan="6" class="empty-state">No students assigned yet</td></tr>';
+                return;
+            }
+
+            dashTable.innerHTML = studentsData.map(s => `
+                <tr>
+                    <td><strong>${esc(s.full_name)}</strong></td>
+                    <td><span class="status-badge status-sent">${esc(s.plan_type || 'None')}</span></td>
+                    <td>${s.remaining_hours}</td>
+                    <td>${s.used_hours}</td>
+                </tr>
+            `).join('');
+
+            fullTable.innerHTML = studentsData.map(s => `
+                <tr>
+                    <td><strong>${esc(s.full_name)}</strong></td>
+                    <td>${esc(s.email)}</td>
+                    <td><span class="status-badge status-sent">${esc(s.plan_type || 'None')}</span></td>
+                    <td>${s.remaining_hours}</td>
+                    <td>${s.plan_hours}</td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" onclick="window._openEditHours('${s.id}', '${esc(s.full_name)}', ${s.remaining_hours}, ${s.plan_hours})">Edit Hours</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            document.getElementById('studentBadge').textContent = studentsData.length;
+        }
+
+        // Load exams
+        async function loadExams() {
+            try {
+                const res = await fetch(`/api/tutor/exams.php?tutor_id=${currentUser.id}`);
+                const result = await res.json();
+                if (result.success) {
+                    examsData = result.data;
+                    renderExams();
+                    updateStats();
+                }
+            } catch (e) {
+                console.error('Failed to load exams:', e);
+            }
+        }
+
+        function renderExams() {
+            const table = document.getElementById('examsTable');
+            if (examsData.length === 0) {
+                table.innerHTML = '<tr><td colspan="6" class="empty-state">No exams yet</td></tr>';
+                return;
+            }
+
+            table.innerHTML = examsData.map(e => `
+                <tr>
+                    <td>
+                        <strong>${esc(e.title)}</strong>
+                        ${e.file_url ? `<br><a href="${esc(e.file_url)}" target="_blank" style="font-size:0.8rem; color:var(--brand-blue);">View file</a>` : ''}
+                    </td>
+                    <td>${esc(e.student_name)}</td>
+                    <td><span class="status-badge status-${e.status}">${e.status}</span></td>
+                    <td>${e.score !== null ? e.score + '/100' : '-'}</td>
+                    <td>${formatDate(e.created_at)}</td>
+                    <td>
+                        ${e.status === 'sent' ? `<button class="btn btn-sm btn-primary" onclick="window._openGradeExam('${e.id}', '${esc(e.title)}')">Grade</button>` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Load payment requests
+        async function loadPaymentRequests() {
+            try {
+                const res = await fetch(`/api/tutor/payment-requests.php?tutor_id=${currentUser.id}`);
+                const result = await res.json();
+                if (result.success) {
+                    paymentRequestsData = result.data;
+                    renderPayments();
+                }
+            } catch (e) {
+                console.error('Failed to load payment requests:', e);
+            }
+        }
+
+        function renderPayments() {
+            // Payment breakdown
+            const breakdown = document.getElementById('paymentBreakdown');
+            const currentMonth = new Date().toISOString().slice(0, 7);
+            const currentMonthName = new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+            let totalWorked = 0;
+
+            if (studentsData.length === 0) {
+                breakdown.innerHTML = '<p class="empty-state">No students assigned</p>';
+                document.getElementById('paymentForm').style.display = 'none';
+                return;
+            }
+
+            // Check if already submitted for current month
+            const existingRequest = paymentRequestsData.find(r => r.month_year === currentMonth);
+
+            let html = `<p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 0.75rem;">${currentMonthName}</p>`;
+
+            studentsData.forEach(s => {
+                const worked = s.used_hours;
+                totalWorked += worked;
+                html += `
+                    <div class="payment-row">
+                        <span class="label">${esc(s.full_name)} (${esc(s.plan_type || 'N/A')})</span>
+                        <span class="value">${worked} hrs</span>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="payment-total">
+                    <span class="label">Total Hours Worked</span>
+                    <span class="value">${totalWorked} hrs</span>
+                </div>
+            `;
+
+            breakdown.innerHTML = html;
+
+            const form = document.getElementById('paymentForm');
+            if (existingRequest) {
+                form.style.display = 'none';
+                breakdown.innerHTML += `<p style="margin-top: 1rem; color: var(--success); font-size: 0.85rem; font-weight: 500;">Payment request already submitted for this month (${existingRequest.status})</p>`;
+            } else if (totalWorked > 0) {
+                form.style.display = 'flex';
+                window._totalWorkedHours = totalWorked;
+            } else {
+                form.style.display = 'none';
+            }
+
+            // History table
+            const historyTable = document.getElementById('paymentHistoryTable');
+            if (paymentRequestsData.length === 0) {
+                historyTable.innerHTML = '<tr><td colspan="6" class="empty-state">No payment requests yet</td></tr>';
+                return;
+            }
+
+            historyTable.innerHTML = paymentRequestsData.map(r => `
+                <tr>
+                    <td>${r.month_year}</td>
+                    <td>${r.total_hours} hrs</td>
+                    <td>$${parseFloat(r.hourly_rate).toFixed(2)}</td>
+                    <td><strong>$${parseFloat(r.total_amount).toFixed(2)}</strong></td>
+                    <td><span class="status-badge status-${r.status}">${r.status}</span></td>
+                    <td>${formatDate(r.created_at)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Auto-calculate total amount
+        document.getElementById('hourlyRate').addEventListener('input', function() {
+            const rate = parseFloat(this.value) || 0;
+            const total = rate * (window._totalWorkedHours || 0);
+            document.getElementById('totalAmount').value = '$' + total.toFixed(2);
+        });
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('statStudents').textContent = studentsData.length;
+
+            const totalUsed = studentsData.reduce((sum, s) => sum + s.used_hours, 0);
+            document.getElementById('statHours').textContent = totalUsed;
+
+            const toGrade = examsData.filter(e => e.status === 'sent').length;
+            document.getElementById('statExams').textContent = toGrade;
+        }
+
+        // Modal helpers
+        window._openEditHours = function(studentId, name, current, max) {
+            document.getElementById('editHoursStudentName').textContent = name;
+            document.getElementById('editHoursMax').textContent = max;
+            document.getElementById('editHoursInput').value = current;
+            document.getElementById('editHoursInput').max = max;
+            document.getElementById('editHoursStudentId').value = studentId;
+            document.getElementById('editHoursModal').classList.add('active');
+        };
+
+        window._openGradeExam = function(examId, title) {
+            document.getElementById('gradeExamTitle').textContent = title;
+            document.getElementById('gradeExamId').value = examId;
+            document.getElementById('gradeScoreInput').value = '';
+            document.getElementById('gradeExamModal').classList.add('active');
+        };
+
+        window.openSendExamModal = function() {
+            const select = document.getElementById('examStudent');
+            select.innerHTML = studentsData.map(s =>
+                `<option value="${s.id}">${esc(s.full_name)}</option>`
+            ).join('');
+            document.getElementById('examTitle').value = '';
+            document.getElementById('examNotes').value = '';
+            document.getElementById('examFile').value = '';
+            document.getElementById('sendExamModal').classList.add('active');
+        };
+
+        window.closeModal = function(id) {
+            document.getElementById(id).classList.remove('active');
+        };
+
+        // Save hours
+        window.saveHours = async function() {
+            const studentId = document.getElementById('editHoursStudentId').value;
+            const hours = parseFloat(document.getElementById('editHoursInput').value);
+
+            try {
+                const res = await fetch('/api/tutor/hours.php', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        student_id: studentId,
+                        tutor_id: currentUser.id,
+                        remaining_hours: hours
+                    })
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    showToast('Hours updated', 'success');
+                    closeModal('editHoursModal');
+                    await loadStudents();
+                    renderPayments();
+                } else {
+                    showToast(result.message || 'Failed to update', 'error');
+                }
+            } catch (e) {
+                showToast('Failed to update hours', 'error');
+            }
+        };
+
+        // Send exam
+        window.sendExam = async function() {
+            const studentId = document.getElementById('examStudent').value;
+            const title = document.getElementById('examTitle').value;
+            const notes = document.getElementById('examNotes').value;
+            const fileInput = document.getElementById('examFile');
+            const btn = document.getElementById('sendExamBtn');
+
+            if (!title) {
+                showToast('Title is required', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            let fileUrl = null;
+
+            // Upload file if selected
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const fileName = `${Date.now()}-${file.name}`;
+
+                try {
+                    const { data, error } = await supabase.storage
+                        .from('exam-files')
+                        .upload(fileName, file);
+
+                    if (error) {
+                        console.error('Upload error:', error);
+                        showToast('File upload failed: ' + error.message, 'error');
+                        btn.disabled = false;
+                        btn.textContent = 'Send';
+                        return;
+                    }
+
+                    const { data: urlData } = supabase.storage
+                        .from('exam-files')
+                        .getPublicUrl(fileName);
+
+                    fileUrl = urlData.publicUrl;
+                } catch (e) {
+                    showToast('File upload failed', 'error');
+                    btn.disabled = false;
+                    btn.textContent = 'Send';
+                    return;
+                }
+            }
+
+            try {
+                const res = await fetch('/api/tutor/exams.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tutor_id: currentUser.id,
+                        student_id: studentId,
+                        title,
+                        notes,
+                        file_url: fileUrl
+                    })
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    showToast('Exam sent successfully', 'success');
+                    closeModal('sendExamModal');
+                    await loadExams();
+                } else {
+                    showToast(result.message || 'Failed to send exam', 'error');
+                }
+            } catch (e) {
+                showToast('Failed to send exam', 'error');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Send';
+        };
+
+        // Grade exam
+        window.gradeExam = async function() {
+            const examId = document.getElementById('gradeExamId').value;
+            const score = parseFloat(document.getElementById('gradeScoreInput').value);
+
+            if (isNaN(score) || score < 0 || score > 100) {
+                showToast('Score must be between 0 and 100', 'error');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/tutor/exams.php', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: examId, score })
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    showToast('Exam graded', 'success');
+                    closeModal('gradeExamModal');
+                    await loadExams();
+                } else {
+                    showToast(result.message || 'Failed to grade', 'error');
+                }
+            } catch (e) {
+                showToast('Failed to grade exam', 'error');
+            }
+        };
+
+        // Submit payment request
+        window.submitPaymentRequest = async function() {
+            const hourlyRate = parseFloat(document.getElementById('hourlyRate').value);
+            const totalHours = window._totalWorkedHours || 0;
+
+            if (!hourlyRate || hourlyRate <= 0) {
+                showToast('Enter a valid hourly rate', 'error');
+                return;
+            }
+
+            const totalAmount = hourlyRate * totalHours;
+            const currentMonth = new Date().toISOString().slice(0, 7);
+            const btn = document.getElementById('submitPaymentBtn');
+
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            try {
+                const res = await fetch('/api/tutor/payment-requests.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tutor_id: currentUser.id,
+                        month_year: currentMonth,
+                        total_hours: totalHours,
+                        hourly_rate: hourlyRate,
+                        total_amount: totalAmount
+                    })
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    showToast('Payment request submitted', 'success');
+                    await loadPaymentRequests();
+                } else {
+                    showToast(result.message || 'Failed to submit', 'error');
+                }
+            } catch (e) {
+                showToast('Failed to submit payment request', 'error');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Submit Request';
+        };
+
+        // Helpers
+        function esc(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function showToast(message, type = '') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast' + (type ? ' ' + type : '');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        // Init
+        init();
+    </script>
+</body>
+</html>

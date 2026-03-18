@@ -61,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     if (isset($input['french_level'])) $updateData['french_level'] = $input['french_level'];
     if (isset($input['timezone'])) $updateData['timezone'] = $input['timezone'];
     if (isset($input['goals_description'])) $updateData['goals_description'] = $input['goals_description'];
+    if (array_key_exists('assigned_tutor_id', $input)) $updateData['assigned_tutor_id'] = $input['assigned_tutor_id'];
 
     if (empty($updateData)) {
         http_response_code(400);

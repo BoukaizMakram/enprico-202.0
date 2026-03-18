@@ -724,6 +724,26 @@
                 </div>
 
                 <div class="nav-section">
+                    <div class="nav-section-title">Management</div>
+                    <div class="nav-item" data-tab="tutors">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <span>Tutors</span>
+                        <span class="badge" id="tutorCount">0</span>
+                    </div>
+                    <div class="nav-item" data-tab="paymentRequests">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"/>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                        <span>Payment Requests</span>
+                        <span class="badge" id="paymentRequestCount">0</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
                     <div class="nav-section-title">Analytics</div>
                     <div class="nav-item" data-tab="traffic">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -989,6 +1009,74 @@
                 </div>
             </div>
 
+            <!-- Tutors Tab -->
+            <div class="tab-content" id="tab-tutors">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Tutors</h1>
+                        <p class="page-subtitle">Manage tutor accounts and student assignments</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="openModal('addTutorModal')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            Add Tutor
+                        </button>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">All Tutors</h2>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Assigned Students</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tutorsTable">
+                            <tr><td colspan="5" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Payment Requests Tab -->
+            <div class="tab-content" id="tab-paymentRequests">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Payment Requests</h1>
+                        <p class="page-subtitle">Review and manage tutor payment requests</p>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div class="data-card-header">
+                        <h2 class="data-card-title">All Requests</h2>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tutor</th>
+                                <th>Month</th>
+                                <th>Hours</th>
+                                <th>Rate</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentRequestsTable">
+                            <tr><td colspan="7" class="loading"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- Traffic Tab -->
             <div class="tab-content" id="tab-traffic">
                 <div class="page-header">
@@ -1168,6 +1256,60 @@
         </div>
     </div>
 
+    <!-- Add Tutor Modal -->
+    <div class="modal-overlay" id="addTutorModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Add Tutor</h2>
+                <button class="modal-close" onclick="closeModal('addTutorModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="newTutorName" required placeholder="Tutor full name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="newTutorEmail" required placeholder="tutor@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="text" id="newTutorPassword" required placeholder="Initial password">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addTutorModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addTutor()" id="addTutorBtn">Create Tutor</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assign Students Modal -->
+    <div class="modal-overlay" id="assignStudentsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Assign Students to Tutor</h2>
+                <button class="modal-close" onclick="closeModal('assignStudentsModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--gray-500); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Assigning students to: <strong id="assignTutorName">Tutor</strong>
+                </p>
+                <input type="hidden" id="assignTutorId">
+                <div id="assignStudentsList" style="max-height: 400px; overflow-y: auto;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('assignStudentsModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveStudentAssignments()">Save Assignments</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Admin credentials (in production, this should be server-side)
         const ADMIN_EMAIL = 'admin@enprico.com';
@@ -1179,6 +1321,8 @@
         let registrations = [];
         let subscriptions = [];
         let traffic = [];
+        let tutors = [];
+        let paymentRequests = [];
 
         // Check if already logged in
         if (localStorage.getItem('adminLoggedIn') === 'true') {
@@ -1231,8 +1375,12 @@
                 loadStudents(),
                 loadRegistrations(),
                 loadSubscriptions(),
-                loadTraffic()
+                loadTraffic(),
+                loadTutors(),
+                loadPaymentRequests()
             ]);
+            // Re-render students now that subscriptions are loaded (for plan_type lookup)
+            renderStudents();
             updateStats();
         }
 
@@ -1414,13 +1562,16 @@
                 return;
             }
 
-            tbody.innerHTML = students.map(student => `
+            tbody.innerHTML = students.map(student => {
+                const sub = subscriptions.find(s => s.user_id === student.id && s.status === 'active');
+                const planType = sub ? sub.plan_type : null;
+                return `
                 <tr>
                     <td>${student.full_name || '-'}</td>
                     <td>${student.email || '-'}</td>
                     <td>${student.phone || '-'}</td>
                     <td>${capitalizeFirst(student.french_level) || '-'}</td>
-                    <td>${student.plan_type ? capitalizeFirst(student.plan_type) : '-'}</td>
+                    <td>${planType ? capitalizeFirst(planType) : '-'}</td>
                     <td>
                         <div class="action-btns">
                             <button class="action-btn view" onclick="viewStudent('${student.id}')" title="View">
@@ -1446,7 +1597,7 @@
                         </div>
                     </td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
         function renderRegistrations() {
@@ -1470,6 +1621,14 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                                     <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteRegistration('${reg.id}', '${(reg.full_name || '').replace(/'/g, "\\'")}')" title="Delete" style="color: #dc2626;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                    <line x1="10" y1="11" x2="10" y2="17"/>
+                                    <line x1="14" y1="11" x2="14" y2="17"/>
                                 </svg>
                             </button>
                         </div>
@@ -1704,6 +1863,29 @@
             openModal('viewDetailsModal');
         }
 
+        async function deleteRegistration(id, name) {
+            if (!confirm(`Are you sure you want to delete the registration for "${name}"?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/registrations.php', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    loadRegistrations();
+                    alert('Registration deleted.');
+                } else {
+                    alert(result.message || 'Failed to delete registration');
+                }
+            } catch (error) {
+                alert('Error deleting registration');
+            }
+        }
+
         function viewSubscription(id) {
             const sub = subscriptions.find(s => s.id === id);
             if (!sub) return;
@@ -1887,6 +2069,274 @@
                 }
             });
         });
+
+        // ============================================
+        // TUTORS
+        // ============================================
+
+        async function loadTutors() {
+            try {
+                const response = await fetch('/api/admin/tutors.php');
+                const data = await response.json();
+                if (data.success) {
+                    tutors = data.data || [];
+                    renderTutors();
+                }
+            } catch (error) {
+                console.error('Error loading tutors:', error);
+                tutors = [];
+                renderTutors();
+            }
+        }
+
+        function renderTutors() {
+            const tbody = document.getElementById('tutorsTable');
+            document.getElementById('tutorCount').textContent = tutors.length;
+
+            if (tutors.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No tutors yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = tutors.map(tutor => {
+                const assignedCount = students.filter(s => s.assigned_tutor_id === tutor.id).length;
+                return `
+                <tr>
+                    <td><strong>${tutor.full_name || '-'}</strong></td>
+                    <td>${tutor.email || '-'}</td>
+                    <td>${assignedCount} student${assignedCount !== 1 ? 's' : ''}</td>
+                    <td>${formatDate(tutor.created_at)}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="action-btn edit" onclick="openAssignStudents('${tutor.id}', '${(tutor.full_name || '').replace(/'/g, "\\'")}')" title="Assign Students">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="8.5" cy="7" r="4"/>
+                                    <line x1="20" y1="8" x2="20" y2="14"/>
+                                    <line x1="23" y1="11" x2="17" y2="11"/>
+                                </svg>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteTutor('${tutor.id}', '${(tutor.full_name || '').replace(/'/g, "\\'")}')" title="Delete" style="color: #dc2626;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+        }
+
+        async function addTutor() {
+            const name = document.getElementById('newTutorName').value.trim();
+            const email = document.getElementById('newTutorEmail').value.trim();
+            const password = document.getElementById('newTutorPassword').value;
+            const btn = document.getElementById('addTutorBtn');
+
+            if (!name || !email || !password) {
+                alert('All fields are required');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Creating...';
+
+            try {
+                const response = await fetch('/api/admin/tutors.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ full_name: name, email, password })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    closeModal('addTutorModal');
+                    document.getElementById('newTutorName').value = '';
+                    document.getElementById('newTutorEmail').value = '';
+                    document.getElementById('newTutorPassword').value = '';
+                    await loadTutors();
+                    alert('Tutor created successfully!');
+                } else {
+                    alert(result.message || 'Failed to create tutor');
+                }
+            } catch (error) {
+                alert('Error creating tutor');
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Create Tutor';
+        }
+
+        async function deleteTutor(id, name) {
+            if (!confirm(`Are you sure you want to delete tutor "${name}"?\n\nThis will unassign all their students.`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin/tutors.php', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    await Promise.all([loadTutors(), loadStudents()]);
+                    alert('Tutor deleted successfully.');
+                } else {
+                    alert(result.message || 'Failed to delete tutor');
+                }
+            } catch (error) {
+                alert('Error deleting tutor');
+            }
+        }
+
+        function openAssignStudents(tutorId, tutorName) {
+            document.getElementById('assignTutorId').value = tutorId;
+            document.getElementById('assignTutorName').textContent = tutorName;
+
+            const list = document.getElementById('assignStudentsList');
+            const studentProfiles = students.filter(s => s.role !== 'tutor');
+
+            if (studentProfiles.length === 0) {
+                list.innerHTML = '<p class="empty-state">No students available</p>';
+            } else {
+                list.innerHTML = studentProfiles.map(s => `
+                    <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid var(--gray-100); cursor: pointer;">
+                        <input type="checkbox" value="${s.id}" ${s.assigned_tutor_id === tutorId ? 'checked' : ''} style="width: 18px; height: 18px;">
+                        <div>
+                            <div style="font-weight: 500;">${s.full_name || '-'}</div>
+                            <div style="font-size: 0.8rem; color: var(--gray-500);">${s.email || '-'}</div>
+                        </div>
+                        ${s.assigned_tutor_id && s.assigned_tutor_id !== tutorId ? '<span style="margin-left: auto; font-size: 0.7rem; color: var(--warning);">Assigned to another</span>' : ''}
+                    </label>
+                `).join('');
+            }
+
+            openModal('assignStudentsModal');
+        }
+
+        async function saveStudentAssignments() {
+            const tutorId = document.getElementById('assignTutorId').value;
+            const checkboxes = document.querySelectorAll('#assignStudentsList input[type="checkbox"]');
+
+            const updates = [];
+            checkboxes.forEach(cb => {
+                const studentId = cb.value;
+                const student = students.find(s => s.id === studentId);
+                const wasAssigned = student && student.assigned_tutor_id === tutorId;
+                const isNowAssigned = cb.checked;
+
+                if (isNowAssigned && !wasAssigned) {
+                    updates.push({ id: studentId, assigned_tutor_id: tutorId });
+                } else if (!isNowAssigned && wasAssigned) {
+                    updates.push({ id: studentId, assigned_tutor_id: null });
+                }
+            });
+
+            if (updates.length === 0) {
+                closeModal('assignStudentsModal');
+                return;
+            }
+
+            try {
+                for (const update of updates) {
+                    await fetch('/api/admin/students.php', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(update)
+                    });
+                }
+
+                closeModal('assignStudentsModal');
+                await loadStudents();
+                renderTutors();
+                alert('Student assignments updated!');
+            } catch (error) {
+                alert('Error updating assignments');
+            }
+        }
+
+        // ============================================
+        // PAYMENT REQUESTS
+        // ============================================
+
+        async function loadPaymentRequests() {
+            try {
+                const response = await fetch('/api/admin/payment-requests.php');
+                const data = await response.json();
+                if (data.success) {
+                    paymentRequests = data.data || [];
+                    renderPaymentRequests();
+                }
+            } catch (error) {
+                console.error('Error loading payment requests:', error);
+                paymentRequests = [];
+                renderPaymentRequests();
+            }
+        }
+
+        function renderPaymentRequests() {
+            const tbody = document.getElementById('paymentRequestsTable');
+            const pendingCount = paymentRequests.filter(r => r.status === 'pending').length;
+            document.getElementById('paymentRequestCount').textContent = pendingCount;
+
+            if (paymentRequests.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No payment requests yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = paymentRequests.map(r => `
+                <tr>
+                    <td><strong>${r.tutor_name || '-'}</strong></td>
+                    <td>${r.month_year}</td>
+                    <td>${r.total_hours} hrs</td>
+                    <td>$${parseFloat(r.hourly_rate).toFixed(2)}</td>
+                    <td><strong>$${parseFloat(r.total_amount).toFixed(2)} CAD</strong></td>
+                    <td><span class="status-badge status-${r.status === 'paid' ? 'active' : r.status === 'approved' ? 'active' : r.status === 'rejected' ? 'inactive' : 'pending'}">${capitalizeFirst(r.status)}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            ${r.status === 'pending' ? `
+                                <button class="action-btn view" onclick="updatePaymentRequest('${r.id}', 'approved')" title="Approve" style="color: var(--success);">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                </button>
+                                <button class="action-btn delete" onclick="updatePaymentRequest('${r.id}', 'rejected')" title="Reject" style="color: var(--danger);">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                                </button>
+                            ` : ''}
+                            ${r.status === 'approved' ? `
+                                <button class="action-btn view" onclick="updatePaymentRequest('${r.id}', 'paid')" title="Mark as Paid" style="color: var(--success);">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function updatePaymentRequest(id, status) {
+            const action = status === 'approved' ? 'approve' : status === 'rejected' ? 'reject' : 'mark as paid';
+            if (!confirm(`Are you sure you want to ${action} this payment request?`)) return;
+
+            try {
+                const response = await fetch('/api/admin/payment-requests.php', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, status })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    await loadPaymentRequests();
+                } else {
+                    alert(result.message || 'Failed to update');
+                }
+            } catch (error) {
+                alert('Error updating payment request');
+            }
+        }
     </script>
 </body>
 </html>
