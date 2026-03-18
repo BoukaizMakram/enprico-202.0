@@ -23,7 +23,7 @@ $supabaseKey = SUPABASE_SERVICE_KEY;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Fetch all students from profiles table
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $supabaseUrl . '/rest/v1/profiles?order=created_at.desc');
+    curl_setopt($ch, CURLOPT_URL, $supabaseUrl . '/rest/v1/profiles?role=eq.student&order=created_at.desc');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'apikey: ' . $supabaseKey,

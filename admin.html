@@ -31,8 +31,9 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--gray-100);
+            background: var(--gray-50);
             min-height: 100vh;
+            color: var(--gray-900);
         }
 
         /* Login Screen */
@@ -132,10 +133,11 @@
             top: 0;
             width: 260px;
             height: 100vh;
-            background: var(--gray-900);
-            color: white;
+            background: white;
+            border-right: 1px solid var(--gray-200);
             padding: 1.5rem;
             overflow-y: auto;
+            z-index: 100;
         }
 
         .sidebar-logo {
@@ -143,19 +145,21 @@
             align-items: center;
             gap: 0.75rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid var(--gray-100);
             margin-bottom: 1.5rem;
+            text-decoration: none;
         }
 
         .sidebar-logo img {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 8px;
         }
 
         .sidebar-logo span {
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
+            color: var(--gray-900);
         }
 
         .nav-section {
@@ -163,44 +167,51 @@
         }
 
         .nav-section-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--gray-500);
-            margin-bottom: 0.75rem;
+            letter-spacing: 0.08em;
+            color: var(--gray-400);
+            margin-bottom: 0.5rem;
+            padding-left: 0.75rem;
+            font-weight: 600;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0.75rem 1rem;
+            padding: 0.625rem 0.75rem;
             border-radius: 8px;
-            color: var(--gray-300);
+            color: var(--gray-600);
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 0.25rem;
+            transition: background 0.15s, color 0.15s;
+            margin-bottom: 2px;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .nav-item:hover {
-            background: rgba(255,255,255,0.1);
-            color: white;
+            background: var(--gray-50);
+            color: var(--gray-900);
         }
 
         .nav-item.active {
-            background: var(--brand-blue);
-            color: white;
+            background: var(--gray-100);
+            color: var(--gray-900);
+            font-weight: 600;
         }
 
         .nav-item svg {
             width: 20px;
             height: 20px;
+            flex-shrink: 0;
         }
 
         .nav-item .badge {
             margin-left: auto;
-            background: var(--brand-blue);
+            background: var(--gray-100);
+            color: var(--gray-600);
             padding: 0.125rem 0.5rem;
             border-radius: 10px;
             font-size: 0.75rem;
@@ -208,7 +219,8 @@
         }
 
         .nav-item.active .badge {
-            background: rgba(255,255,255,0.2);
+            background: var(--gray-200);
+            color: var(--gray-700);
         }
 
         /* Main Content */
@@ -294,7 +306,8 @@
             background: white;
             border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid var(--gray-100);
         }
 
         .stat-card-header {
@@ -333,7 +346,8 @@
         .data-card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid var(--gray-100);
             overflow: hidden;
         }
 
@@ -415,9 +429,9 @@
             display: inline-block;
         }
 
-        .status-active { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .status-active, .status-completed, .status-paid { background: rgba(16, 185, 129, 0.1); color: var(--success); }
         .status-pending { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        .status-inactive { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .status-inactive, .status-rejected { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
         .status-expired { background: rgba(100, 116, 139, 0.1); color: var(--gray-500); }
 
         .action-btns {
@@ -590,12 +604,25 @@
             opacity: 0.5;
         }
 
-        /* Logout button */
-        .logout-btn {
+        /* Sidebar Footer */
+        .sidebar-footer {
             position: absolute;
             bottom: 1.5rem;
             left: 1.5rem;
             right: 1.5rem;
+        }
+
+        .logout-btn {
+            width: 100%;
+            color: var(--gray-500);
+            border: 1px solid var(--gray-200);
+            font-size: 0.85rem;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.05);
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.2);
         }
 
         /* Responsive */
@@ -607,13 +634,19 @@
 
             .sidebar-logo span,
             .nav-section-title,
-            .nav-item span {
+            .nav-item span,
+            .nav-item .badge {
                 display: none;
             }
 
             .nav-item {
                 justify-content: center;
                 padding: 0.75rem;
+            }
+
+            .sidebar-footer {
+                left: 1rem;
+                right: 1rem;
             }
 
             .main-content {
@@ -768,14 +801,16 @@
                 </div>
             </nav>
 
-            <button class="nav-item logout-btn" onclick="logout()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                    <polyline points="16 17 21 12 16 7"/>
-                    <line x1="21" y1="12" x2="9" y2="12"/>
-                </svg>
-                <span>Logout</span>
-            </button>
+            <div class="sidebar-footer">
+                <button class="nav-item logout-btn" onclick="logout()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            </div>
         </aside>
 
         <!-- Main Content -->

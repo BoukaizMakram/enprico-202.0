@@ -22,7 +22,7 @@ $supabaseKey = SUPABASE_SERVICE_KEY;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Fetch all pending registrations
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $supabaseUrl . '/rest/v1/pending_registrations?order=created_at.desc');
+    curl_setopt($ch, CURLOPT_URL, $supabaseUrl . '/rest/v1/pending_registrations?status=eq.pending&order=created_at.desc');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'apikey: ' . $supabaseKey,
