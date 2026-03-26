@@ -1,6 +1,6 @@
-import { supabaseRest } from '../_lib/supabase.js';
-import { withCors } from '../_lib/cors.js';
-import { getUserByEmail, formatArrayForPostgres } from '../_lib/auth.js';
+import { supabaseRest } from '../../supabase.js';
+import { withCors } from '../../cors.js';
+import { getUserByEmail, formatArrayForPostgres } from '../../auth.js';
 
 async function handler(req, res) {
   if (req.method !== 'POST') {

@@ -1,7 +1,7 @@
-import { supabaseRest } from '../_lib/supabase.js';
-import { withCors } from '../_lib/cors.js';
-import { createSupabaseUser, createUserProfile, getPendingRegistration, markRegistrationCompleted, generateUserPassword, getUserByEmail, createSubscriptionIfNeeded } from '../_lib/auth.js';
-import { sendEmail, welcomeEmailHtml, adminNotificationHtml, hoursAddedEmailHtml, getPlanName } from '../_lib/email.js';
+import { supabaseRest } from '../../supabase.js';
+import { withCors } from '../../cors.js';
+import { createSupabaseUser, createUserProfile, getPendingRegistration, markRegistrationCompleted, generateUserPassword, getUserByEmail, createSubscriptionIfNeeded } from '../../auth.js';
+import { sendEmail, welcomeEmailHtml, adminNotificationHtml, hoursAddedEmailHtml, getPlanName } from '../../email.js';
 
 const PLANS = {
   starter: { price: 160, hours: 8 },

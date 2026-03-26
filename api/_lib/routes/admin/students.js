@@ -1,5 +1,5 @@
-import { supabaseRest, supabaseAuth } from '../_lib/supabase.js';
-import { withCors } from '../_lib/cors.js';
+import { supabaseRest, supabaseAuth } from '../../supabase.js';
+import { withCors } from '../../cors.js';
 
 async function handler(req, res) {
   if (req.method === 'GET') {
