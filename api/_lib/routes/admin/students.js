@@ -5,7 +5,7 @@ async function handler(req, res) {
   if (req.method === 'GET') {
     const { status, data } = await supabaseRest('GET', '/rest/v1/profiles?role=eq.student&order=created_at.desc');
     if (status === 200) return res.json({ success: true, data });
-    return res.json({ success: false, message: 'Failed to fetch students', data: [] });
+    return res.json({ success: false, message: 'Failed to fetch students', debug: { status, data, hasUrl: !!process.env.SUPABASE_URL, hasKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY } });
   }
 
   if (req.method === 'PUT') {
