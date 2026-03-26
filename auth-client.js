@@ -26,7 +26,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
  */
 export async function sendAdminNotification(type, userEmail, userName, details = '') {
     try {
-        await fetch('/send-email.php', {
+        await fetch('/api/contact/send-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

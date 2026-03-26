@@ -289,7 +289,7 @@ export class RegistrationForm {
 
     async checkEmailExists(email) {
         try {
-            const response = await fetch('/api/registration/check-email.php', {
+            const response = await fetch('/api/registration/check-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
@@ -331,7 +331,7 @@ export class RegistrationForm {
         };
 
         // Submit to API
-        const response = await fetch('/api/registration/create-pending.php', {
+        const response = await fetch('/api/registration/create-pending', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(registrationData)
@@ -347,7 +347,7 @@ export class RegistrationForm {
     }
 
     async createCheckoutSessionForExistingUser(userId, userEmail) {
-        const response = await fetch('/api/stripe/create-checkout-session.php', {
+        const response = await fetch('/api/stripe/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -370,7 +370,7 @@ export class RegistrationForm {
     }
 
     async createCheckoutSession(registrationId) {
-        const response = await fetch('/api/stripe/create-checkout-session.php', {
+        const response = await fetch('/api/stripe/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

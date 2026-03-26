@@ -43,7 +43,7 @@ export const PLANS = {
  * @returns {Promise<Object>} Checkout session data with url
  */
 export async function createCheckoutSession(options) {
-    const response = await fetch('/api/stripe/create-checkout-session.php', {
+    const response = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -98,7 +98,7 @@ export async function redirectToCheckout(planType, userId, userEmail) {
  * @returns {Promise<Object>} Verification result
  */
 export async function verifyCheckoutSession(sessionId) {
-    const response = await fetch('/api/stripe/verify-session.php', {
+    const response = await fetch('/api/stripe/verify-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId })
