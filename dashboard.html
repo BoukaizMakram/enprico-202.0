@@ -839,7 +839,7 @@
 
         async function loadExams(userId) {
             try {
-                const res = await fetch(`/api/student/exams.php?user_id=${userId}`);
+                const res = await fetch(`/api/student/exams?user_id=${userId}`);
                 const result = await res.json();
                 if (result.success) {
                     examsData = result.data || [];
@@ -891,7 +891,7 @@
 
         async function loadExercises(userId) {
             try {
-                const res = await fetch(`/api/student/exercises.php?user_id=${userId}`);
+                const res = await fetch(`/api/student/exercises?user_id=${userId}`);
                 const result = await res.json();
                 if (result.success) {
                     exercisesData = result.data || [];

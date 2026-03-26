@@ -989,7 +989,7 @@
         // Load students
         async function loadStudents() {
             try {
-                const res = await fetch(`/api/tutor/students.php?tutor_id=${currentUser.id}`);
+                const res = await fetch(`/api/tutor/students?tutor_id=${currentUser.id}`);
                 const result = await res.json();
                 if (result.success) {
                     studentsData = result.data;
@@ -1040,7 +1040,7 @@
         // Load exams
         async function loadExams() {
             try {
-                const res = await fetch(`/api/tutor/exams.php?tutor_id=${currentUser.id}`);
+                const res = await fetch(`/api/tutor/exams?tutor_id=${currentUser.id}`);
                 const result = await res.json();
                 if (result.success) {
                     examsData = result.data;
@@ -1079,7 +1079,7 @@
         // Load payment requests
         async function loadPaymentRequests() {
             try {
-                const res = await fetch(`/api/tutor/payment-requests.php?tutor_id=${currentUser.id}`);
+                const res = await fetch(`/api/tutor/payment-requests?tutor_id=${currentUser.id}`);
                 const result = await res.json();
                 if (result.success) {
                     paymentRequestsData = result.data;
@@ -1215,7 +1215,7 @@
             const hours = parseFloat(document.getElementById('editHoursInput').value);
 
             try {
-                const res = await fetch('/api/tutor/hours.php', {
+                const res = await fetch('/api/tutor/hours', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1289,7 +1289,7 @@
             }
 
             try {
-                const res = await fetch('/api/tutor/exams.php', {
+                const res = await fetch('/api/tutor/exams', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1328,7 +1328,7 @@
             }
 
             try {
-                const res = await fetch('/api/tutor/exams.php', {
+                const res = await fetch('/api/tutor/exams', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id: examId, score })
@@ -1365,7 +1365,7 @@
             btn.textContent = 'Submitting...';
 
             try {
-                const res = await fetch('/api/tutor/payment-requests.php', {
+                const res = await fetch('/api/tutor/payment-requests', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1398,7 +1398,7 @@
 
         async function loadExercises() {
             try {
-                const res = await fetch(`/api/tutor/exercises.php?tutor_id=${currentUser.id}`);
+                const res = await fetch(`/api/tutor/exercises?tutor_id=${currentUser.id}`);
                 const result = await res.json();
                 if (result.success) {
                     exercisesData = result.data || [];
@@ -1544,7 +1544,7 @@
             }
 
             try {
-                const res = await fetch('/api/tutor/exercises.php', {
+                const res = await fetch('/api/tutor/exercises', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1589,7 +1589,7 @@
             }
 
             try {
-                const res = await fetch('/api/tutor/exercises.php', {
+                const res = await fetch('/api/tutor/exercises', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id, score })
@@ -1613,7 +1613,7 @@
 
         async function loadMaterials() {
             try {
-                const res = await fetch('/api/tutor/study-materials.php');
+                const res = await fetch('/api/tutor/study-materials');
                 const result = await res.json();
                 if (result.success) {
                     materialsData = result.data || [];
@@ -1663,7 +1663,7 @@
 
         async function loadNotifications() {
             try {
-                const res = await fetch(`/api/tutor/notifications.php?tutor_id=${currentUser.id}`);
+                const res = await fetch(`/api/tutor/notifications?tutor_id=${currentUser.id}`);
                 const result = await res.json();
                 if (result.success) {
                     notificationsData = result.data || [];
@@ -1707,7 +1707,7 @@
 
         window._markRead = async function(id) {
             try {
-                await fetch('/api/tutor/notifications.php', {
+                await fetch('/api/tutor/notifications', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })

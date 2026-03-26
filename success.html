@@ -447,7 +447,7 @@
 
             try {
                 // Call complete-registration endpoint to ensure user is created
-                const response = await fetch('/api/registration/complete-registration.php', {
+                const response = await fetch('/api/registration/complete-registration', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ sessionId })

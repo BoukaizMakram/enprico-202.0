@@ -2129,7 +2129,7 @@
                 };
 
                 try {
-                    const response = await fetch('/send-email.php', {
+                    const response = await fetch('/api/contact/send-email', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -2202,7 +2202,7 @@
                 submitBtn.textContent = 'Subscribing...';
 
                 try {
-                    const response = await fetch('/api/newsletter/subscribe.php', {
+                    const response = await fetch('/api/newsletter/subscribe', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -2407,7 +2407,7 @@
                 showProcessing();
 
                 // Create checkout session via API
-                const response = await fetch('/api/stripe/create-checkout-session.php', {
+                const response = await fetch('/api/stripe/create-checkout-session', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -2678,7 +2678,7 @@
         };
 
         // Send to tracking API
-        fetch('/api/traffic/track.php', {
+        fetch('/api/traffic/track', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(trafficData)

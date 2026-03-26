@@ -1,0 +1,30 @@
+{
+  "rewrites": [
+    { "source": "/api/admin/students", "destination": "/api/admin/students.js" },
+    { "source": "/api/admin/registrations", "destination": "/api/admin/registrations.js" },
+    { "source": "/api/admin/subscribers", "destination": "/api/admin/subscribers.js" },
+    { "source": "/api/admin/subscriptions", "destination": "/api/admin/subscriptions.js" },
+    { "source": "/api/admin/traffic", "destination": "/api/admin/traffic.js" },
+    { "source": "/api/admin/tutors", "destination": "/api/admin/tutors.js" },
+    { "source": "/api/admin/payment-requests", "destination": "/api/admin/payment-requests.js" },
+    { "source": "/api/admin/study-materials", "destination": "/api/admin/study-materials.js" },
+    { "source": "/api/admin/notifications", "destination": "/api/admin/notifications.js" },
+    { "source": "/api/tutor/students", "destination": "/api/tutor/students.js" },
+    { "source": "/api/tutor/hours", "destination": "/api/tutor/hours.js" },
+    { "source": "/api/tutor/exams", "destination": "/api/tutor/exams.js" },
+    { "source": "/api/tutor/exercises", "destination": "/api/tutor/exercises.js" },
+    { "source": "/api/tutor/notifications", "destination": "/api/tutor/notifications.js" },
+    { "source": "/api/tutor/study-materials", "destination": "/api/tutor/study-materials.js" },
+    { "source": "/api/tutor/payment-requests", "destination": "/api/tutor/payment-requests.js" },
+    { "source": "/api/student/exams", "destination": "/api/student/exams.js" },
+    { "source": "/api/student/exercises", "destination": "/api/student/exercises.js" },
+    { "source": "/api/stripe/create-checkout-session", "destination": "/api/stripe/create-checkout-session.js" },
+    { "source": "/api/stripe/verify-session", "destination": "/api/stripe/verify-session.js" },
+    { "source": "/api/stripe/webhook", "destination": "/api/stripe/webhook.js" },
+    { "source": "/api/registration/create-pending", "destination": "/api/registration/create-pending.js" },
+    { "source": "/api/registration/complete-registration", "destination": "/api/registration/complete-registration.js" },
+    { "source": "/api/newsletter/subscribe", "destination": "/api/newsletter/subscribe.js" },
+    { "source": "/api/traffic/track", "destination": "/api/traffic/track.js" },
+    { "source": "/api/contact/send-email", "destination": "/api/contact/send-email.js" }
+  ]
+}
