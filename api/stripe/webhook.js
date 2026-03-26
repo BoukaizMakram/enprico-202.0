@@ -166,7 +166,7 @@ async function handleCheckoutSessionCompleted(session) {
   const userType = isNewUser ? 'NEW USER' : 'EXISTING USER';
   const planName = getPlanName(planType);
   try {
-    await sendEmail('learn@enprico.com', `New Payment Received: ${planName} (${userType})`,
+    await sendEmail('learn@enprico.ca', `New Payment Received: ${planName} (${userType})`,
       adminNotificationHtml(customerEmail, planName, amountTotal, plan.hours, stripeSubscriptionId || sessionId, userType, new Date().toISOString()));
   } catch (e) { console.error('Failed to send admin notification:', e); }
 

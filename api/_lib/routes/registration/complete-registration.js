@@ -55,7 +55,7 @@ async function handler(req, res) {
         try {
           await sendEmail(registration.email, 'Welcome to Enprico - Your Account Details',
             welcomeEmailHtml(firstName, registration.email, generatedPassword, planName));
-          await sendEmail('learn@enprico.com', `New Payment Received: ${planName} (NEW USER)`,
+          await sendEmail('learn@enprico.ca', `New Payment Received: ${planName} (NEW USER)`,
             adminNotificationHtml(registration.email, planName, plan.price, plan.hours, sessionId, 'NEW USER', new Date().toISOString()));
         } catch (e) { console.error('Email error:', e); }
 
@@ -108,7 +108,7 @@ async function handler(req, res) {
     } catch (e) { console.error('Welcome email error:', e); }
 
     try {
-      await sendEmail('learn@enprico.com', `New Payment Received: ${planName} (NEW USER)`,
+      await sendEmail('learn@enprico.ca', `New Payment Received: ${planName} (NEW USER)`,
         adminNotificationHtml(registration.email, planName, plan.price, plan.hours, sessionId, 'NEW USER', new Date().toISOString()));
     } catch (e) { console.error('Admin notification error:', e); }
 
@@ -135,7 +135,7 @@ async function handler(req, res) {
     }
 
     try {
-      await sendEmail('learn@enprico.com', `New Payment Received: ${planName} (EXISTING USER)`,
+      await sendEmail('learn@enprico.ca', `New Payment Received: ${planName} (EXISTING USER)`,
         adminNotificationHtml(customerEmail, planName, plan.price, plan.hours, sessionId, 'EXISTING USER', new Date().toISOString()));
     } catch (e) { console.error('Admin notification error:', e); }
 

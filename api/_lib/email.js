@@ -9,7 +9,7 @@ function getTransporter() {
       port: parseInt(process.env.SMTP_PORT || '465'),
       secure: true,
       auth: {
-        user: process.env.SMTP_USER || 'learn@enprico.com',
+        user: process.env.SMTP_USER || 'learn@enprico.ca',
         pass: process.env.SMTP_PASS,
       },
       tls: { rejectUnauthorized: false },
@@ -21,7 +21,7 @@ function getTransporter() {
 export async function sendEmail(to, subject, html) {
   try {
     await getTransporter().sendMail({
-      from: `Enprico <${process.env.SMTP_USER || 'learn@enprico.com'}>`,
+      from: `Enprico <${process.env.SMTP_USER || 'learn@enprico.ca'}>`,
       to,
       subject,
       html,
@@ -65,7 +65,7 @@ export function welcomeEmailHtml(firstName, email, password, planName) {
                 <p><strong>Login:</strong> <a href='https://enprico.com/login.html' style='color: #0076c7;'>https://enprico.com/login.html</a></p>
             </div>
             <p><strong style='color: #dc2626;'>Important:</strong> For security reasons, we strongly recommend changing your password after your first login.</p>
-            <p>If you need any further information or assistance, feel free to contact us at <a href='mailto:learn@enprico.com' style='color: #0076c7;'>learn@enprico.com</a>.</p>
+            <p>If you need any further information or assistance, feel free to contact us at <a href='mailto:learn@enprico.ca' style='color: #0076c7;'>learn@enprico.ca</a>.</p>
             <p>Best regards,<br><strong>The Enprico Team</strong></p>
         </div>
         <div class='footer'>
@@ -148,7 +148,7 @@ export function hoursAddedEmailHtml(planName, hours) {
                 <p><strong>Login:</strong> <a href='https://enprico.com/login.html' style='color: #0076c7;'>https://enprico.com/login.html</a></p>
             </div>
             <p>Our team will be in touch within 5 business days to schedule your sessions.</p>
-            <p>If you have any questions, feel free to contact us at <a href='mailto:learn@enprico.com' style='color: #0076c7;'>learn@enprico.com</a>.</p>
+            <p>If you have any questions, feel free to contact us at <a href='mailto:learn@enprico.ca' style='color: #0076c7;'>learn@enprico.ca</a>.</p>
             <p>Best regards,<br><strong>The Enprico Team</strong></p>
         </div>
         <div class='footer'>
@@ -211,7 +211,7 @@ export function newsletterWelcomeHtml(email) {
                     <li><strong>Personalized Learning</strong> tailored to your goals</li>
                 </ul>
             </div>
-            <p>Have questions? Simply reply to this email or contact us at <a href='mailto:learn@enprico.com'>learn@enprico.com</a>.</p>
+            <p>Have questions? Simply reply to this email or contact us at <a href='mailto:learn@enprico.ca'>learn@enprico.ca</a>.</p>
             <p>À bientôt!<br><strong>The Enprico Team</strong></p>
         </div>
         <div class='footer'>

@@ -21,7 +21,7 @@ async function handler(req, res) {
     return res.status(400).json({ success: false, message: 'Invalid email address' });
   }
 
-  const toEmail = data.to && emailRegex.test(data.to) ? data.to : 'learn@enprico.com';
+  const toEmail = data.to && emailRegex.test(data.to) ? data.to : 'learn@enprico.ca';
   const isSystemEmail = data.to && emailRegex.test(data.to);
 
   const year = new Date().getFullYear();

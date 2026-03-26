@@ -31,7 +31,7 @@ export async function sendAdminNotification(type, userEmail, userName, details =
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 name: 'Enprico System',
-                email: 'noreply@enprico.com',
+                email: 'learn@enprico.ca',
                 subject: type === 'signup' ? `New Signup: ${userName}` : `New Payment: ${userName}`,
                 message: type === 'signup'
                     ? `A new user has signed up!\n\nName: ${userName}\nEmail: ${userEmail}\n\nTime: ${new Date().toLocaleString()}`
