@@ -900,6 +900,26 @@ html, body {
     overflow: hidden;
 }
 
+.review-result-image {
+    margin: 0.75rem 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.review-result-image img {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-result-image img:hover {
+    transform: scale(2.5);
+    position: relative;
+    z-index: 100;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
 .review-footer {
     display: flex;
     gap: 0.5rem;
