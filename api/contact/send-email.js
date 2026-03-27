@@ -71,11 +71,16 @@ body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
 </div></body></html>`;
   }
 
-  const result = await sendEmail(toEmail, emailSubject, emailBody);
-  if (result) {
-    return res.json({ success: true, message: 'Message sent successfully!' });
+  try {
+    const result = await sendEmail(toEmail, emailSubject, emailBody);
+    if (result) {
+      return res.json({ success: true, message: 'Message sent successfully!' });
+    }
+    return res.status(500).json({ success: false, message: 'Failed to send message. SMTP connection failed.' });
+  } catch (err) {
+    console.error('Contact send-email error:', err);
+    return res.status(500).json({ success: false, message: `Failed to send message: ${err.message}` });
   }
-  return res.status(500).json({ success: false, message: 'Failed to send message. Please try again later.' });
 }
 
 export default withCors(handler);

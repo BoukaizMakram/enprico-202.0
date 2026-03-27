@@ -28,8 +28,8 @@ export async function sendEmail(to, subject, html) {
     });
     return true;
   } catch (err) {
-    console.error('Email send error:', err.message);
-    return false;
+    console.error('Email send error:', err.message, err.code, err.response);
+    throw err;
   }
 }
 
