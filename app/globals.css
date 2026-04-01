@@ -3220,15 +3220,15 @@ html, body {
     }
 }
 
-/* ===== Shared Page Header Styles ===== */
-.page-header {
+/* ===== Shared Page Header Styles (public pages only) ===== */
+.main-layout .page-header {
     background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #505089 100%);
     color: white;
     padding: 120px 0 60px;
     text-align: center;
 }
-.page-header h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
-.page-header p { font-size: 1.1rem; opacity: 0.9; }
+.main-layout .page-header h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+.main-layout .page-header p { font-size: 1.1rem; opacity: 0.9; }
 
 /* ===== Shared Policy Content Styles ===== */
 .policy-content {

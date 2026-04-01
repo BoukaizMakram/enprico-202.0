@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { createCheckoutSession } from '@/lib/stripe/client';
 import { getCurrentUser } from '@/lib/supabase/client';
+import Animations from './Animations';
 
 /* ───────────────────────── Inline SVG helpers ───────────────────────── */
 
@@ -401,6 +402,7 @@ export default function HomeClient() {
   /* ───────────────────────── RENDER ───────────────────────── */
   return (
     <main id="main-content">
+      <Animations />
       {/* ════════ HERO ════════ */}
       <section className="hero" id="home">
         <video

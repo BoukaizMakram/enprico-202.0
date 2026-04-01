@@ -14,7 +14,7 @@ test-connection.html
 
 # Old static site files (migrated to Next.js)
 /api/
-animations.js
+/animations.js
 .htaccess
 styles.css
 /images/
