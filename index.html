@@ -199,6 +199,7 @@
     <!-- Fonts with display=swap for faster rendering -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="styles.css?v=1.9">
@@ -731,6 +732,34 @@
             </div>
         </div>
     </section>
+
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+        <div class="trust-badge-item">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0D66CF" stroke-width="1.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <p data-i18n="trustSecure">Secure Payments</p>
+        </div>
+        <div class="trust-badge-item">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0D66CF" stroke-width="1.5">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <p data-i18n="trustGuarantee">Satisfaction Guaranteed</p>
+        </div>
+        <div class="trust-badge-item">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0D66CF" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <p data-i18n="trustFlexible">Flexible Scheduling</p>
+        </div>
+        <div class="trust-badge-item">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0D66CF" stroke-width="1.5">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <p data-i18n="trustStudents">500+ Students</p>
+        </div>
+    </div>
 
     <!-- Free Trial Section -->
     <section class="free-trial-section" id="free-trial">
@@ -1561,24 +1590,8 @@
             }
         });
 
-        // Scroll Animation Observer
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                }
-            });
-        }, observerOptions);
-
-        // Observe all elements with scroll-animate classes
+        // Teacher count randomization and other DOMContentLoaded logic
         document.addEventListener('DOMContentLoaded', () => {
-            const animateElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right');
-            animateElements.forEach(el => observer.observe(el));
 
             // Randomize teacher counts (20-30 for each country)
             const teacherCounts = document.querySelectorAll('.teacher-count');
@@ -2282,16 +2295,18 @@
 
             grid.innerHTML = articlesHTML;
 
-            // Re-apply scroll animations
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
+            // Re-apply scroll animations with GSAP
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.from('.article-card', {
+                    y: 30, opacity: 0, filter: 'blur(6px)', stagger: 0.1,
+                    scrollTrigger: {
+                        trigger: '.articles-grid',
+                        start: 'top 85%',
+                        end: 'top 40%',
+                        scrub: 0.6
                     }
                 });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.article-card').forEach(el => observer.observe(el));
+            }
         }
 
         function formatDate(dateString, lang) {
@@ -2696,6 +2711,14 @@
         });
     })();
     </script>
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <!-- motion.dev -->
+    <script defer src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
+    <!-- Custom animations -->
+    <script src="animations.js"></script>
 </body>
 </html>
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17824978170"></script>

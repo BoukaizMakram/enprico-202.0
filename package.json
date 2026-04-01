@@ -2,11 +2,13 @@
   "name": "enprico",
   "version": "2.0.0",
   "description": "French learning platform for TEF & TCF exams with Supabase integration",
-  "type": "module",
   "scripts": {
-    "dev": "python -m http.server 8000",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "migrate": "node migrate-articles-to-supabase.js",
-    "setup": "npm install && echo '✅ Dependencies installed! Now create your .env file based on .env.example'"
+    "setup": "npm install && echo 'Dependencies installed! Now create your .env.local file based on .env'"
   },
   "keywords": [
     "education",
@@ -21,7 +23,12 @@
   "license": "MIT",
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
-    "nodemailer": "^6.9.8"
+    "gsap": "^3.12.5",
+    "marked": "^12.0.0",
+    "next": "^15.1.0",
+    "nodemailer": "^6.9.8",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "dotenv": "^16.3.1"
