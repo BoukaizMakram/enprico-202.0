@@ -316,9 +316,12 @@ export default function HomeClient() {
     try {
       const { user } = await getCurrentUser();
       if (!user) {
-        window.location.href = '/login';
+        // New user: save plan and go to registration form
+        localStorage.setItem('selectedPlan', planType);
+        window.location.href = '/register';
         return;
       }
+      // Existing user: direct to Stripe checkout
       const session = await createCheckoutSession({
         planType,
         userId: user.id,
