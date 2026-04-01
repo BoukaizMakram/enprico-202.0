@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { animate, inView } from 'motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -190,6 +191,59 @@ export default function Animations() {
     gsap.from('.footer-bottom', {
       y: 10, opacity: 0, duration: isMobile ? 0.5 : undefined,
       scrollTrigger: mobileScrollTrigger('.footer-bottom', { start: 'top 95%', end: 'top 70%', scrub: SCRUB_FAST }),
+    });
+
+    // =============================================
+    // motion.dev MICRO-INTERACTIONS
+    // =============================================
+
+    // CTA button hover pulse
+    document.querySelectorAll('.cta-button, .enroll-btn').forEach((btn) => {
+      btn.addEventListener('mouseenter', () => animate(btn, { scale: 1.05 }, { duration: 0.2, easing: 'ease-out' }));
+      btn.addEventListener('mouseleave', () => animate(btn, { scale: 1 }, { duration: 0.2, easing: 'ease-out' }));
+    });
+
+    // Pricing card hover lift
+    document.querySelectorAll('.pricing-card').forEach((card) => {
+      card.addEventListener('mouseenter', () => animate(card, { y: -8 }, { duration: 0.3, easing: 'ease-out' }));
+      card.addEventListener('mouseleave', () => animate(card, { y: 0 }, { duration: 0.3, easing: 'ease-out' }));
+    });
+
+    // Feature + why cards hover
+    document.querySelectorAll('.feature-card, .why-card').forEach((card) => {
+      card.addEventListener('mouseenter', () => animate(card, { y: -4, scale: 1.01 }, { duration: 0.25, easing: 'ease-out' }));
+      card.addEventListener('mouseleave', () => animate(card, { y: 0, scale: 1 }, { duration: 0.25, easing: 'ease-out' }));
+    });
+
+    // Teacher country cards hover
+    document.querySelectorAll('.teacher-country').forEach((card) => {
+      card.addEventListener('mouseenter', () => animate(card, { scale: 1.08, y: -4 }, { duration: 0.2, easing: 'ease-out' }));
+      card.addEventListener('mouseleave', () => animate(card, { scale: 1, y: 0 }, { duration: 0.2, easing: 'ease-out' }));
+    });
+
+    // Stat number count-up animation
+    inView('.about-stats', () => {
+      document.querySelectorAll('.stat-number').forEach((numEl) => {
+        const text = numEl.textContent;
+        const num = parseInt(text);
+        if (isNaN(num)) return;
+        const suffix = text.replace(/[\d]/g, '');
+        animate((progress) => {
+          numEl.textContent = Math.round(progress * num) + suffix;
+        }, { duration: 1.5, easing: 'ease-out' });
+      });
+    });
+
+    // Contact form input focus glow
+    document.querySelectorAll('.contact-form input, .contact-form textarea').forEach((input) => {
+      input.addEventListener('focus', () => animate(input, { boxShadow: '0 0 0 3px rgba(13, 102, 207, 0.2)' }, { duration: 0.2 }));
+      input.addEventListener('blur', () => animate(input, { boxShadow: '0 0 0 0px rgba(13, 102, 207, 0)' }, { duration: 0.2 }));
+    });
+
+    // Testimonial cards hover
+    document.querySelectorAll('.testimonial-card').forEach((card) => {
+      card.addEventListener('mouseenter', () => animate(card, { y: -4, scale: 1.02 }, { duration: 0.25, easing: 'ease-out' }));
+      card.addEventListener('mouseleave', () => animate(card, { y: 0, scale: 1 }, { duration: 0.25, easing: 'ease-out' }));
     });
 
     // Cleanup
