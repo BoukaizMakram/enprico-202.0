@@ -1,7 +1,1 @@
-{
-  "functions": {
-    "app/api/stripe/webhook/route.js": {
-      "maxDuration": 30
-    }
-  }
-}
+{}
