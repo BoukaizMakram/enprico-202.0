@@ -231,7 +231,7 @@ const FAQ_DATA = [
 
 export default function HomeClient() {
   /* ---------- state ---------- */
-  const [expandedCards, setExpandedCards] = useState({});
+  const [expandedCards, setExpandedCards] = useState({ canada: true, france: true, how: true });
   const [teacherCounts, setTeacherCounts] = useState([]);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [articles, setArticles] = useState(null);
@@ -254,7 +254,10 @@ export default function HomeClient() {
   useEffect(() => {
     fetch('/content/articles/index.json')
       .then((res) => res.json())
-      .then((data) => setArticles(data.articles.slice(0, 6)))
+      .then((data) => {
+        const list = Array.isArray(data) ? data : data.articles || [];
+        setArticles(list.slice(0, 6));
+      })
       .catch(() => setArticles([]));
   }, []);
 
@@ -1027,12 +1030,12 @@ export default function HomeClient() {
                       />
                     </div>
                   )}
-                  <div className="article-content">
+                  <div className="article-body">
                     <h3 className="article-title">{article.title}</h3>
                     {article.date && (
-                      <p className="article-date">{article.date}</p>
+                      <p className="article-meta">{article.date}</p>
                     )}
-                    <span className="article-link">Read More</span>
+                    <span className="read-more-btn">Read More</span>
                   </div>
                 </Link>
               ))

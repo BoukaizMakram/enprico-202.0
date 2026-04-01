@@ -1,0 +1,44 @@
+[
+  {
+    "id": "5-tips-improve-french",
+    "title": "5 Tips to Improve Your French Speaking Skills for TEF/TCF",
+    "titleFr": "5 conseils pour améliorer vos compétences en français",
+    "slug": "5-tips-improve-french",
+    "excerpt": "Discover practical strategies to boost your French speaking confidence for your TEF or TCF exam.",
+    "excerptFr": "Découvrez des stratégies pratiques pour renforcer votre confiance en français pour l'examen TEF ou TCF.",
+    "date": "2026-02-10",
+    "author": "makram boukaiz",
+    "category": "Speaking Tips",
+    "categoryFr": "Conseils d'expression orale",
+    "image": "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800",
+    "readTime": 5
+  },
+  {
+    "id": "common-french-mistakes",
+    "title": "10 Common French Mistakes and How to Avoid Them",
+    "titleFr": "10 erreurs courantes en français et comment les éviter",
+    "slug": "common-french-mistakes",
+    "excerpt": "Learn about the most frequent mistakes French learners make and get tips on how to correct them before your exam.",
+    "excerptFr": "Découvrez les erreurs les plus fréquentes des apprenants de français et obtenez des conseils pour les corriger.",
+    "date": "2026-02-05",
+    "author": "makram boukaiz",
+    "category": "Grammar",
+    "categoryFr": "Grammaire",
+    "image": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800",
+    "readTime": 7
+  },
+  {
+    "id": "tef-tcf-preparation-guide",
+    "title": "Complete TEF & TCF Preparation Guide for Beginners",
+    "titleFr": "Guide complet de préparation TEF et TCF pour débutants",
+    "slug": "tef-tcf-preparation-guide",
+    "excerpt": "Everything you need to know to start preparing for the TEF or TCF exam for Canada or France immigration.",
+    "excerptFr": "Tout ce que vous devez savoir pour commencer à préparer l'examen TEF ou TCF en toute confiance.",
+    "date": "2026-01-28",
+    "author": "makram boukaiz",
+    "category": "TEF/TCF",
+    "categoryFr": "TEF/TCF",
+    "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800",
+    "readTime": 10
+  }
+]

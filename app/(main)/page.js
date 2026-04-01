@@ -1,4 +1,4 @@
-import HomeClient from '@/components/home/HomeClient';
+import HomeLoader from '@/components/home/HomeLoader';
 
 export const metadata = {
   title: 'Enprico - French for TEF & TCF Exams | Expert 1-on-1 Tutors',
@@ -199,7 +199,7 @@ export default function HomePage() {
           __html: JSON.stringify(jsonLdService),
         }}
       />
-      <HomeClient />
+      <HomeLoader />
     </>
   );
 }
