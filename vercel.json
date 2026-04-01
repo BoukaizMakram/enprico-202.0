@@ -1,7 +1,6 @@
 {
-  "cleanUrls": true,
   "functions": {
-    "api/stripe/webhook.js": {
+    "app/api/stripe/webhook/route.js": {
       "maxDuration": 30
     }
   }
