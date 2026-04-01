@@ -12,6 +12,43 @@
 test-connection.html
 *.sql
 
+# Old static site files (migrated to Next.js)
+/api/
+animations.js
+.htaccess
+styles.css
+/images/
+/blender/
+/figma/
+/video ads/
+goals
+*.sql
+QUICKSTART.md
+SIMPLE_SETUP_GUIDE.md
+SUPABASE_SETUP.md
+migrate-articles-to-supabase.js
+auth-client.js
+paypal-client.js
+registration-client.js
+stripe-client.js
+supabase-client.js
+404.html
+about-us-learn-french-online.html
+admin.html
+article.html
+cookies-policy.html
+dashboard.html
+index.html
+learn-french-online-tef-tcf.html
+learn-french-online-why-learning-french.html
+login.html
+privacy-policy.html
+refund-policy.html
+register.html
+signup.html
+success.html
+tutor.html
+
 # Node modules
 node_modules/
 npm-debug.log*
