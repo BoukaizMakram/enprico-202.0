@@ -39,29 +39,31 @@ export default function AdminPage() {
         router.push('/login');
         return;
       }
-      setUser(currentUser);
 
-      // Role guard - must be admin
       const { data: profile } = await getUserProfile(currentUser.id);
       if (!profile || profile.role !== 'admin') {
         router.push('/dashboard');
         return;
       }
 
-      // Load all admin data
-      await Promise.all([
-        loadSubscribers(),
-        loadStudents(),
-        loadRegistrations(),
-        loadTutors(),
-        loadSubscriptions(),
-      ]);
-
-      setLoading(false);
+      setUser(currentUser);
+      await loadAllData();
     } catch (err) {
       console.error('Admin load error:', err);
-      setLoading(false);
+      router.push('/login');
     }
+  }
+
+  async function loadAllData() {
+    setLoading(true);
+    await Promise.all([
+      loadSubscribers(),
+      loadStudents(),
+      loadRegistrations(),
+      loadTutors(),
+      loadSubscriptions(),
+    ]);
+    setLoading(false);
   }
 
   async function loadSubscribers() {
@@ -132,15 +134,7 @@ export default function AdminPage() {
   }
 
   async function refreshData() {
-    setLoading(true);
-    await Promise.all([
-      loadSubscribers(),
-      loadStudents(),
-      loadRegistrations(),
-      loadTutors(),
-      loadSubscriptions(),
-    ]);
-    setLoading(false);
+    await loadAllData();
   }
 
   if (loading) {

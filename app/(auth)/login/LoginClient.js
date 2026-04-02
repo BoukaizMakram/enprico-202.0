@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { signIn, getCurrentUser, getUserProfile } from '@/lib/supabase/client';
+import { signIn, getCurrentUser, getUserProfile, resetPassword } from '@/lib/supabase/client';
 import './login.css';
 
 export default function LoginPage() {
@@ -12,10 +12,14 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resetMode, setResetMode] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   async function redirectByRole(userId) {
     const { data: profile } = await getUserProfile(userId);
-    if (profile && profile.role === 'tutor') {
+    if (profile && profile.role === 'admin') {
+      router.push('/admin');
+    } else if (profile && profile.role === 'tutor') {
       router.push('/tutor');
     } else {
       router.push('/dashboard');
@@ -45,6 +49,23 @@ export default function LoginPage() {
       }
     } catch (err) {
       setError(err.message || 'Invalid email or password. Please try again.');
+      setLoading(false);
+    }
+  }
+
+  async function handleResetPassword(e) {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      if (!email) throw new Error('Please enter your email address.');
+      const { error: resetError } = await resetPassword(email);
+      if (resetError) throw new Error(resetError.message);
+      setResetSent(true);
+    } catch (err) {
+      setError(err.message || 'Failed to send reset email. Please try again.');
+    } finally {
       setLoading(false);
     }
   }
