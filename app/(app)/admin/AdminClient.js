@@ -6,7 +6,6 @@ import {
   getCurrentUser,
   getUserProfile,
   signOut,
-  supabase,
 } from '@/lib/supabase/client';
 import './admin.css';
 
@@ -68,11 +67,9 @@ export default function AdminPage() {
 
   async function loadSubscribers() {
     try {
-      const { data } = await supabase
-        .from('newsletter_subscribers')
-        .select('*')
-        .order('created_at', { ascending: false });
-      setSubscribers(data || []);
+      const res = await fetch('/api/admin/subscribers');
+      const json = await res.json();
+      setSubscribers(json.data || []);
     } catch (e) {
       console.error('Failed to load subscribers:', e);
     }
@@ -80,12 +77,9 @@ export default function AdminPage() {
 
   async function loadStudents() {
     try {
-      const { data } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('role', 'student')
-        .order('created_at', { ascending: false });
-      setStudents(data || []);
+      const res = await fetch('/api/admin/students');
+      const json = await res.json();
+      setStudents(json.data || []);
     } catch (e) {
       console.error('Failed to load students:', e);
     }
@@ -93,11 +87,9 @@ export default function AdminPage() {
 
   async function loadRegistrations() {
     try {
-      const { data } = await supabase
-        .from('pending_registrations')
-        .select('*')
-        .order('created_at', { ascending: false });
-      setRegistrations(data || []);
+      const res = await fetch('/api/admin/registrations');
+      const json = await res.json();
+      setRegistrations(json.data || []);
     } catch (e) {
       console.error('Failed to load registrations:', e);
     }
@@ -105,12 +97,9 @@ export default function AdminPage() {
 
   async function loadTutors() {
     try {
-      const { data } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('role', 'tutor')
-        .order('created_at', { ascending: false });
-      setTutors(data || []);
+      const res = await fetch('/api/admin/tutors');
+      const json = await res.json();
+      setTutors(json.data || []);
     } catch (e) {
       console.error('Failed to load tutors:', e);
     }
@@ -118,11 +107,9 @@ export default function AdminPage() {
 
   async function loadSubscriptions() {
     try {
-      const { data } = await supabase
-        .from('subscriptions')
-        .select('*, profiles(full_name, email)')
-        .order('created_at', { ascending: false });
-      setSubscriptions(data || []);
+      const res = await fetch('/api/admin/subscriptions');
+      const json = await res.json();
+      setSubscriptions(json.data || []);
     } catch (e) {
       console.error('Failed to load subscriptions:', e);
     }
@@ -455,7 +442,7 @@ export default function AdminPage() {
                 ) : (
                   subscriptions.map((sub, i) => (
                     <tr key={i}>
-                      <td>{sub.profiles?.full_name || sub.profiles?.email || '-'}</td>
+                      <td>{sub.user_name || sub.user_email || sub.profiles?.full_name || sub.profiles?.email || '-'}</td>
                       <td>{sub.plan_type ? sub.plan_type.charAt(0).toUpperCase() + sub.plan_type.slice(1) : '-'}</td>
                       <td>${sub.price_usd || 0}</td>
                       <td><span className={`status-badge status-${sub.status}`}>{sub.status}</span></td>

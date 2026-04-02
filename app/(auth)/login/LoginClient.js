@@ -87,44 +87,102 @@ export default function LoginPage() {
             </Link>
           </div>
 
-          <h1 className="auth-title">Welcome Back</h1>
-          <p className="auth-subtitle">Sign in to access your dashboard</p>
+          <h1 className="auth-title">{resetMode ? 'Reset Password' : 'Welcome Back'}</h1>
+          <p className="auth-subtitle">
+            {resetMode
+              ? 'Enter your email and we\'ll send you a reset link'
+              : 'Sign in to access your dashboard'}
+          </p>
 
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="email">Email Address</label>
-              <input
-                type="email"
-                id="email"
-                required
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+          {resetMode ? (
+            resetSent ? (
+              <div>
+                <p style={{ textAlign: 'center', color: '#16a34a', marginBottom: '1rem' }}>
+                  Password reset link sent! Check your email.
+                </p>
+                <button
+                  className="auth-btn"
+                  onClick={() => { setResetMode(false); setResetSent(false); setError(''); }}
+                >
+                  Back to Login
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleResetPassword}>
+                <div className="form-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                required
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+                {error && <div className="form-error">{error}</div>}
 
-            {error && <div className="form-error">{error}</div>}
+                <button type="submit" className="auth-btn" disabled={loading}>
+                  {loading ? 'Sending...' : 'Send Reset Link'}
+                </button>
 
-            <button type="submit" className="auth-btn" disabled={loading}>
-              {loading ? 'Signing in...' : 'Log In'}
-            </button>
-          </form>
+                <div className="auth-footer">
+                  <a href="#" onClick={(e) => { e.preventDefault(); setResetMode(false); setError(''); }}>
+                    Back to Login
+                  </a>
+                </div>
+              </form>
+            )
+          ) : (
+            <>
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    required
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
 
-          <div className="auth-footer">
-            Don&apos;t have an account? <Link href="/#pricing">Sign up</Link>
-          </div>
+                <div className="form-group">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    required
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+
+                <div style={{ textAlign: 'right', marginBottom: '0.5rem' }}>
+                  <a
+                    href="#"
+                    onClick={(e) => { e.preventDefault(); setResetMode(true); setError(''); }}
+                    style={{ fontSize: '0.85rem', color: '#4f46e5', textDecoration: 'none' }}
+                  >
+                    Forgot password?
+                  </a>
+                </div>
+
+                {error && <div className="form-error">{error}</div>}
+
+                <button type="submit" className="auth-btn" disabled={loading}>
+                  {loading ? 'Signing in...' : 'Log In'}
+                </button>
+              </form>
+
+              <div className="auth-footer">
+                Don&apos;t have an account? <Link href="/#pricing">Sign up</Link>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
