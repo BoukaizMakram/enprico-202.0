@@ -44,6 +44,22 @@ export default function Footer() {
             <h3 className="footer-title">SUPPORT</h3>
             <Link href="/#contact" className="support-link">Need any help?</Link>
           </div>
+
+          <div className="footer-section">
+            <h3 className="footer-title">RESOURCES</h3>
+            <ul className="footer-links">
+              <li>
+                <a href="https://vidmo.app" target="_blank" rel="noopener">
+                  Motion Design
+                </a>
+              </li>
+              <li>
+                <a href="https://imageprompting.org" target="_blank" rel="noopener">
+                  Image to Prompt
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="footer-divider"></div>
