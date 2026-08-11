@@ -1,11 +1,11 @@
 import HomeLoader from '@/components/home/HomeLoader';
 
 export const metadata = {
-  title: 'Enprico - French for TEF & TCF Exams | Expert 1-on-1 Tutors',
+  title: 'Enprico - French for Spanish Speakers | TEF & TCF Tutoring',
   description:
-    'Practical and structured French training for Canada and France immigration. TEF & TCF exam preparation with personalized 1-on-1 tutoring. Certified tutors, flexible schedules.',
+    'Learn French with native Spanish-speaking tutors. Bilingual 1-on-1 lessons for Spanish speakers preparing for the TEF & TCF exams for Canada and France immigration. Certified tutors, flexible schedules.',
   keywords:
-    'learn French online, French tutoring, TEF preparation, TCF preparation, French for immigration, Canada Express Entry, France visa, CLB French, 1-on-1 French lessons, French tutor, online French course',
+    'French for Spanish speakers, aprender francés, Spanish-speaking French tutor, francés para hispanohablantes, learn French online, French tutoring, TEF preparation, TCF preparation, French for immigration, Canada Express Entry, France visa, 1-on-1 French lessons, bilingual French tutor',
   authors: [{ name: 'Enprico' }],
   alternates: {
     canonical: 'https://enprico.com/',
@@ -13,9 +13,9 @@ export const metadata = {
   openGraph: {
     type: 'website',
     url: 'https://enprico.com/',
-    title: 'Enprico - French for TEF & TCF Exams | Expert 1-on-1 Tutors',
+    title: 'Enprico - French for Spanish Speakers | TEF & TCF Tutoring',
     description:
-      'Practical and structured French training for Canada and France immigration. TEF & TCF exam preparation with personalized 1-on-1 tutoring.',
+      'Learn French with native Spanish-speaking tutors. Bilingual 1-on-1 lessons for Spanish speakers preparing for the TEF & TCF exams for Canada and France immigration.',
     images: [
       {
         url: 'https://enprico.com/images/banner 2.png',
@@ -28,9 +28,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Enprico - French for TEF & TCF Exams | Expert 1-on-1 Tutors',
+    title: 'Enprico - French for Spanish Speakers | TEF & TCF Tutoring',
     description:
-      'Practical and structured French training for Canada and France immigration. TEF & TCF exam preparation with personalized 1-on-1 tutoring.',
+      'Learn French with native Spanish-speaking tutors. Bilingual 1-on-1 lessons for Spanish speakers preparing for the TEF & TCF exams for Canada and France immigration.',
     images: ['https://enprico.com/images/banner 2.png'],
   },
 };
@@ -42,7 +42,7 @@ const jsonLdOrganization = {
   url: 'https://enprico.com',
   logo: 'https://enprico.com/images/logo_white 1.png',
   description:
-    'Enprico offers French coaching designed for Express Entry to Canada and France immigration. TEF & TCF exam preparation with personalized 1-on-1 tutoring.',
+    'Enprico offers French coaching taught by native Spanish-speaking tutors, designed for Spanish speakers pursuing Express Entry to Canada and France immigration. TEF & TCF exam preparation with personalized bilingual 1-on-1 tutoring.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Church Street',
@@ -67,7 +67,7 @@ const jsonLdCourse = {
   '@type': 'Course',
   name: 'French Language Tutoring for TEF & TCF',
   description:
-    'Personalized 1-on-1 French lessons with certified tutors. Comprehensive training for speaking, writing, reading, and listening skills for immigration exams.',
+    'Personalized 1-on-1 French lessons with native Spanish-speaking tutors. Bilingual training in Spanish for speaking, writing, reading, and listening skills for the TEF and TCF immigration exams.',
   provider: {
     '@type': 'Organization',
     name: 'Enprico',
@@ -82,7 +82,7 @@ const jsonLdCourse = {
     courseWorkload: 'PT4H',
     instructor: {
       '@type': 'Person',
-      name: 'Enprico Certified French Tutors',
+      name: 'Enprico Native Spanish-Speaking French Tutors',
     },
   },
   offers: {
@@ -163,7 +163,7 @@ const jsonLdService = {
           '@type': 'Service',
           name: 'Monthly French Tutoring - 16 hours',
           description:
-            '4 hours per week of live 1-on-1 French tutoring for TEF/TCF exam preparation',
+            '4 hours per week of live 1-on-1 French tutoring with native Spanish-speaking tutors for TEF/TCF exam preparation',
         },
         price: '400',
         priceCurrency: 'CAD',

@@ -62,18 +62,18 @@ function GoogleLogoSvg({ size = 28 }) {
 /* ───────────────────────── DATA ───────────────────────── */
 
 const TEACHERS = [
-  { flag: '\u{1F1EB}\u{1F1F7}', name: 'France' },
-  { flag: '\u{1F1E8}\u{1F1E6}', name: 'Canada (Quebec)' },
-  { flag: '\u{1F1E7}\u{1F1EA}', name: 'Belgium' },
-  { flag: '\u{1F1E8}\u{1F1ED}', name: 'Switzerland' },
-  { flag: '\u{1F1F2}\u{1F1E6}', name: 'Morocco' },
-  { flag: '\u{1F1F9}\u{1F1F3}', name: 'Tunisia' },
-  { flag: '\u{1F1F8}\u{1F1F3}', name: 'Senegal' },
-  { flag: '\u{1F1E8}\u{1F1EE}', name: 'Ivory Coast' },
-  { flag: '\u{1F1E8}\u{1F1F2}', name: 'Cameroon' },
-  { flag: '\u{1F1E9}\u{1F1FF}', name: 'Algeria' },
-  { flag: '\u{1F1ED}\u{1F1F9}', name: 'Haiti' },
-  { flag: '\u{1F1F1}\u{1F1FA}', name: 'Luxembourg' },
+  { flag: '\u{1F1F2}\u{1F1FD}', name: 'Mexico' },
+  { flag: '\u{1F1EA}\u{1F1F8}', name: 'Spain' },
+  { flag: '\u{1F1E8}\u{1F1F4}', name: 'Colombia' },
+  { flag: '\u{1F1E6}\u{1F1F7}', name: 'Argentina' },
+  { flag: '\u{1F1F5}\u{1F1EA}', name: 'Peru' },
+  { flag: '\u{1F1E8}\u{1F1F1}', name: 'Chile' },
+  { flag: '\u{1F1FB}\u{1F1EA}', name: 'Venezuela' },
+  { flag: '\u{1F1EA}\u{1F1E8}', name: 'Ecuador' },
+  { flag: '\u{1F1EC}\u{1F1F9}', name: 'Guatemala' },
+  { flag: '\u{1F1E9}\u{1F1F4}', name: 'Dominican Rep.' },
+  { flag: '\u{1F1FA}\u{1F1FE}', name: 'Uruguay' },
+  { flag: '\u{1F1E8}\u{1F1F7}', name: 'Costa Rica' },
 ];
 
 const TESTIMONIALS = [
@@ -313,26 +313,8 @@ export default function HomeClient() {
   const dots = useMemo(() => Array.from({ length: dotCount }, (_, i) => i), [dotCount]);
 
   /* ---------- enroll ---------- */
-  async function handleEnrollClick(planType) {
-    try {
-      const { user } = await getCurrentUser();
-      if (!user) {
-        // New user: save plan and go to registration form
-        localStorage.setItem('selectedPlan', planType);
-        window.location.href = '/register';
-        return;
-      }
-      // Existing user: direct to Stripe checkout
-      const session = await createCheckoutSession({
-        planType,
-        userId: user.id,
-        userEmail: user.email,
-        isNewUser: false,
-      });
-      window.location.href = session.url;
-    } catch (err) {
-      console.error('Enrollment error:', err);
-    }
+  function handleEnrollClick(planType) {
+    alert('Registration is temporarily unavailable. Our site is currently under maintenance. Please check back soon.');
   }
 
   /* ---------- contact submit ---------- */
@@ -426,10 +408,10 @@ export default function HomeClient() {
         <div className="decorative-circle"></div>
         <div className="container hero-container">
           <div className="hero-content">
-            <p className="hero-label">WE OFFER</p>
+            <p className="hero-label">FRENCH FOR SPANISH SPEAKERS</p>
             <h1 className="hero-title hero-title-desktop">
-              Specialized Tutoring To<br />
-              Prepare You For TEF/TCF
+              TEF/TCF French Tutoring,<br />
+              Taught by Spanish-Speaking Tutors
             </h1>
             <button
               className="cta-button cta-desktop"
@@ -446,10 +428,10 @@ export default function HomeClient() {
             </div>
           </div>
 
-          <p className="hero-label hero-label-mobile">WE OFFER</p>
+          <p className="hero-label hero-label-mobile">FRENCH FOR SPANISH SPEAKERS</p>
           <h1 className="hero-title hero-title-mobile">
-            Specialized Tutoring To<br />
-            Prepare You For TEF/TCF
+            TEF/TCF French Tutoring,<br />
+            Taught by Spanish-Speaking Tutors
           </h1>
           <div className="level-badges level-badges-mobile">
             {['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((lvl) => (
@@ -471,13 +453,14 @@ export default function HomeClient() {
       <section className="intro-section">
         <div className="container">
           <h2 className="section-title scroll-animate">
-            Personalized French Tutoring To Meet Express Entry Requirements
+            French Tutoring Built for Spanish Speakers
           </h2>
           <p className="intro-text scroll-animate">
-            Learn French with expert tutors who adapt to your pace and learning
-            style. From beginners to advanced learners, we have the perfect
-            program for you. Our curriculum is specifically designed to help you
-            succeed in TEF and TCF exams.
+            Learn French with native Spanish-speaking tutors who explain
+            everything in your language. Because Spanish and French are so
+            close, our bilingual tutors help you progress faster &mdash; from
+            beginner to advanced &mdash; with a curriculum designed to help you
+            pass the TEF and TCF exams for Canada and France immigration.
           </p>
         </div>
       </section>
@@ -584,9 +567,9 @@ export default function HomeClient() {
             >
               <ul className="why-list scrollable-content">
                 {[
-                  'Live 1-on-1 lessons with real certified tutors',
+                  'Live 1-on-1 lessons with native Spanish-speaking tutors',
+                  'Every concept explained in Spanish — nothing lost in translation',
                   'Set your own pace and schedule',
-                  'Comprehensive language training for all skills',
                   'Personalized programs for TEF / TCF exams',
                   'Try risk-free with a satisfaction guarantee',
                 ].map((item) => (
@@ -615,10 +598,11 @@ export default function HomeClient() {
       <section className="teachers-section">
         <div className="container">
           <h2 className="section-title scroll-animate">
-            Our Expert French Tutors Worldwide
+            Native Spanish-Speaking French Tutors
           </h2>
           <p className="section-subtitle scroll-animate">
-            Learn from certified French speakers around the globe
+            Learn French from certified tutors who speak your language, across
+            the Spanish-speaking world
           </p>
           <div className="teachers-grid">
             {TEACHERS.map((t, i) => (
@@ -1056,17 +1040,19 @@ export default function HomeClient() {
             <div className="about-text">
               <h2 className="section-title">About Enprico</h2>
               <p className="about-description">
-                Enprico is an online French learning platform dedicated to
-                helping students achieve their immigration goals to Canada and
-                France. Our qualified tutors tailor each lesson to your level
-                and learning pace, guiding beginners to advanced students toward
-                strong results in TEF and TCF exams.
+                Enprico is an online French learning platform built for Spanish
+                speakers. Our native Spanish-speaking tutors teach French in
+                your language, helping you achieve your immigration goals to
+                Canada and France. Each lesson is tailored to your level and
+                pace, guiding beginners to advanced students toward strong
+                results in the TEF and TCF exams.
               </p>
               <p className="about-description">
-                Our mission is to provide practical and structured French
-                training for Express Entry and residency programs. We believe
-                that learning French should be engaging, personalized, and
-                focused on real results.
+                Our mission is to make French approachable for the
+                Spanish-speaking world &mdash; practical, structured training
+                for Express Entry and residency programs. Learning a new
+                language is easier when your tutor speaks yours, so every lesson
+                is engaging, personalized, and focused on real results.
               </p>
               <div className="about-stats">
                 {[
