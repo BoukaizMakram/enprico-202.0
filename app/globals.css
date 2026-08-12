@@ -1070,11 +1070,43 @@ html, body {
     }
 }
 
-/* Scroll Animation Classes - GSAP handles initial state and animation */
+/* Scroll Animation Classes - IntersectionObserver adds .is-visible to reveal.
+   Elements start hidden and are revealed once when they scroll into view. A
+   CSS-transition (not scroll-scrubbed) reveal cannot get "stuck" half-way. */
 .scroll-animate,
 .scroll-animate-left,
 .scroll-animate-right {
-    will-change: transform, opacity, filter;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-animate-left {
+    transform: translateX(-48px);
+}
+
+.scroll-animate-right {
+    transform: translateX(48px);
+}
+
+.scroll-animate.is-visible,
+.scroll-animate-left.is-visible,
+.scroll-animate-right.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Safety: if motion is reduced (or anything goes wrong), never hide content. */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-animate,
+    .scroll-animate-left,
+    .scroll-animate-right {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 /* Features Section */
