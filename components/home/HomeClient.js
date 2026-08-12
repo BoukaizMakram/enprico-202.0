@@ -426,10 +426,10 @@ export default function HomeClient() {
         <div className="decorative-circle"></div>
         <div className="container hero-container">
           <div className="hero-content">
-            <p className="hero-label">FRENCH FOR SPANISH SPEAKERS</p>
+            <p className="hero-label">TEF · TCF PREP FOR CANADA PR</p>
             <h1 className="hero-title hero-title-desktop">
-              TEF/TCF French Tutoring,<br />
-              Taught by Spanish-Speaking Tutors
+              Pass the TEF &amp; TCF Exam<br />
+              With Expert 1-on-1 French Tutoring
             </h1>
             <button
               className="cta-button cta-desktop"
@@ -446,10 +446,10 @@ export default function HomeClient() {
             </div>
           </div>
 
-          <p className="hero-label hero-label-mobile">FRENCH FOR SPANISH SPEAKERS</p>
+          <p className="hero-label hero-label-mobile">TEF · TCF PREP FOR CANADA PR</p>
           <h1 className="hero-title hero-title-mobile">
-            TEF/TCF French Tutoring,<br />
-            Taught by Spanish-Speaking Tutors
+            Pass the TEF &amp; TCF Exam<br />
+            With Expert 1-on-1 French Tutoring
           </h1>
           <div className="level-badges level-badges-mobile">
             {['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((lvl) => (
@@ -471,14 +471,15 @@ export default function HomeClient() {
       <section className="intro-section">
         <div className="container">
           <h2 className="section-title scroll-animate">
-            French Tutoring Built for Spanish Speakers
+            French Tutoring Built Around the TEF &amp; TCF Exams
           </h2>
           <p className="intro-text scroll-animate">
-            Learn French with native Spanish-speaking tutors who explain
-            everything in your language. Because Spanish and French are so
-            close, our bilingual tutors help you progress faster &mdash; from
-            beginner to advanced &mdash; with a curriculum designed to help you
-            pass the TEF and TCF exams for Canada and France immigration.
+            Enprico is an online French tutoring service specialized in TEF and
+            TCF exam preparation for Canada immigration. Our expert tutors build
+            a personalized plan for each student &mdash; from complete beginner
+            to advanced &mdash; focused on the exact speaking, writing, reading,
+            and listening skills the exam scores, so you reach the CLB / NCLC
+            level your Express Entry or PR application needs.
           </p>
         </div>
       </section>
@@ -585,10 +586,10 @@ export default function HomeClient() {
             >
               <ul className="why-list scrollable-content">
                 {[
-                  'Live 1-on-1 lessons with native Spanish-speaking tutors',
-                  'Every concept explained in Spanish — nothing lost in translation',
+                  'Live 1-on-1 lessons with expert French tutors',
+                  'Every lesson mapped to the TEF / TCF exam format and scoring',
                   'Set your own pace and schedule',
-                  'Personalized programs for TEF / TCF exams',
+                  'CLB / NCLC-focused training for Express Entry and PR',
                   'Try risk-free with a satisfaction guarantee',
                 ].map((item) => (
                   <li key={item}>
@@ -616,11 +617,11 @@ export default function HomeClient() {
       <section className="teachers-section">
         <div className="container">
           <h2 className="section-title scroll-animate">
-            Native Spanish-Speaking French Tutors
+            Trusted by TEF &amp; TCF Candidates Worldwide
           </h2>
           <p className="section-subtitle scroll-animate">
-            Learn French from certified tutors who speak your language, across
-            the Spanish-speaking world
+            Students from across the globe prepare for their Canada immigration
+            French exam with Enprico&apos;s expert tutors
           </p>
           <div className="teachers-grid">
             {TEACHERS.map((t, i) => (
@@ -630,7 +631,7 @@ export default function HomeClient() {
                 <span className="teacher-count">
                   {teacherCounts[i] ?? 25}
                 </span>
-                <span className="teacher-label">tutors</span>
+                <span className="teacher-label">students</span>
               </div>
             ))}
           </div>
@@ -1058,19 +1059,19 @@ export default function HomeClient() {
             <div className="about-text">
               <h2 className="section-title">About Enprico</h2>
               <p className="about-description">
-                Enprico is an online French learning platform built for Spanish
-                speakers. Our native Spanish-speaking tutors teach French in
-                your language, helping you achieve your immigration goals to
-                Canada and France. Each lesson is tailored to your level and
-                pace, guiding beginners to advanced students toward strong
-                results in the TEF and TCF exams.
+                Enprico is an online French tutoring platform specialized in TEF
+                and TCF exam preparation. Our expert tutors help candidates reach
+                the French level they need for Canada Express Entry, permanent
+                residency, and Quebec immigration. Each lesson is tailored to
+                your level and pace, guiding beginners to advanced students
+                toward strong, exam-ready results.
               </p>
               <p className="about-description">
-                Our mission is to make French approachable for the
-                Spanish-speaking world &mdash; practical, structured training
-                for Express Entry and residency programs. Learning a new
-                language is easier when your tutor speaks yours, so every lesson
-                is engaging, personalized, and focused on real results.
+                Our mission is to make the TEF and TCF achievable for every
+                immigration applicant &mdash; with practical, structured training
+                built around the exact skills the exams score. Every lesson is
+                live, personalized, and focused on the CLB / NCLC points that move
+                your application forward.
               </p>
               <div className="about-stats">
                 {[

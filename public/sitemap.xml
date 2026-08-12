@@ -7,57 +7,95 @@
     <!-- Homepage -->
     <url>
         <loc>https://enprico.com/</loc>
-        <lastmod>2025-12-22</lastmod>
+        <lastmod>2026-08-12</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+    </url>
+
+    <!-- TEF & TCF Page (primary keyword target) -->
+    <url>
+        <loc>https://enprico.com/learn-french-online-tef-tcf</loc>
+        <lastmod>2026-08-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
     </url>
 
     <!-- Why Learn French Page -->
     <url>
         <loc>https://enprico.com/learn-french-online-why-learning-french</loc>
-        <lastmod>2026-02-10</lastmod>
+        <lastmod>2026-08-12</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.8</priority>
     </url>
 
     <!-- About Us Page -->
     <url>
         <loc>https://enprico.com/about-us-learn-french-online</loc>
-        <lastmod>2026-02-10</lastmod>
+        <lastmod>2026-08-12</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
+        <priority>0.7</priority>
     </url>
 
-    <!-- TEF & TCF Page -->
+    <!-- Articles listing -->
     <url>
-        <loc>https://enprico.com/learn-french-online-tef-tcf</loc>
-        <lastmod>2026-02-10</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <!-- Articles Page -->
-    <url>
-        <loc>https://enprico.com/learn-french-online-enprico-articles</loc>
-        <lastmod>2026-02-10</lastmod>
+        <loc>https://enprico.com/articles</loc>
+        <lastmod>2026-08-12</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
 
-    <!-- Login page -->
+    <!-- Articles -->
     <url>
-        <loc>https://enprico.com/login</loc>
-        <lastmod>2025-12-22</lastmod>
+        <loc>https://enprico.com/articles/tef-tcf-preparation-guide</loc>
+        <lastmod>2026-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://enprico.com/articles/5-tips-improve-french</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://enprico.com/articles/common-french-mistakes</loc>
+        <lastmod>2026-02-05</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
 
-    <!-- Signup page -->
+    <!-- Auth -->
     <url>
-        <loc>https://enprico.com/signup</loc>
-        <lastmod>2025-12-22</lastmod>
+        <loc>https://enprico.com/login</loc>
+        <lastmod>2026-08-12</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://enprico.com/register</loc>
+        <lastmod>2026-08-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Policies -->
+    <url>
+        <loc>https://enprico.com/privacy-policy</loc>
+        <lastmod>2026-08-12</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://enprico.com/refund-policy</loc>
+        <lastmod>2026-08-12</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://enprico.com/cookies-policy</loc>
+        <lastmod>2026-08-12</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
     </url>
 
 </urlset>

@@ -18,11 +18,11 @@ const inter = Inter({
 
 export const metadata = {
   title: {
-    default: 'Enprico - French for TEF & TCF Exams | Expert 1-on-1 Tutors',
+    default: 'Enprico — TEF & TCF Prep Online | Expert 1-on-1 French Tutoring for Canada PR',
     template: '%s | Enprico',
   },
-  description: 'Practical and structured French training for Canada and France immigration. TEF & TCF exam preparation with personalized 1-on-1 tutoring.',
-  keywords: ['learn French online', 'French tutoring', 'TEF preparation', 'TCF preparation', 'French for immigration', 'Canada Express Entry'],
+  description: 'Online TEF & TCF exam preparation with expert 1-on-1 French tutors. Reach the CLB / NCLC levels you need for Canada Express Entry and permanent residency. Live personalized classes and a free trial.',
+  keywords: ['TEF preparation', 'TCF preparation', 'TEF Canada', 'TCF Canada', 'French tutoring online', 'French for immigration', 'Canada Express Entry French', 'NCLC French', 'CLB French', 'TEF TCF online course'],
   authors: [{ name: 'Enprico' }],
   metadataBase: new URL('https://enprico.com'),
   openGraph: {

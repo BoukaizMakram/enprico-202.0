@@ -7,14 +7,13 @@ Allow: /
 # Sitemap location
 Sitemap: https://enprico.com/sitemap.xml
 
-# Disallow sensitive and private files
+# Disallow private / logged-in areas
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /tutor
+Disallow: /api/
+
+# Disallow sensitive files
 Disallow: /.env
 Disallow: /.htaccess
 Disallow: /.gitignore
-Disallow: /test-connection.html
-
-# Disallow private user areas (logged-in only)
-Disallow: /dashboard.html
-
-# Crawl delay
-Crawl-delay: 1

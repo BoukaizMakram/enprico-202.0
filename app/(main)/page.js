@@ -1,11 +1,11 @@
 import HomeLoader from '@/components/home/HomeLoader';
 
 export const metadata = {
-  title: 'Enprico - French for Spanish Speakers | TEF & TCF Tutoring',
+  title: 'TEF & TCF Prep Online | Expert 1-on-1 French Tutoring for Canada PR — Enprico',
   description:
-    'Learn French with native Spanish-speaking tutors. Bilingual 1-on-1 lessons for Spanish speakers preparing for the TEF & TCF exams for Canada and France immigration. Certified tutors, flexible schedules.',
+    'Online TEF & TCF exam preparation with expert 1-on-1 French tutors. Reach the CLB / NCLC levels you need for Canada Express Entry and PR. Live personalized classes, flexible scheduling, free trial class.',
   keywords:
-    'French for Spanish speakers, aprender francés, Spanish-speaking French tutor, francés para hispanohablantes, learn French online, French tutoring, TEF preparation, TCF preparation, French for immigration, Canada Express Entry, France visa, 1-on-1 French lessons, bilingual French tutor',
+    'TEF preparation, TCF preparation, TEF Canada, TCF Canada, TEF exam prep, TCF exam prep, French tutoring online, French tutor for immigration, Express Entry French, Canada PR French exam, NCLC French, CLB French, learn French online, French classes for immigration, TEF TCF online course, French for Canada immigration',
   authors: [{ name: 'Enprico' }],
   alternates: {
     canonical: 'https://enprico.com/',
@@ -13,9 +13,9 @@ export const metadata = {
   openGraph: {
     type: 'website',
     url: 'https://enprico.com/',
-    title: 'Enprico - French for Spanish Speakers | TEF & TCF Tutoring',
+    title: 'TEF & TCF Prep Online | Expert 1-on-1 French Tutoring for Canada PR',
     description:
-      'Learn French with native Spanish-speaking tutors. Bilingual 1-on-1 lessons for Spanish speakers preparing for the TEF & TCF exams for Canada and France immigration.',
+      'Online TEF & TCF exam preparation with expert 1-on-1 French tutors. Reach the CLB / NCLC levels you need for Canada Express Entry and PR. Live personalized classes and a free trial.',
     images: [
       {
         url: 'https://enprico.com/images/banner 2.png',
@@ -28,9 +28,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Enprico - French for Spanish Speakers | TEF & TCF Tutoring',
+    title: 'TEF & TCF Prep Online | Expert 1-on-1 French Tutoring for Canada PR',
     description:
-      'Learn French with native Spanish-speaking tutors. Bilingual 1-on-1 lessons for Spanish speakers preparing for the TEF & TCF exams for Canada and France immigration.',
+      'Online TEF & TCF exam preparation with expert 1-on-1 French tutors for Canada Express Entry and PR. Live personalized classes and a free trial.',
     images: ['https://enprico.com/images/banner 2.png'],
   },
 };
@@ -42,7 +42,7 @@ const jsonLdOrganization = {
   url: 'https://enprico.com',
   logo: 'https://enprico.com/images/logo_white 1.png',
   description:
-    'Enprico offers French coaching taught by native Spanish-speaking tutors, designed for Spanish speakers pursuing Express Entry to Canada and France immigration. TEF & TCF exam preparation with personalized bilingual 1-on-1 tutoring.',
+    'Enprico offers online TEF & TCF exam preparation with expert 1-on-1 French tutors, helping applicants reach the CLB / NCLC levels required for Canada Express Entry and permanent residency. Personalized live classes with flexible scheduling.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Church Street',
@@ -52,6 +52,13 @@ const jsonLdOrganization = {
     addressCountry: 'CA',
   },
   telephone: '+19176721922',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '220',
+    bestRating: '5',
+    worstRating: '1',
+  },
   offers: {
     '@type': 'Offer',
     name: 'French Tutoring Plans',
@@ -62,12 +69,49 @@ const jsonLdOrganization = {
   },
 };
 
+const jsonLdLocalBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': 'https://enprico.com/#localbusiness',
+  name: 'Enprico',
+  image: 'https://enprico.com/images/banner 2.png',
+  url: 'https://enprico.com',
+  telephone: '+19176721922',
+  email: 'learn@enprico.ca',
+  priceRange: 'CAD 250–400',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Church Street',
+    addressLocality: 'Toronto',
+    addressRegion: 'ON',
+    postalCode: 'M5B 1G8',
+    addressCountry: 'CA',
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: 'Canada',
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '09:00',
+    closes: '18:00',
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '220',
+    bestRating: '5',
+    worstRating: '1',
+  },
+};
+
 const jsonLdCourse = {
   '@context': 'https://schema.org',
   '@type': 'Course',
   name: 'French Language Tutoring for TEF & TCF',
   description:
-    'Personalized 1-on-1 French lessons with native Spanish-speaking tutors. Bilingual training in Spanish for speaking, writing, reading, and listening skills for the TEF and TCF immigration exams.',
+    'Personalized 1-on-1 French lessons with expert tutors covering speaking, writing, reading, and listening for the TEF and TCF exams required for Canada Express Entry and permanent residency.',
   provider: {
     '@type': 'Organization',
     name: 'Enprico',
@@ -179,6 +223,12 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLdOrganization),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLdLocalBusiness),
         }}
       />
       <script
