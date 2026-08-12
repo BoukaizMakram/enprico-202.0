@@ -313,8 +313,26 @@ export default function HomeClient() {
   const dots = useMemo(() => Array.from({ length: dotCount }, (_, i) => i), [dotCount]);
 
   /* ---------- enroll ---------- */
-  function handleEnrollClick(planType) {
-    alert('Registration is temporarily unavailable. Our site is currently under maintenance. Please check back soon.');
+  async function handleEnrollClick(planType) {
+    try {
+      const { user } = await getCurrentUser();
+      // New / logged-out visitors go to the registration funnel with their
+      // chosen plan preselected; returning users go straight to checkout.
+      if (!user) {
+        window.location.href = `/register?plan=${planType}`;
+        return;
+      }
+      const session = await createCheckoutSession({
+        planType,
+        userId: user.id,
+        userEmail: user.email,
+        isNewUser: false,
+      });
+      window.location.href = session.url;
+    } catch (err) {
+      console.error('Enrollment error:', err);
+      window.location.href = `/register?plan=${planType}`;
+    }
   }
 
   /* ---------- contact submit ---------- */
