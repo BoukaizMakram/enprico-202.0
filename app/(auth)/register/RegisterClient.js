@@ -180,6 +180,46 @@ export default function RegisterPage() {
     });
   }, []);
 
+  // Reuse the same session id the traffic tracker uses, so a lead can be tied
+  // to their visit.
+  const getSessionId = useCallback(() => {
+    if (typeof window === 'undefined') return null;
+    let sid = sessionStorage.getItem('enprico_sid');
+    if (!sid) {
+      sid = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+      sessionStorage.setItem('enprico_sid', sid);
+    }
+    return sid;
+  }, []);
+
+  // Persist the onboarding progress as soon as a field is left (on blur) or a
+  // choice is made — captures the lead even if they never pay.
+  const saveLead = useCallback((lastField) => {
+    const sessionId = getSessionId();
+    if (!sessionId) return;
+    setFormData(current => {
+      // Don't bother saving until there's at least an email or a name.
+      if (!current.email && !current.fullName) return current;
+      fetch('/api/registration/save-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          email: current.email,
+          fullName: current.fullName,
+          phone: current.phone,
+          frenchLevel: current.englishLevel,
+          learningGoals: current.learningGoals,
+          planType: current.planType,
+          currentStep,
+          lastField,
+        }),
+        keepalive: true,
+      }).catch(() => {});
+      return current;
+    });
+  }, [getSessionId, currentStep]);
+
   function validateStep(step) {
     const newErrors = {};
 
@@ -220,6 +260,7 @@ export default function RegisterPage() {
 
   function handleNext() {
     if (validateStep(currentStep)) {
+      saveLead(`step_${currentStep}_complete`);
       if (currentStep < totalSteps) {
         setCurrentStep(prev => prev + 1);
       }
@@ -416,6 +457,7 @@ export default function RegisterPage() {
                   placeholder="Your full name"
                   value={formData.fullName}
                   onChange={(e) => updateField('fullName', e.target.value)}
+                  onBlur={() => saveLead('fullName')}
                 />
                 {errors.fullName && <div className="form-error">{errors.fullName}</div>}
               </div>
@@ -428,6 +470,7 @@ export default function RegisterPage() {
                   placeholder="your@email.com"
                   value={formData.email}
                   onChange={(e) => updateField('email', e.target.value)}
+                  onBlur={() => saveLead('email')}
                 />
                 {errors.email && <div className="form-error">{errors.email}</div>}
               </div>
@@ -440,6 +483,7 @@ export default function RegisterPage() {
                   placeholder="+1 (555) 000-0000"
                   value={formData.phone}
                   onChange={(e) => updateField('phone', e.target.value)}
+                  onBlur={() => saveLead('phone')}
                 />
               </div>
 

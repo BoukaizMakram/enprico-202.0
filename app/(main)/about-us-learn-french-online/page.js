@@ -9,15 +9,15 @@ export const metadata = {
   keywords:
     'about Enprico, French learning platform, online French tutors, TEF preparation, TCF preparation, French for immigration, Canada Express Entry',
   alternates: {
-    canonical: 'https://enprico.com/about-us-learn-french-online',
+    canonical: 'https://enprico.ca/about-us-learn-french-online',
   },
   openGraph: {
     type: 'website',
-    url: 'https://enprico.com/about-us-learn-french-online',
+    url: 'https://enprico.ca/about-us-learn-french-online',
     title: 'About Us - Enprico | French for TEF & TCF Exams',
     description:
       'Learn about Enprico, the online French learning platform for Canada and France immigration with expert tutors.',
-    images: ['https://enprico.com/images/banner 2.png'],
+    images: ['https://enprico.ca/images/banner 2.png'],
     siteName: 'Enprico',
   },
   twitter: {
@@ -25,7 +25,7 @@ export const metadata = {
     title: 'About Us - Enprico | French for TEF & TCF Exams',
     description:
       'Learn about Enprico, the online French learning platform for Canada and France immigration.',
-    images: ['https://enprico.com/images/banner 2.png'],
+    images: ['https://enprico.ca/images/banner 2.png'],
   },
 };
 
@@ -37,8 +37,8 @@ const jsonLd = {
     name: 'Enprico',
     description:
       'Enprico is an online French learning platform dedicated to helping students achieve their TEF and TCF exam goals for Canada and France immigration through personalized 1-on-1 tutoring.',
-    url: 'https://enprico.com',
-    logo: 'https://enprico.com/images/logo_white 1.png',
+    url: 'https://enprico.ca',
+    logo: 'https://enprico.ca/images/logo_white 1.png',
     foundingDate: '2023',
     address: {
       '@type': 'PostalAddress',

@@ -1,11 +1,11 @@
 # Robots.txt for Enprico
-# https://enprico.com
+# https://enprico.ca
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://enprico.com/sitemap.xml
+Sitemap: https://enprico.ca/sitemap.xml
 
 # Disallow private / logged-in areas
 Disallow: /dashboard

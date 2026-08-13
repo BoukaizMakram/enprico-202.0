@@ -44,6 +44,16 @@ export default function DashboardPage() {
   const [passwordError, setPasswordError] = useState('');
   const [passwordSuccess, setPasswordSuccess] = useState('');
 
+  // Notifications
+  const [notifications, setNotifications] = useState([]);
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+
+  // Support chat
+  const [messages, setMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState('');
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const [unreadReplies, setUnreadReplies] = useState(0);
+
   useEffect(() => {
     loadDashboard();
   }, []);
@@ -71,6 +81,8 @@ export default function DashboardPage() {
       // Load exams and exercises
       loadExams(currentUser.id);
       loadExercises(currentUser.id);
+      loadNotifications(currentUser.id);
+      loadMessages(currentUser.id);
 
       // Check for password change prompt
       if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('needsPasswordChange') === 'true') {
@@ -105,6 +117,117 @@ export default function DashboardPage() {
       }
     } catch (e) {
       console.error('Failed to load exercises:', e);
+    }
+  }
+
+  async function loadNotifications(userId) {
+    try {
+      const res = await fetch(`/api/student/notifications?user_id=${userId}`);
+      const result = await res.json();
+      if (result.success) {
+        setNotifications(result.data || []);
+        setUnreadNotifications(result.unread || 0);
+      }
+    } catch (e) {
+      console.error('Failed to load notifications:', e);
+    }
+  }
+
+  async function loadMessages(userId) {
+    try {
+      const res = await fetch(`/api/student/messages?user_id=${userId}`);
+      const result = await res.json();
+      if (result.success) {
+        const list = result.data || [];
+        setMessages(list);
+        setUnreadReplies(list.filter((m) => m.sender === 'support' && !m.is_read).length);
+      }
+    } catch (e) {
+      console.error('Failed to load messages:', e);
+    }
+  }
+
+  async function markNotificationRead(id) {
+    if (!user) return;
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
+    setUnreadNotifications((prev) => Math.max(0, prev - 1));
+    try {
+      await fetch('/api/student/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: user.id, id }),
+      });
+    } catch (e) {
+      console.error('Failed to mark notification read:', e);
+    }
+  }
+
+  async function markAllNotificationsRead() {
+    if (!user || unreadNotifications === 0) return;
+    setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
+    setUnreadNotifications(0);
+    try {
+      await fetch('/api/student/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: user.id }),
+      });
+    } catch (e) {
+      console.error('Failed to mark all read:', e);
+    }
+  }
+
+  async function handleSendMessage(e) {
+    e.preventDefault();
+    const text = messageInput.trim();
+    if (!text || !user || sendingMessage) return;
+
+    setSendingMessage(true);
+    // Optimistic append
+    const optimistic = {
+      id: `temp-${Date.now()}`,
+      sender: 'student',
+      message: text,
+      created_at: new Date().toISOString(),
+      _pending: true,
+    };
+    setMessages((prev) => [...prev, optimistic]);
+    setMessageInput('');
+
+    try {
+      const res = await fetch('/api/student/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: user.id,
+          message: text,
+          full_name: profile?.full_name || '',
+          email: user.email || '',
+        }),
+      });
+      const result = await res.json();
+      if (result.success && result.data) {
+        setMessages((prev) => prev.map((m) => (m.id === optimistic.id ? result.data : m)));
+      } else {
+        throw new Error(result.message || 'Failed to send');
+      }
+    } catch (err) {
+      // Roll back the optimistic message on failure.
+      setMessages((prev) => prev.filter((m) => m.id !== optimistic.id));
+      setMessageInput(text);
+      alert('Could not send your message. Please try again or email learn@enprico.ca.');
+    } finally {
+      setSendingMessage(false);
+    }
+  }
+
+  function openTab(tab) {
+    setActiveTab(tab);
+    if (tab === 'notifications' && unreadNotifications > 0) {
+      markAllNotificationsRead();
+    }
+    if (tab === 'support') {
+      setUnreadReplies(0);
     }
   }
 
@@ -190,29 +313,41 @@ export default function DashboardPage() {
             <div className="nav-section-title">Menu</div>
             <div
               className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`}
-              onClick={() => setActiveTab('overview')}
+              onClick={() => openTab('overview')}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
               <span>Overview</span>
             </div>
             <div
+              className={`nav-item ${activeTab === 'notifications' ? 'active' : ''}`}
+              onClick={() => openTab('notifications')}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span>Notifications</span>
+              {unreadNotifications > 0 && <span className="nav-badge">{unreadNotifications}</span>}
+            </div>
+            <div
               className={`nav-item ${activeTab === 'exams' ? 'active' : ''}`}
-              onClick={() => setActiveTab('exams')}
+              onClick={() => openTab('exams')}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
               <span>Exams</span>
             </div>
             <div
               className={`nav-item ${activeTab === 'exercises' ? 'active' : ''}`}
-              onClick={() => setActiveTab('exercises')}
+              onClick={() => openTab('exercises')}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
               <span>Exercises</span>
             </div>
-            <a href="/#contact" className="nav-item">
+            <div
+              className={`nav-item ${activeTab === 'support' ? 'active' : ''}`}
+              onClick={() => openTab('support')}
+            >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              <span>Support</span>
-            </a>
+              <span>Chat &amp; Support</span>
+              {unreadReplies > 0 && <span className="nav-badge">{unreadReplies}</span>}
+            </div>
           </div>
         </nav>
 
@@ -358,7 +493,7 @@ export default function DashboardPage() {
                   <span className="info-value">{subscription ? `$${subscription.price_usd}/month` : '-'}</span>
                 </div>
               </div>
-              <a href="mailto:learn@enprico.ca" className="contact-link">Need help? Contact support</a>
+              <button type="button" className="contact-link contact-link-btn" onClick={() => openTab('support')}>Need help? Chat with support</button>
             </div>
           </div>
         </div>
@@ -446,6 +581,107 @@ export default function DashboardPage() {
                 </div>
               ))
             )}
+          </div>
+        </div>
+
+        {/* Notifications Tab */}
+        <div className={`tab-content ${activeTab === 'notifications' ? 'active' : ''}`}>
+          <div className="page-header">
+            <h1 className="page-title">Notifications</h1>
+            <p className="page-subtitle">Updates about your lessons, exams, and account</p>
+          </div>
+
+          <div className="card">
+            {notifications.length === 0 ? (
+              <div className="empty-state">You&apos;re all caught up — no notifications yet.</div>
+            ) : (
+              notifications.map((n) => (
+                <div
+                  key={n.id}
+                  className={`notification-item ${n.is_read ? '' : 'unread'}`}
+                  onClick={() => !n.is_read && markNotificationRead(n.id)}
+                >
+                  <div className={`notification-dot type-${n.type || 'info'}`}></div>
+                  <div className="notification-body">
+                    <div className="notification-title">{n.title}</div>
+                    {n.body && <div className="notification-text">{n.body}</div>}
+                    <div className="notification-time">{formatDate(n.created_at)}</div>
+                  </div>
+                  {n.link && (
+                    <a href={n.link} className="notification-link" onClick={(e) => e.stopPropagation()}>
+                      View
+                    </a>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Chat & Support Tab */}
+        <div className={`tab-content ${activeTab === 'support' ? 'active' : ''}`}>
+          <div className="page-header">
+            <h1 className="page-title">Chat &amp; Support</h1>
+            <p className="page-subtitle">Message the Enprico team — we usually reply within a few hours</p>
+          </div>
+
+          <div className="content-grid">
+            <div className="card chat-card">
+              <div className="card-header">
+                <h2 className="card-title">Messages</h2>
+              </div>
+              <div className="chat-thread">
+                {messages.length === 0 ? (
+                  <div className="chat-empty">
+                    <p>Start the conversation — ask us anything about your lessons, schedule, or account.</p>
+                  </div>
+                ) : (
+                  messages.map((m) => (
+                    <div key={m.id} className={`chat-bubble ${m.sender === 'student' ? 'from-student' : 'from-support'}`}>
+                      <div className="chat-sender">{m.sender === 'student' ? 'You' : 'Enprico Team'}</div>
+                      <div className="chat-message">{m.message}</div>
+                      <div className="chat-time">
+                        {m._pending ? 'Sending…' : new Date(m.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+              <form className="chat-input-row" onSubmit={handleSendMessage}>
+                <input
+                  type="text"
+                  className="chat-input"
+                  placeholder="Type your message..."
+                  value={messageInput}
+                  onChange={(e) => setMessageInput(e.target.value)}
+                  maxLength={4000}
+                />
+                <button type="submit" className="chat-send-btn" disabled={sendingMessage || !messageInput.trim()}>
+                  {sendingMessage ? '…' : 'Send'}
+                </button>
+              </form>
+            </div>
+
+            <div className="card" style={{ alignSelf: 'start' }}>
+              <div className="card-header">
+                <h2 className="card-title">Other ways to reach us</h2>
+              </div>
+              <div className="card-body">
+                <div className="info-row">
+                  <span className="info-label">Email</span>
+                  <span className="info-value"><a href="mailto:learn@enprico.ca">learn@enprico.ca</a></span>
+                </div>
+                <div className="info-row">
+                  <span className="info-label">Response time</span>
+                  <span className="info-value">Within a few hours</span>
+                </div>
+                <div className="info-row">
+                  <span className="info-label">Hours</span>
+                  <span className="info-value">Mon–Sat</span>
+                </div>
+              </div>
+              <a href="mailto:learn@enprico.ca" className="contact-link">Email us directly</a>
+            </div>
           </div>
         </div>
       </main>

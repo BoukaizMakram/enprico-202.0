@@ -24,7 +24,7 @@ export const metadata = {
   description: 'Online TEF & TCF exam preparation with expert 1-on-1 French tutors. Reach the CLB / NCLC levels you need for Canada Express Entry and permanent residency. Live personalized classes and a free trial.',
   keywords: ['TEF preparation', 'TCF preparation', 'TEF Canada', 'TCF Canada', 'French tutoring online', 'French for immigration', 'Canada Express Entry French', 'NCLC French', 'CLB French', 'TEF TCF online course'],
   authors: [{ name: 'Enprico' }],
-  metadataBase: new URL('https://enprico.com'),
+  metadataBase: new URL('https://enprico.ca'),
   verification: {
     google: 'HpxDe1jLD8YCPBxrLuaifoEWR8aGfu6n6UckkN6kTy4',
   },

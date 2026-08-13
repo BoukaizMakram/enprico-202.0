@@ -32,6 +32,32 @@ export default function AdminPage() {
   const [tutors, setTutors] = useState([]);
   const [subscriptions, setSubscriptions] = useState([]);
   const [traffic, setTraffic] = useState([]);
+  const [leads, setLeads] = useState([]);
+
+  // Currency display (base data is in CAD). fxRate = CAD -> USD.
+  const [currency, setCurrency] = useState('CAD');
+  const [fxRate, setFxRate] = useState(0.73);
+
+  // Dashboard date range
+  const [rangePreset, setRangePreset] = useState('month');
+  const [rangeFrom, setRangeFrom] = useState('');
+  const [rangeTo, setRangeTo] = useState('');
+
+  // Traffic filters + sorting
+  const [trafSearch, setTrafSearch] = useState('');
+  const [trafSource, setTrafSource] = useState('all');
+  const [trafDevice, setTrafDevice] = useState('all');
+  const [trafFrom, setTrafFrom] = useState('');
+  const [trafTo, setTrafTo] = useState('');
+  const [trafSort, setTrafSort] = useState({ key: 'visited_at', dir: 'desc' });
+
+  useEffect(() => {
+    // Live CAD -> USD rate (free, no key, CORS-enabled).
+    fetch('https://api.frankfurter.app/latest?from=CAD&to=USD')
+      .then((r) => r.json())
+      .then((d) => { if (d?.rates?.USD) setFxRate(d.rates.USD); })
+      .catch(() => {});
+  }, []);
 
   // Modals
   const [modal, setModal] = useState(null); // { type, data }
@@ -76,6 +102,7 @@ export default function AdminPage() {
       loadTutors(),
       loadSubscriptions(),
       loadTraffic(),
+      loadLeads(),
     ]);
     setLoading(false);
   }
@@ -137,6 +164,16 @@ export default function AdminPage() {
       setTraffic(json.data || []);
     } catch (e) {
       console.error('Failed to load traffic:', e);
+    }
+  }
+
+  async function loadLeads() {
+    try {
+      const res = await fetch('/api/admin/leads');
+      const json = await res.json();
+      setLeads(json.data || []);
+    } catch (e) {
+      console.error('Failed to load leads:', e);
     }
   }
 
@@ -315,6 +352,121 @@ export default function AdminPage() {
   });
   const topSources = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
   const topDevices = Object.entries(deviceCounts).sort((a, b) => b[1] - a[1]);
+
+  // ── Revenue / business metrics ──
+  const PLAN_PRICE = { starter: 250, professional: 400 };
+  const planPrice = (t) => PLAN_PRICE[t] || 0;
+
+  const now = new Date();
+  const isThisMonth = (d) => {
+    if (!d) return false;
+    const dt = new Date(d);
+    return dt.getMonth() === now.getMonth() && dt.getFullYear() === now.getFullYear();
+  };
+
+  const activeSubs = subscriptions.filter(s => s.status === 'active');
+  // Monthly recurring revenue from all active subscriptions.
+  const mrr = activeSubs.reduce((sum, s) => sum + planPrice(s.plan_type), 0);
+  // New revenue booked this month (subscriptions that started this month).
+  const revenueThisMonth = subscriptions
+    .filter(s => isThisMonth(s.created_at) && s.status !== 'cancelled')
+    .reduce((sum, s) => sum + planPrice(s.plan_type), 0);
+  const newSubsThisMonth = subscriptions.filter(s => isThisMonth(s.created_at)).length;
+
+  // Leads: did they pay? A lead counts as paid if flagged, or their email now
+  // belongs to a student / active subscription.
+  const payingEmails = new Set([
+    ...students.filter(s => s.status === 'active').map(s => (s.email || '').toLowerCase()),
+    ...subscriptions.map(s => (s.user_email || '').toLowerCase()),
+  ].filter(Boolean));
+  const leadIsPaid = (l) => l.paid || payingEmails.has((l.email || '').toLowerCase());
+  const paidLeads = leads.filter(leadIsPaid).length;
+  const leadsThisMonth = leads.filter(l => isThisMonth(l.created_at)).length;
+  const conversionRate = leads.length ? Math.round((paidLeads / leads.length) * 100) : 0;
+
+  // Traffic engagement.
+  const durations = traffic.map(t => Number(t.duration_seconds) || 0).filter(n => n > 0);
+  const avgDuration = durations.length
+    ? Math.round(durations.reduce((a, b) => a + b, 0) / durations.length)
+    : 0;
+  const totalClicks = traffic.reduce((sum, t) => sum + (Number(t.click_count) || 0), 0);
+  const fmtDuration = (s) => {
+    if (!s) return '0s';
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return m ? `${m}m ${sec}s` : `${sec}s`;
+  };
+  // Base amounts are in CAD; convert to USD on demand using the live FX rate.
+  const fmtMoney = (cad) => {
+    const val = currency === 'USD' ? (cad || 0) * fxRate : (cad || 0);
+    return '$' + Math.round(val).toLocaleString('en-US') + ' ' + currency;
+  };
+
+  // ── Dashboard date range (filters the overview metrics) ──
+  const rangeEnd = rangeTo ? new Date(rangeTo + 'T23:59:59') : new Date();
+  let rangeStart;
+  if (rangePreset === 'all') rangeStart = new Date(0);
+  else if (rangePreset === '7') { rangeStart = new Date(); rangeStart.setDate(rangeStart.getDate() - 7); }
+  else if (rangePreset === '30') { rangeStart = new Date(); rangeStart.setDate(rangeStart.getDate() - 30); }
+  else if (rangePreset === 'custom') rangeStart = rangeFrom ? new Date(rangeFrom) : new Date(0);
+  else rangeStart = new Date(now.getFullYear(), now.getMonth(), 1); // 'month'
+  const inRange = (d) => { if (!d) return false; const dt = new Date(d); return dt >= rangeStart && dt <= rangeEnd; };
+  const rangeLabel = rangePreset === 'all' ? 'All time'
+    : rangePreset === '7' ? 'Last 7 days'
+    : rangePreset === '30' ? 'Last 30 days'
+    : rangePreset === 'custom' ? 'Custom range'
+    : 'This month';
+
+  const revenueInRange = subscriptions.filter(s => inRange(s.created_at) && s.status !== 'cancelled').reduce((sum, s) => sum + planPrice(s.plan_type), 0);
+  const newSubsInRange = subscriptions.filter(s => inRange(s.created_at)).length;
+  const leadsInRange = leads.filter(l => inRange(l.created_at));
+  const paidLeadsInRange = leadsInRange.filter(leadIsPaid).length;
+  const convInRange = leadsInRange.length ? Math.round((paidLeadsInRange / leadsInRange.length) * 100) : 0;
+  const trafficInRange = traffic.filter(t => inRange(t.visited_at || t.created_at));
+  const visitorsInRange = new Set(trafficInRange.map(t => t.session_id).filter(Boolean)).size;
+  const clicksInRange = trafficInRange.reduce((s, t) => s + (Number(t.click_count) || 0), 0);
+  const durInRange = trafficInRange.map(t => Number(t.duration_seconds) || 0).filter(n => n > 0);
+  const avgDurInRange = durInRange.length ? Math.round(durInRange.reduce((a, b) => a + b, 0) / durInRange.length) : 0;
+
+  // ── Traffic: filter + sort ──
+  const sourceOf = (t) => t.utm_source || t.referrer || 'Direct';
+  const trafficSourceOptions = Array.from(new Set(traffic.map(sourceOf))).sort();
+  const trafficDeviceOptions = Array.from(new Set(traffic.map(t => t.device_type).filter(Boolean))).sort();
+
+  let displayedTraffic = traffic.filter(t => {
+    if (trafSource !== 'all' && sourceOf(t) !== trafSource) return false;
+    if (trafDevice !== 'all' && (t.device_type || '') !== trafDevice) return false;
+    const when = new Date(t.visited_at || t.created_at);
+    if (trafFrom && when < new Date(trafFrom)) return false;
+    if (trafTo && when > new Date(trafTo + 'T23:59:59')) return false;
+    if (trafSearch) {
+      const q = trafSearch.toLowerCase();
+      const hay = `${t.landing_page || ''} ${sourceOf(t)} ${t.browser || ''} ${t.os || ''} ${t.country || t.timezone || ''}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  displayedTraffic = [...displayedTraffic].sort((a, b) => {
+    const { key, dir } = trafSort;
+    const mul = dir === 'asc' ? 1 : -1;
+    let av, bv;
+    if (key === 'visited_at') {
+      av = new Date(a.visited_at || a.created_at).getTime();
+      bv = new Date(b.visited_at || b.created_at).getTime();
+    } else if (key === 'duration_seconds' || key === 'click_count') {
+      av = Number(a[key]) || 0; bv = Number(b[key]) || 0;
+    } else if (key === 'source') {
+      av = sourceOf(a).toLowerCase(); bv = sourceOf(b).toLowerCase();
+    } else {
+      av = (a[key] || '').toString().toLowerCase(); bv = (b[key] || '').toString().toLowerCase();
+    }
+    if (av < bv) return -1 * mul;
+    if (av > bv) return 1 * mul;
+    return 0;
+  });
+  const toggleSort = (key) =>
+    setTrafSort(s => (s.key === key ? { key, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: 'desc' }));
+  const sortCaret = (key) => trafSort.key === key ? (trafSort.dir === 'asc' ? '▲' : '▼') : '↕';
 
   if (loading) {
     return (
@@ -548,6 +700,14 @@ export default function AdminPage() {
               <span className="badge">{tutors.length}</span>
             </div>
             <div
+              className={`nav-item ${activeTab === 'leads' ? 'active' : ''}`}
+              onClick={() => setActiveTab('leads')}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span>Leads</span>
+              <span className="badge">{leads.length}</span>
+            </div>
+            <div
               className={`nav-item ${activeTab === 'traffic' ? 'active' : ''}`}
               onClick={() => setActiveTab('traffic')}
             >
@@ -576,6 +736,30 @@ export default function AdminPage() {
               <p className="page-subtitle">Welcome back! Here&apos;s an overview of your platform.</p>
             </div>
             <div className="header-actions">
+              <select className="range-select" value={rangePreset} onChange={e => setRangePreset(e.target.value)}>
+                <option value="month">This month</option>
+                <option value="7">Last 7 days</option>
+                <option value="30">Last 30 days</option>
+                <option value="all">All time</option>
+                <option value="custom">Custom…</option>
+              </select>
+              {rangePreset === 'custom' && (
+                <>
+                  <input type="date" className="range-date" value={rangeFrom} onChange={e => setRangeFrom(e.target.value)} />
+                  <span style={{ color: 'var(--gray-400)' }}>–</span>
+                  <input type="date" className="range-date" value={rangeTo} onChange={e => setRangeTo(e.target.value)} />
+                </>
+              )}
+              <div className="currency-toggle" title={`Live rate: 1 CAD = ${fxRate.toFixed(4)} USD`}>
+                <button
+                  className={`currency-opt ${currency === 'CAD' ? 'active' : ''}`}
+                  onClick={() => setCurrency('CAD')}
+                >CAD</button>
+                <button
+                  className={`currency-opt ${currency === 'USD' ? 'active' : ''}`}
+                  onClick={() => setCurrency('USD')}
+                >USD</button>
+              </div>
               <button className="btn btn-secondary" onClick={refreshData}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
                 Refresh
@@ -583,70 +767,134 @@ export default function AdminPage() {
             </div>
           </div>
 
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-card-header">
-                <div className="stat-icon blue">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                </div>
+          {/* Money KPIs */}
+          <div className="kpi-grid">
+            <div className="kpi-card kpi-accent">
+              <div className="kpi-top">
+                <span className="kpi-label">Revenue · {rangeLabel}</span>
+                <span className="kpi-badge">{newSubsInRange} new</span>
               </div>
-              <div className="stat-value">{subscribers.length}</div>
-              <div className="stat-label">Newsletter Subscribers</div>
+              <div className="kpi-value">{fmtMoney(revenueInRange)}</div>
+              <div className="kpi-sub">from subscriptions started in this period</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-card-header">
-                <div className="stat-icon green">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                </div>
+            <div className="kpi-card">
+              <div className="kpi-top">
+                <span className="kpi-label">Monthly Recurring (MRR)</span>
               </div>
-              <div className="stat-value">{activeStudents}</div>
-              <div className="stat-label">Active Students</div>
+              <div className="kpi-value">{fmtMoney(mrr)}</div>
+              <div className="kpi-sub">{activeSubs.length} active subscriptions</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-card-header">
-                <div className="stat-icon yellow">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-                </div>
+            <div className="kpi-card">
+              <div className="kpi-top">
+                <span className="kpi-label">Active Students</span>
               </div>
-              <div className="stat-value">{pendingRegistrations}</div>
-              <div className="stat-label">Pending Registrations</div>
+              <div className="kpi-value">{activeStudents}</div>
+              <div className="kpi-sub">paying learners right now</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-card-header">
-                <div className="stat-icon red">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                </div>
+            <div className="kpi-card">
+              <div className="kpi-top">
+                <span className="kpi-label">Paid Conversions</span>
+                <span className="kpi-badge">{convInRange}%</span>
               </div>
-              <div className="stat-value">{activeSubscriptions}</div>
-              <div className="stat-label">Active Subscriptions</div>
+              <div className="kpi-value">{paidLeadsInRange}<span className="kpi-of"> / {leadsInRange.length}</span></div>
+              <div className="kpi-sub">leads who paid · {rangeLabel.toLowerCase()}</div>
             </div>
           </div>
 
-          {/* Recent Subscribers */}
-          <div className="data-card">
-            <div className="data-card-header">
-              <h2 className="data-card-title">Recent Subscribers</h2>
+          {/* Funnel + traffic KPIs */}
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div className="stat-card-header"><div className="stat-icon yellow">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              </div></div>
+              <div className="stat-value">{leadsInRange.length}</div>
+              <div className="stat-label">Inquiries / Leads<span className="stat-hint"> · {rangeLabel.toLowerCase()}</span></div>
             </div>
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Email</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {subscribers.length === 0 ? (
-                  <tr><td colSpan="2" className="empty-state">No subscribers yet</td></tr>
+            <div className="stat-card">
+              <div className="stat-card-header"><div className="stat-icon blue">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </div></div>
+              <div className="stat-value">{visitorsInRange}</div>
+              <div className="stat-label">Visitors<span className="stat-hint"> · {trafficInRange.length} pageviews</span></div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-card-header"><div className="stat-icon green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div></div>
+              <div className="stat-value">{fmtDuration(avgDurInRange)}</div>
+              <div className="stat-label">Avg. Visit Duration</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-card-header"><div className="stat-icon red">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74"/><path d="M14 11l4 4-1.5 4h-9L6 15l4-4"/></svg>
+              </div></div>
+              <div className="stat-value">{clicksInRange.toLocaleString('en-US')}</div>
+              <div className="stat-label">Clicks<span className="stat-hint"> · {rangeLabel.toLowerCase()}</span></div>
+            </div>
+          </div>
+
+          <div className="dash-split">
+            {/* Onboarding leads */}
+            <div className="data-card">
+              <div className="data-card-header">
+                <h2 className="data-card-title">Onboarding Leads</h2>
+                <button className="btn btn-secondary btn-sm" onClick={() => setActiveTab('leads')}>View all</button>
+              </div>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Plan</th>
+                    <th>Step</th>
+                    <th>Paid</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leads.length === 0 ? (
+                    <tr><td colSpan="4" className="empty-state">No leads captured yet</td></tr>
+                  ) : (
+                    leads.slice(0, 8).map((l, i) => (
+                      <tr key={l.id || i}>
+                        <td>{l.email || <span className="muted">— no email yet</span>}</td>
+                        <td>{l.plan_type ? (l.plan_type === 'professional' ? 'Standard' : 'Flexible') : '-'}</td>
+                        <td>{l.current_step || 1}/5</td>
+                        <td>
+                          {leadIsPaid(l)
+                            ? <span className="pill pill-green">Paid</span>
+                            : <span className="pill pill-gray">Not yet</span>}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Traffic sources */}
+            <div className="data-card">
+              <div className="data-card-header">
+                <h2 className="data-card-title">Top Traffic Sources</h2>
+                <button className="btn btn-secondary btn-sm" onClick={() => setActiveTab('traffic')}>Details</button>
+              </div>
+              <div className="source-list">
+                {topSources.length === 0 ? (
+                  <div className="empty-state" style={{ padding: '1.5rem' }}>No traffic data yet</div>
                 ) : (
-                  subscribers.slice(0, 10).map((sub, i) => (
-                    <tr key={i}>
-                      <td>{sub.email}</td>
-                      <td>{formatDate(sub.created_at)}</td>
-                    </tr>
-                  ))
+                  topSources.map(([src, count]) => {
+                    const pct = traffic.length ? Math.round((count / traffic.length) * 100) : 0;
+                    return (
+                      <div className="source-row" key={src}>
+                        <div className="source-head">
+                          <span className="source-name">{src}</span>
+                          <span className="source-count">{count} · {pct}%</span>
+                        </div>
+                        <div className="source-bar"><span style={{ width: `${pct}%` }} /></div>
+                      </div>
+                    );
+                  })
                 )}
-              </tbody>
-            </table>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -891,6 +1139,58 @@ export default function AdminPage() {
           </div>
         </div>
 
+        {/* Leads Tab */}
+        <div className={`tab-content ${activeTab === 'leads' ? 'active' : ''}`}>
+          <div className="page-header">
+            <div>
+              <h1 className="page-title">Onboarding Leads</h1>
+              <p className="page-subtitle">Everyone who started onboarding — captured on the spot, whether or not they paid.</p>
+            </div>
+            <div className="header-actions">
+              <button className="btn btn-secondary" onClick={refreshData}>Refresh</button>
+            </div>
+          </div>
+
+          <div className="data-card">
+            <div className="data-card-header">
+              <h2 className="data-card-title">All Leads ({leads.length})</h2>
+              <span className="muted">{paidLeads} paid · {conversionRate}% conversion</span>
+            </div>
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Plan</th>
+                  <th>Level</th>
+                  <th>Step</th>
+                  <th>Last field</th>
+                  <th>Paid</th>
+                  <th>Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leads.length === 0 ? (
+                  <tr><td colSpan="8" className="empty-state">No leads captured yet. They&apos;ll appear here the moment a visitor fills a field in onboarding.</td></tr>
+                ) : (
+                  leads.map((l, i) => (
+                    <tr key={l.id || i}>
+                      <td>{l.email || <span className="muted">—</span>}</td>
+                      <td>{l.full_name || <span className="muted">—</span>}</td>
+                      <td>{l.plan_type ? (l.plan_type === 'professional' ? 'Standard' : 'Flexible') : '-'}</td>
+                      <td>{l.french_level || '-'}</td>
+                      <td>{l.current_step || 1}/5</td>
+                      <td><span className="muted">{l.last_field || '-'}</span></td>
+                      <td>{leadIsPaid(l) ? <span className="pill pill-green">Paid</span> : <span className="pill pill-gray">Not yet</span>}</td>
+                      <td>{formatDateTime(l.updated_at || l.created_at)}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         {/* Traffic Tab */}
         <div className={`tab-content ${activeTab === 'traffic' ? 'active' : ''}`}>
           <div className="page-header">
@@ -1011,29 +1311,60 @@ export default function AdminPage() {
           {/* Traffic Log */}
           <div className="data-card">
             <div className="data-card-header">
-              <h2 className="data-card-title">Recent Visits ({traffic.length})</h2>
+              <h2 className="data-card-title">Visits ({displayedTraffic.length})</h2>
             </div>
+
+            <div className="filter-bar" style={{ padding: '1rem 1.25rem 0' }}>
+              <input
+                type="text"
+                placeholder="Search page, source, browser…"
+                value={trafSearch}
+                onChange={e => setTrafSearch(e.target.value)}
+              />
+              <select value={trafSource} onChange={e => setTrafSource(e.target.value)}>
+                <option value="all">All sources</option>
+                {trafficSourceOptions.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+              <select value={trafDevice} onChange={e => setTrafDevice(e.target.value)}>
+                <option value="all">All devices</option>
+                {trafficDeviceOptions.map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
+              <label style={{ fontSize: '0.8rem', color: 'var(--gray-500)' }}>From
+                <input type="date" value={trafFrom} onChange={e => setTrafFrom(e.target.value)} style={{ marginLeft: '0.4rem' }} />
+              </label>
+              <label style={{ fontSize: '0.8rem', color: 'var(--gray-500)' }}>To
+                <input type="date" value={trafTo} onChange={e => setTrafTo(e.target.value)} style={{ marginLeft: '0.4rem' }} />
+              </label>
+              {(trafSearch || trafSource !== 'all' || trafDevice !== 'all' || trafFrom || trafTo) && (
+                <button className="btn btn-secondary btn-sm" onClick={() => { setTrafSearch(''); setTrafSource('all'); setTrafDevice('all'); setTrafFrom(''); setTrafTo(''); }}>Clear</button>
+              )}
+            </div>
+
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Landing Page</th>
-                  <th>Source</th>
-                  <th>Device</th>
-                  <th>Browser</th>
-                  <th>OS</th>
+                  <th className="sortable" onClick={() => toggleSort('visited_at')}>Date <span className="sort-caret">{sortCaret('visited_at')}</span></th>
+                  <th className="sortable" onClick={() => toggleSort('landing_page')}>Landing Page <span className="sort-caret">{sortCaret('landing_page')}</span></th>
+                  <th className="sortable" onClick={() => toggleSort('source')}>Source <span className="sort-caret">{sortCaret('source')}</span></th>
+                  <th className="sortable" onClick={() => toggleSort('duration_seconds')}>Duration <span className="sort-caret">{sortCaret('duration_seconds')}</span></th>
+                  <th className="sortable" onClick={() => toggleSort('click_count')}>Clicks <span className="sort-caret">{sortCaret('click_count')}</span></th>
+                  <th className="sortable" onClick={() => toggleSort('device_type')}>Device <span className="sort-caret">{sortCaret('device_type')}</span></th>
+                  <th className="sortable" onClick={() => toggleSort('browser')}>Browser <span className="sort-caret">{sortCaret('browser')}</span></th>
+                  <th className="sortable" onClick={() => toggleSort('os')}>OS <span className="sort-caret">{sortCaret('os')}</span></th>
                   <th>Country</th>
                 </tr>
               </thead>
               <tbody>
-                {traffic.length === 0 ? (
-                  <tr><td colSpan="7" className="empty-state">No traffic data yet</td></tr>
+                {displayedTraffic.length === 0 ? (
+                  <tr><td colSpan="9" className="empty-state">No traffic matches these filters</td></tr>
                 ) : (
-                  traffic.slice(0, 100).map((t, i) => (
-                    <tr key={i}>
+                  displayedTraffic.slice(0, 200).map((t, i) => (
+                    <tr key={t.id || i}>
                       <td>{formatDateTime(t.visited_at || t.created_at)}</td>
                       <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.landing_page || '-'}</td>
-                      <td>{t.utm_source || t.referrer || 'Direct'}</td>
+                      <td>{sourceOf(t)}</td>
+                      <td>{fmtDuration(Number(t.duration_seconds) || 0)}</td>
+                      <td>{Number(t.click_count) || 0}</td>
                       <td>{t.device_type || '-'}</td>
                       <td>{t.browser || '-'}</td>
                       <td>{t.os || '-'}</td>

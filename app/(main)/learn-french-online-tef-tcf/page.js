@@ -6,7 +6,7 @@ export const metadata = {
   title: 'TEF & TCF Preparation Online | Learn French with Enprico',
   description: 'Prepare for TEF and TCF exams with Enprico\'s expert tutors. Get personalized 1-on-1 coaching for Canada Express Entry and France immigration. Achieve your target CLB score.',
   alternates: {
-    canonical: 'https://enprico.com/learn-french-online-tef-tcf',
+    canonical: 'https://enprico.ca/learn-french-online-tef-tcf',
   },
 };
 
@@ -18,7 +18,7 @@ const jsonLd = {
   provider: {
     '@type': 'Organization',
     name: 'Enprico',
-    url: 'https://enprico.com',
+    url: 'https://enprico.ca',
   },
   courseMode: 'online',
   educationalLevel: 'Intermediate to Advanced',

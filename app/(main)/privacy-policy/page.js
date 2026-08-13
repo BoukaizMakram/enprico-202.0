@@ -16,7 +16,7 @@ export default function PrivacyPolicyPage() {
           <strong>Last Updated:</strong> December 24, 2025
         </div>
 
-        <p>At Enprico (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;), we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website enprico.com and use our French learning services.</p>
+        <p>At Enprico (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;), we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website enprico.ca and use our French learning services.</p>
 
         <h2>1. Information We Collect</h2>
 

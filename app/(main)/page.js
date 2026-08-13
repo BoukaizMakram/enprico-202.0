@@ -8,17 +8,17 @@ export const metadata = {
     'TEF preparation, TCF preparation, TEF Canada, TCF Canada, TEF exam prep, TCF exam prep, French tutoring online, French tutor for immigration, Express Entry French, Canada PR French exam, NCLC French, CLB French, learn French online, French classes for immigration, TEF TCF online course, French for Canada immigration',
   authors: [{ name: 'Enprico' }],
   alternates: {
-    canonical: 'https://enprico.com/',
+    canonical: 'https://enprico.ca/',
   },
   openGraph: {
     type: 'website',
-    url: 'https://enprico.com/',
+    url: 'https://enprico.ca/',
     title: 'TEF & TCF Prep Online | Expert 1-on-1 French Tutoring for Canada PR',
     description:
       'Online TEF & TCF exam preparation with expert 1-on-1 French tutors. Reach the CLB / NCLC levels you need for Canada Express Entry and PR. Live personalized classes and a free trial.',
     images: [
       {
-        url: 'https://enprico.com/images/banner 2.png',
+        url: 'https://enprico.ca/images/banner 2.png',
         width: 1200,
         height: 630,
       },
@@ -31,7 +31,7 @@ export const metadata = {
     title: 'TEF & TCF Prep Online | Expert 1-on-1 French Tutoring for Canada PR',
     description:
       'Online TEF & TCF exam preparation with expert 1-on-1 French tutors for Canada Express Entry and PR. Live personalized classes and a free trial.',
-    images: ['https://enprico.com/images/banner 2.png'],
+    images: ['https://enprico.ca/images/banner 2.png'],
   },
 };
 
@@ -39,8 +39,8 @@ const jsonLdOrganization = {
   '@context': 'https://schema.org',
   '@type': 'EducationalOrganization',
   name: 'Enprico',
-  url: 'https://enprico.com',
-  logo: 'https://enprico.com/images/logo_white 1.png',
+  url: 'https://enprico.ca',
+  logo: 'https://enprico.ca/images/logo_white 1.png',
   description:
     'Enprico offers online TEF & TCF exam preparation with expert 1-on-1 French tutors, helping applicants reach the CLB / NCLC levels required for Canada Express Entry and permanent residency. Personalized live classes with flexible scheduling.',
   address: {
@@ -72,10 +72,10 @@ const jsonLdOrganization = {
 const jsonLdLocalBusiness = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
-  '@id': 'https://enprico.com/#localbusiness',
+  '@id': 'https://enprico.ca/#localbusiness',
   name: 'Enprico',
-  image: 'https://enprico.com/images/banner 2.png',
-  url: 'https://enprico.com',
+  image: 'https://enprico.ca/images/banner 2.png',
+  url: 'https://enprico.ca',
   telephone: '+19176721922',
   email: 'learn@enprico.ca',
   priceRange: 'CAD 250–400',
@@ -115,7 +115,7 @@ const jsonLdCourse = {
   provider: {
     '@type': 'Organization',
     name: 'Enprico',
-    url: 'https://enprico.com',
+    url: 'https://enprico.ca',
   },
   courseMode: 'online',
   educationalLevel: 'Beginner to Advanced',

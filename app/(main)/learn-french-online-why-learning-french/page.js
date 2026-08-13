@@ -6,7 +6,7 @@ export const metadata = {
   title: 'Why Learn French? | Benefits of French for Immigration - Enprico',
   description: 'Discover why learning French is essential for immigration to Canada and France. Explore the benefits of mastering French for Express Entry, TEF/TCF exams, and life abroad.',
   alternates: {
-    canonical: 'https://enprico.com/learn-french-online-why-learning-french',
+    canonical: 'https://enprico.ca/learn-french-online-why-learning-french',
   },
 };
 
@@ -24,12 +24,12 @@ const jsonLd = {
     name: 'Enprico',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://enprico.com/images/logo_white 1.png',
+      url: 'https://enprico.ca/images/logo_white 1.png',
     },
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
-    '@id': 'https://enprico.com/learn-french-online-why-learning-french',
+    '@id': 'https://enprico.ca/learn-french-online-why-learning-french',
   },
 };
 
