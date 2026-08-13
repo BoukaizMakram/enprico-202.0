@@ -62,18 +62,18 @@ function GoogleLogoSvg({ size = 28 }) {
 /* ───────────────────────── DATA ───────────────────────── */
 
 const TEACHERS = [
-  { flag: '\u{1F1F2}\u{1F1FD}', name: 'Mexico' },
+  { flag: '\u{1F1EB}\u{1F1F7}', name: 'France' },
+  { flag: '\u{1F1E8}\u{1F1E6}', name: 'Canada' },
   { flag: '\u{1F1EA}\u{1F1F8}', name: 'Spain' },
+  { flag: '\u{1F1F2}\u{1F1FD}', name: 'Mexico' },
+  { flag: '\u{1F1EC}\u{1F1E7}', name: 'United Kingdom' },
+  { flag: '\u{1F1E7}\u{1F1EA}', name: 'Belgium' },
+  { flag: '\u{1F1E8}\u{1F1ED}', name: 'Switzerland' },
+  { flag: '\u{1F1FA}\u{1F1F8}', name: 'United States' },
+  { flag: '\u{1F1F2}\u{1F1E6}', name: 'Morocco' },
+  { flag: '\u{1F1E9}\u{1F1FF}', name: 'Algeria' },
+  { flag: '\u{1F1F8}\u{1F1F3}', name: 'Senegal' },
   { flag: '\u{1F1E8}\u{1F1F4}', name: 'Colombia' },
-  { flag: '\u{1F1E6}\u{1F1F7}', name: 'Argentina' },
-  { flag: '\u{1F1F5}\u{1F1EA}', name: 'Peru' },
-  { flag: '\u{1F1E8}\u{1F1F1}', name: 'Chile' },
-  { flag: '\u{1F1FB}\u{1F1EA}', name: 'Venezuela' },
-  { flag: '\u{1F1EA}\u{1F1E8}', name: 'Ecuador' },
-  { flag: '\u{1F1EC}\u{1F1F9}', name: 'Guatemala' },
-  { flag: '\u{1F1E9}\u{1F1F4}', name: 'Dominican Rep.' },
-  { flag: '\u{1F1FA}\u{1F1FE}', name: 'Uruguay' },
-  { flag: '\u{1F1E8}\u{1F1F7}', name: 'Costa Rica' },
 ];
 
 const TESTIMONIALS = [
@@ -404,9 +404,9 @@ export default function HomeClient() {
     <main id="main-content">
       <Animations />
       {/* ════════ HERO ════════ */}
-      <section className="hero" id="home">
+      <section className="hero-v2" id="home">
         <video
-          className="hero-video hero-video-desktop"
+          className="hv2-bg-video"
           autoPlay
           muted
           loop
@@ -414,73 +414,127 @@ export default function HomeClient() {
         >
           <source src="/images/hero.mp4" type="video/mp4" />
         </video>
-        <video
-          className="hero-video hero-video-mobile"
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          <source src="/images/hero_mobile.mp4" type="video/mp4" />
-        </video>
-        <div className="decorative-circle"></div>
-        <div className="container hero-container">
-          <div className="hero-content">
-            <p className="hero-label">TEF · TCF PREP FOR CANADA PR</p>
-            <h1 className="hero-title hero-title-desktop">
-              Pass the TEF &amp; TCF Exam<br />
-              With Expert 1-on-1 French Tutoring
-            </h1>
-            <button
-              className="cta-button cta-desktop"
-              onClick={() => scrollTo('pricing')}
-            >
-              Enroll Now
-            </button>
-            <div className="level-badges level-badges-desktop">
-              {['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((lvl) => (
-                <span key={lvl} className="badge">
-                  {lvl}
-                </span>
-              ))}
+        <div className="hv2-bg-overlay" aria-hidden="true"></div>
+        <div className="container hero-v2-inner">
+          <div className="hv2-copy">
+            <span className="hv2-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                <path d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.8L12 17.3 5.8 20.9l1.6-6.8L2.2 8.9l6.9-.6z" />
+              </svg>
+              Trusted by students worldwide
+            </span>
+            <div className="hv2-rating">
+              <span className="hv2-stars">★★★★★</span>
+              <span className="hv2-rating-text">4.9/5 from 500+ students</span>
             </div>
-          </div>
-
-          <p className="hero-label hero-label-mobile">TEF · TCF PREP FOR CANADA PR</p>
-          <h1 className="hero-title hero-title-mobile">
-            Pass the TEF &amp; TCF Exam<br />
-            With Expert 1-on-1 French Tutoring
-          </h1>
-          <div className="level-badges level-badges-mobile">
-            {['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((lvl) => (
-              <span key={lvl} className="badge">
-                {lvl}
+            <h1 className="hv2-title">Pass Your TEF or TCF Exam <br />Faster</h1>
+            <p className="hv2-sub">
+              Private French coaching designed for Canadian immigration success.
+            </p>
+            <ul className="hv2-checklist">
+              {[
+                '1-on-1 Live Classes',
+                'TEF &amp; TCF Specialists',
+                'Personalized Study Plan',
+                'Practice Exams Included',
+              ].map((item) => (
+                <li key={item}>
+                  <svg viewBox="0 0 24 24" fill="none" width="24" height="24">
+                    <circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.18)" />
+                    <path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span dangerouslySetInnerHTML={{ __html: item }} />
+                </li>
+              ))}
+            </ul>
+            <button
+              className="hv2-cta"
+              onClick={() => scrollTo('contact')}
+            >
+              <svg viewBox="0 0 24 24" fill="none" width="30" height="30" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="4.5" width="18" height="17" rx="2.5" />
+                <path d="M3 9.5h18M8 3v4M16 3v4" strokeLinecap="round" />
+              </svg>
+              <span className="hv2-cta-text">
+                <span className="hv2-cta-main">Book Your Free Assessment</span>
+                <span className="hv2-cta-sub">It&apos;s free &bull; No commitment</span>
               </span>
-            ))}
+            </button>
+            <button
+              className="hv2-watch"
+              onClick={() => scrollTo('testimonials')}
+            >
+              <span className="hv2-play">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </span>
+              <span>Watch Success Stories</span>
+            </button>
           </div>
-          <button
-            className="cta-button cta-mobile"
-            onClick={() => scrollTo('pricing')}
-          >
-            Enroll Now
-          </button>
         </div>
       </section>
 
-      {/* ════════ INTRO ════════ */}
-      <section className="intro-section">
+      {/* ════════ WHY / SOCIAL PROOF ════════ */}
+      <section className="hv2-why-section">
         <div className="container">
-          <h2 className="section-title scroll-animate">
-            French Tutoring Built Around the TEF &amp; TCF Exams
-          </h2>
-          <p className="intro-text scroll-animate">
-            Enprico is an online French tutoring service specialized in TEF and
-            TCF exam preparation for Canada immigration. Our expert tutors build
-            a personalized plan for each student &mdash; from complete beginner
-            to advanced &mdash; focused on the exact speaking, writing, reading,
-            and listening skills the exam scores, so you reach the CLB / NCLC
-            level your Express Entry or PR application needs.
-          </p>
+          <div className="hv2-why-grid scroll-animate">
+            <div className="hv2-why-card">
+              <span className="hv2-why-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="M9 12l2 2 4-4" />
+                </svg>
+              </span>
+              <div>
+                <h3>Specialized in TEF &amp; TCF Exams</h3>
+                <p>
+                  Our tutors know exactly what it takes to help you reach your
+                  target CLB / NCLC level.
+                </p>
+              </div>
+            </div>
+            <div className="hv2-why-card">
+              <span className="hv2-why-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="9" />
+                  <circle cx="12" cy="12" r="4.5" />
+                  <path d="M12 3v3M20 12h-3" />
+                </svg>
+              </span>
+              <div>
+                <h3>Focused on Your Success</h3>
+                <p>
+                  Personalized strategies, continuous feedback and full support
+                  until you reach your goal.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="hv2-social scroll-animate">
+            <p className="hv2-social-title">
+              Helping you achieve your Canadian dream{' '}
+              <span className="hv2-flag">🇨🇦</span>
+            </p>
+            <div className="hv2-social-row">
+              <div className="hv2-avatars">
+                {[
+                  '/images/testimonials/1.webp',
+                  '/images/testimonials/2.webp',
+                  '/images/testimonials/3.webp',
+                  '/images/testimonials/4.webp',
+                  '/images/testimonials/5.webp',
+                ].map((src, i) => (
+                  <img key={src} src={src} alt="" className="hv2-avatar" style={{ zIndex: 6 - i }} />
+                ))}
+                <span className="hv2-avatar hv2-avatar-count">500+</span>
+              </div>
+              <p className="hv2-social-text">
+                Join 500+ students who achieved their target scores!
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -617,11 +671,11 @@ export default function HomeClient() {
       <section className="teachers-section">
         <div className="container">
           <h2 className="section-title scroll-animate">
-            Trusted by TEF &amp; TCF Candidates Worldwide
+            Expert French Tutors From Around the World
           </h2>
           <p className="section-subtitle scroll-animate">
-            Students from across the globe prepare for their Canada immigration
-            French exam with Enprico&apos;s expert tutors
+            Learn from certified, internationally-based tutors who specialize in
+            TEF &amp; TCF exam preparation
           </p>
           <div className="teachers-grid">
             {TEACHERS.map((t, i) => (
@@ -631,7 +685,7 @@ export default function HomeClient() {
                 <span className="teacher-count">
                   {teacherCounts[i] ?? 25}
                 </span>
-                <span className="teacher-label">students</span>
+                <span className="teacher-label">tutors</span>
               </div>
             ))}
           </div>
@@ -789,7 +843,7 @@ export default function HomeClient() {
             height="40"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#0D66CF"
+            stroke="#0c5ff9"
             strokeWidth="1.5"
           >
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -802,7 +856,7 @@ export default function HomeClient() {
             height="40"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#0D66CF"
+            stroke="#0c5ff9"
             strokeWidth="1.5"
           >
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -816,7 +870,7 @@ export default function HomeClient() {
             height="40"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#0D66CF"
+            stroke="#0c5ff9"
             strokeWidth="1.5"
           >
             <circle cx="12" cy="12" r="10" />
@@ -830,7 +884,7 @@ export default function HomeClient() {
             height="40"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#0D66CF"
+            stroke="#0c5ff9"
             strokeWidth="1.5"
           >
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -1108,7 +1162,7 @@ export default function HomeClient() {
                       y2="300"
                     >
                       <stop offset="0%" stopColor="#0c5ff9" />
-                      <stop offset="100%" stopColor="#505089" />
+                      <stop offset="100%" stopColor="#0a4fd6" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -1468,7 +1522,7 @@ export default function HomeClient() {
           width: '48px',
           height: '48px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #0D66CF, #26BAFF)',
+          background: 'linear-gradient(135deg, #0c5ff9, #0a4fd6)',
           color: 'white',
           border: 'none',
           fontSize: '1.25rem',

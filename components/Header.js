@@ -60,7 +60,7 @@ export default function Header() {
     <header className="header">
       <div className="container">
         <Link href="/" className="logo">
-          <img src="/images/logo_white 1.png" alt="Enprico Logo" className="logo-img" width={96} height={32} />
+          <img src="/images/logo_white 1.png" alt="Enprico Logo" className="logo-img" width={150} height={50} />
         </Link>
 
         <nav className="nav-center">

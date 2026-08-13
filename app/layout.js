@@ -25,6 +25,9 @@ export const metadata = {
   keywords: ['TEF preparation', 'TCF preparation', 'TEF Canada', 'TCF Canada', 'French tutoring online', 'French for immigration', 'Canada Express Entry French', 'NCLC French', 'CLB French', 'TEF TCF online course'],
   authors: [{ name: 'Enprico' }],
   metadataBase: new URL('https://enprico.com'),
+  verification: {
+    google: 'HpxDe1jLD8YCPBxrLuaifoEWR8aGfu6n6UckkN6kTy4',
+  },
   openGraph: {
     type: 'website',
     siteName: 'Enprico',
