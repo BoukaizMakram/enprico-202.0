@@ -46,7 +46,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
+    <html lang="en" className={`${poppins.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
         <Script
           src="//script.crazyegg.com/pages/scripts/0132/5650.js"
@@ -69,7 +69,7 @@ export default function RootLayout({ children }) {
           </>
         )}
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
       </body>
     </html>

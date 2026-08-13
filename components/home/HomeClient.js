@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import Link from 'next/link';
-import { createCheckoutSession } from '@/lib/stripe/client';
-import { getCurrentUser } from '@/lib/supabase/client';
 import Animations from './Animations';
 
 /* ───────────────────────── Inline SVG helpers ───────────────────────── */
@@ -313,26 +311,12 @@ export default function HomeClient() {
   const dots = useMemo(() => Array.from({ length: dotCount }, (_, i) => i), [dotCount]);
 
   /* ---------- enroll ---------- */
-  async function handleEnrollClick(planType) {
-    try {
-      const { user } = await getCurrentUser();
-      // New / logged-out visitors go to the registration funnel with their
-      // chosen plan preselected; returning users go straight to checkout.
-      if (!user) {
-        window.location.href = `/register?plan=${planType}`;
-        return;
-      }
-      const session = await createCheckoutSession({
-        planType,
-        userId: user.id,
-        userEmail: user.email,
-        isNewUser: false,
-      });
-      window.location.href = session.url;
-    } catch (err) {
-      console.error('Enrollment error:', err);
-      window.location.href = `/register?plan=${planType}`;
-    }
+  function handleEnrollClick(planType) {
+    // Always send the student through the onboarding funnel first. The
+    // registration flow collects their details, saves them to the database as a
+    // pending registration, and only then redirects to Stripe checkout — no one
+    // is taken straight to payment.
+    window.location.href = `/register?plan=${planType}`;
   }
 
   /* ---------- contact submit ---------- */
@@ -449,15 +433,15 @@ export default function HomeClient() {
             </ul>
             <button
               className="hv2-cta"
-              onClick={() => scrollTo('contact')}
+              onClick={() => handleEnrollClick('professional')}
             >
               <svg viewBox="0 0 24 24" fill="none" width="30" height="30" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="4.5" width="18" height="17" rx="2.5" />
                 <path d="M3 9.5h18M8 3v4M16 3v4" strokeLinecap="round" />
               </svg>
               <span className="hv2-cta-text">
-                <span className="hv2-cta-main">Book Your Free Assessment</span>
-                <span className="hv2-cta-sub">It&apos;s free &bull; No commitment</span>
+                <span className="hv2-cta-main">Book your classes today</span>
+                <span className="hv2-cta-sub">No commitment</span>
               </span>
             </button>
             <button
@@ -843,7 +827,7 @@ export default function HomeClient() {
             height="40"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#0c5ff9"
+            stroke="#0D66CF"
             strokeWidth="1.5"
           >
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -856,7 +840,7 @@ export default function HomeClient() {
             height="40"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#0c5ff9"
+            stroke="#0D66CF"
             strokeWidth="1.5"
           >
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -870,7 +854,7 @@ export default function HomeClient() {
             height="40"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#0c5ff9"
+            stroke="#0D66CF"
             strokeWidth="1.5"
           >
             <circle cx="12" cy="12" r="10" />
@@ -884,7 +868,7 @@ export default function HomeClient() {
             height="40"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#0c5ff9"
+            stroke="#0D66CF"
             strokeWidth="1.5"
           >
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -1162,7 +1146,7 @@ export default function HomeClient() {
                       y2="300"
                     >
                       <stop offset="0%" stopColor="#0c5ff9" />
-                      <stop offset="100%" stopColor="#0a4fd6" />
+                      <stop offset="100%" stopColor="#505089" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -1522,7 +1506,7 @@ export default function HomeClient() {
           width: '48px',
           height: '48px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #0c5ff9, #0a4fd6)',
+          background: 'linear-gradient(135deg, #0D66CF, #26BAFF)',
           color: 'white',
           border: 'none',
           fontSize: '1.25rem',

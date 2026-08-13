@@ -141,16 +141,19 @@ export default function RegisterPage() {
     }
   }, [formData]);
 
-  // Check if already authenticated
+  // Check if already authenticated. Allow already-logged-in users to continue
+  // the enrollment onboarding when they arrived with a plan selected (so their
+  // details are saved and they proceed to checkout); otherwise send them to
+  // their dashboard.
   useEffect(() => {
     async function checkAuth() {
       const { user } = await getCurrentUser();
-      if (user) {
+      if (user && !searchParams.get('plan')) {
         router.push('/dashboard');
       }
     }
     checkAuth();
-  }, [router]);
+  }, [router, searchParams]);
 
   const updateField = useCallback((field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));

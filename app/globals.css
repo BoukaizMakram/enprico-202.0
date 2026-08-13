@@ -9,21 +9,21 @@
     /* Brand Colors */
     --brand-blue: #0c5ff9;
     --brand-yellow: #fdbb33;
-    --brand-pink: #2b7bff;
+    --brand-pink: #d13a71;
     --brand-cyan: #0c5ff9;
-    --brand-purple: #0a4fd6;
+    --brand-purple: #505089;
 
     /* New Gradient Colors */
-    --gradient-start: #1f6df5;
-    --gradient-end: #0a4fd6;
+    --gradient-start: #0D66CF;
+    --gradient-end: #26BAFF;
 
     /* Neutral Colors - Now using gradient-based blues */
     --gray-50: #f0f7ff;
     --gray-100: #e0efff;
     --gray-200: #c7e2ff;
     --gray-300: #a3d1ff;
-    --gray-500: #0a4fd6;
-    --gray-600: #0a4fd6;
+    --gray-500: #0D66CF;
+    --gray-600: #0D66CF;
     --gray-700: #0a4fa3;
     --gray-900: #083d7a;
     --dark-bg: #0a3d6e;
@@ -459,7 +459,7 @@ html, body {
 
 .cta-button {
     background: var(--brand-yellow);
-    color: #10233f;
+    color: white;
     border: none;
     padding: 1.25rem 3rem;
     font-size: 1.5rem;
@@ -474,7 +474,7 @@ html, body {
 }
 
 .cta-button:hover {
-    background: #ffc94d;
+    background: #e5a82e;
 }
 
 .cta-mobile {
@@ -615,7 +615,7 @@ html, body {
 }
 
 .text-pink {
-    color: #2b7bff;
+    color: #d13a71;
     background: #f4cdd4;
     padding: 0.1em 0.4em;
     border-radius: 8px;
@@ -1370,7 +1370,7 @@ html, body {
 
 /* Guarantee Section */
 .guarantee-section {
-    background: linear-gradient(135deg, var(--brand-blue) 0%, #2b7bff 100%);
+    background: linear-gradient(135deg, var(--brand-blue) 0%, #0097e6 100%);
     padding: 5rem 0;
     text-align: center;
     color: white;
@@ -1476,7 +1476,7 @@ html, body {
     display: block;
     font-size: 2rem;
     font-weight: 800;
-    background: linear-gradient(135deg, var(--brand-blue) 0%, #2b7bff 100%);
+    background: linear-gradient(135deg, var(--brand-blue) 0%, #1ca3ed 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1563,15 +1563,15 @@ html, body {
 }
 
 .pink-gradient {
-    background: linear-gradient(135deg, #3b86ff 0%, var(--brand-pink) 100%);
+    background: linear-gradient(135deg, #e84d85 0%, var(--brand-pink) 100%);
 }
 
 .blue-gradient {
-    background: linear-gradient(135deg, var(--brand-blue) 0%, #2b7bff 100%);
+    background: linear-gradient(135deg, var(--brand-blue) 0%, #1ca3ed 100%);
 }
 
 .purple-gradient {
-    background: linear-gradient(135deg, var(--brand-purple) 0%, #063a9e 100%);
+    background: linear-gradient(135deg, var(--brand-purple) 0%, #6a5fa3 100%);
 }
 
 .pricing-badge {
@@ -1798,7 +1798,7 @@ html, body {
 }
 
 .read-more-btn {
-    background: linear-gradient(135deg, #1f6df5 0%, var(--brand-blue) 50%, #2b7bff 100%);
+    background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -2005,7 +2005,7 @@ html, body {
 .stat-number {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #1f6df5 0%, var(--brand-blue) 50%, #2b7bff 100%);
+    background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2102,7 +2102,7 @@ html, body {
 }
 
 .submit-btn {
-    background: linear-gradient(135deg, #1f6df5 0%, var(--brand-blue) 50%, #2b7bff 100%);
+    background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #0097e6 100%);
     color: white;
     padding: 1rem 2rem;
     border: none;
@@ -3297,7 +3297,7 @@ html, body {
 
 /* ===== Shared Page Header Styles (public pages only) ===== */
 .main-layout .page-header {
-    background: linear-gradient(135deg, #1f6df5 0%, var(--brand-blue) 50%, #0a4fd6 100%);
+    background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #505089 100%);
     color: white;
     padding: 120px 0 60px;
     text-align: center;
