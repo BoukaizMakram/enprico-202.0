@@ -32,16 +32,18 @@ export default function Header() {
   const navLinks = isHomepage
     ? [
         { href: '#home', label: 'Home' },
+        { href: '/our-courses', label: 'Courses' },
         { href: '#articles', label: 'Articles' },
         { href: '#pricing', label: 'Pricing' },
-        { href: '#contact', label: 'Contact Us' },
+        { href: '/contact', label: 'Contact Us' },
         { href: '#about', label: 'About' },
       ]
     : [
         { href: '/', label: 'Home' },
+        { href: '/our-courses', label: 'Courses' },
         { href: '/#articles', label: 'Articles' },
         { href: '/#pricing', label: 'Pricing' },
-        { href: '/#contact', label: 'Contact Us' },
+        { href: '/contact', label: 'Contact Us' },
         { href: '/about-us-learn-french-online', label: 'About' },
       ];
 

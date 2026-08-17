@@ -1,0 +1,292 @@
+.page-header {
+    background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 50%, #505089 100%);
+    color: white;
+    padding: 120px 0 80px;
+    text-align: center;
+}
+.page-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+.page-header p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 640px;
+    margin: 0 auto;
+}
+.breadcrumb {
+    padding: 1rem 2rem;
+    background: var(--gray-100);
+}
+.breadcrumb a {
+    color: var(--brand-blue);
+    text-decoration: none;
+}
+.breadcrumb span {
+    color: var(--gray-500);
+}
+.section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--gray-600);
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+}
+
+/* Course Structure */
+.courses-intro {
+    padding: 80px 0;
+}
+.courses-intro h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+.levels-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+.level-card {
+    background: white;
+    border: 1px solid var(--gray-200, #e5e7eb);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.level-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+.level-badge {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #0076c7, var(--brand-blue));
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+.level-card h3 {
+    font-size: 1.3rem;
+    color: var(--gray-900);
+    margin-bottom: 0.75rem;
+}
+.level-card p {
+    color: var(--gray-600);
+    line-height: 1.65;
+    font-size: 0.98rem;
+}
+
+/* Methodology */
+.methodology-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+}
+.methodology-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--brand-blue);
+    margin-bottom: 1rem;
+}
+.phases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+.phase-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    position: relative;
+}
+.phase-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0076c7, var(--brand-blue));
+    color: white;
+    font-weight: 800;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+.phase-duration {
+    display: inline-block;
+    background: var(--gray-100);
+    color: var(--brand-blue);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+}
+.phase-card h3 {
+    font-size: 1.3rem;
+    color: var(--gray-900);
+    margin-bottom: 0.75rem;
+}
+.phase-card p {
+    color: var(--gray-600);
+    line-height: 1.65;
+}
+
+/* Features */
+.features-section {
+    padding: 80px 0;
+}
+.features-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+.course-feature-card {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background: var(--gray-50, #f9fafb);
+    border-radius: 14px;
+    padding: 1.75rem;
+}
+.course-feature-check {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0076c7, var(--brand-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.course-feature-check svg {
+    width: 22px;
+    height: 22px;
+    stroke: white;
+}
+.course-feature-card h3 {
+    font-size: 1.15rem;
+    color: var(--gray-900);
+    margin-bottom: 0.4rem;
+}
+.course-feature-card p {
+    color: var(--gray-600);
+    line-height: 1.6;
+    font-size: 0.98rem;
+}
+
+/* Referral */
+.referral-section {
+    padding: 40px 0 80px;
+}
+.referral-card {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #0076c7 0%, var(--brand-blue) 100%);
+    color: white;
+    border-radius: 24px;
+    padding: 3.5rem 2.5rem;
+    text-align: center;
+}
+.referral-card h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.referral-card p {
+    font-size: 1.15rem;
+    opacity: 0.95;
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto 2rem;
+}
+.referral-btn {
+    background: white;
+    color: var(--brand-blue);
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.05rem;
+    display: inline-block;
+    transition: transform 0.2s;
+}
+.referral-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* CTA */
+.cta-section {
+    background: var(--gray-900);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+.cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+.cta-section p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.cta-btn {
+    background: linear-gradient(135deg, #0076c7, var(--brand-blue));
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.125rem;
+    display: inline-block;
+    transition: transform 0.2s;
+}
+.cta-btn:hover {
+    transform: translateY(-2px);
+}
+
+@media (max-width: 1000px) {
+    .levels-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    .levels-grid, .phases-grid, .features-grid {
+        grid-template-columns: 1fr;
+    }
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    .courses-intro h2, .methodology-section h2, .features-section h2, .cta-section h2 {
+        font-size: 2rem;
+    }
+}
