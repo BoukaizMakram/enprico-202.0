@@ -59,11 +59,6 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Breadcrumb */}
-      <nav className="breadcrumb" aria-label="Breadcrumb">
-        <Link href="/">Home</Link> <span>/</span> <span>About Us</span>
-      </nav>
-
       {/* Page Header */}
       <PageHeader
         title="About Enprico"

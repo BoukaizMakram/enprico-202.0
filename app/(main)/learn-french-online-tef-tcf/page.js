@@ -47,11 +47,6 @@ export default function TefTcfPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Breadcrumb */}
-      <nav className="breadcrumb" aria-label="Breadcrumb">
-        <Link href="/">Home</Link> <span>/</span> <span>TEF &amp; TCF Preparation</span>
-      </nav>
-
       {/* Page Header */}
       <PageHeader
         title="TEF & TCF Preparation"

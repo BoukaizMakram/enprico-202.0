@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import PageHeader from '@/components/PageHeader';
 import ContactClient from './ContactClient';
 import './contact.css';
@@ -58,11 +57,6 @@ export default function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
-      {/* Breadcrumb */}
-      <nav className="breadcrumb" aria-label="Breadcrumb">
-        <Link href="/">Home</Link> <span>/</span> <span>Contact Us</span>
-      </nav>
 
       {/* Page Header */}
       <PageHeader

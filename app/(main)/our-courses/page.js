@@ -132,11 +132,6 @@ export default function OurCoursesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Breadcrumb */}
-      <nav className="breadcrumb" aria-label="Breadcrumb">
-        <Link href="/">Home</Link> <span>/</span> <span>Our Courses</span>
-      </nav>
-
       {/* Page Header */}
       <PageHeader
         title="Our Courses"

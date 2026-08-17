@@ -41,11 +41,6 @@ export default function WhyLearnFrenchPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Breadcrumb */}
-      <nav className="breadcrumb" aria-label="Breadcrumb">
-        <Link href="/">Home</Link> <span>/</span> <span>Why Learn French</span>
-      </nav>
-
       {/* Page Header */}
       <PageHeader
         title="Why Learn French for Immigration?"
