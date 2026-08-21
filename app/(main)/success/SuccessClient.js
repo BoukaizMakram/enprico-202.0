@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getCurrentUser, signIn } from '@/lib/supabase/client';
 import { PLANS } from '@/lib/stripe/client';
+import { trackReddit } from '@/lib/reddit/pixel';
 
 const REDIRECT_SECONDS = 6;
 
@@ -52,6 +53,26 @@ export default function SuccessClient() {
         } catch {}
 
         setResult(data);
+
+        // Reddit Purchase conversion — Pixel + CAPI, deduped by conversionId.
+        // conversionId is keyed to the Stripe session so a page reload (which
+        // re-hits complete-registration) can't double-count the purchase.
+        try {
+          const purchasePlan = PLANS[data.planType] || null;
+          trackReddit(
+            'Purchase',
+            {
+              conversionId: `purchase_${sessionId}`,
+              value: purchasePlan?.price,
+              currency: purchasePlan?.currency || 'CAD',
+              itemCount: 1,
+              products: purchasePlan
+                ? [{ id: data.planType, name: purchasePlan.name, category: 'French Tutoring' }]
+                : undefined,
+            },
+            { email: data.userEmail, externalId: data.userId }
+          );
+        } catch {}
 
         // New user: auto sign-in with the temporary password so we can drop
         // them straight into the dashboard to set their own password.
