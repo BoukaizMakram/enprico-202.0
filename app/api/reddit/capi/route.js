@@ -49,7 +49,12 @@ export async function POST(request) {
     || request.headers.get('x-real-ip')
     || undefined;
   const userAgent = request.headers.get('user-agent') || undefined;
-  const rdtUuid = cookies['_rdt_uuid'] || undefined;
+  // The _rdt_uuid cookie is "<timestamp>.<rfc4122-uuid>"; CAPI wants only the
+  // UUID part and rejects the whole event if it isn't RFC-4122 compliant.
+  const uuidMatch = (cookies['_rdt_uuid'] || '').match(
+    /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i
+  );
+  const rdtUuid = uuidMatch ? uuidMatch[0] : undefined;
 
   // User identifiers — email / phone / external id are SHA-256 hashed.
   const user = {};

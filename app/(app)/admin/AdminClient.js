@@ -39,7 +39,7 @@ export default function AdminPage() {
   const [fxRate, setFxRate] = useState(0.73);
 
   // Dashboard date range
-  const [rangePreset, setRangePreset] = useState('month');
+  const [rangePreset, setRangePreset] = useState('today');
   const [rangeFrom, setRangeFrom] = useState('');
   const [rangeTo, setRangeTo] = useState('');
 
@@ -404,14 +404,19 @@ export default function AdminPage() {
 
   // ── Dashboard date range (filters the overview metrics) ──
   const rangeEnd = rangeTo ? new Date(rangeTo + 'T23:59:59') : new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   let rangeStart;
   if (rangePreset === 'all') rangeStart = new Date(0);
+  else if (rangePreset === 'today') rangeStart = startOfToday;
+  else if (rangePreset === '2') { rangeStart = new Date(startOfToday); rangeStart.setDate(rangeStart.getDate() - 1); } // today + yesterday
   else if (rangePreset === '7') { rangeStart = new Date(); rangeStart.setDate(rangeStart.getDate() - 7); }
   else if (rangePreset === '30') { rangeStart = new Date(); rangeStart.setDate(rangeStart.getDate() - 30); }
   else if (rangePreset === 'custom') rangeStart = rangeFrom ? new Date(rangeFrom) : new Date(0);
   else rangeStart = new Date(now.getFullYear(), now.getMonth(), 1); // 'month'
   const inRange = (d) => { if (!d) return false; const dt = new Date(d); return dt >= rangeStart && dt <= rangeEnd; };
   const rangeLabel = rangePreset === 'all' ? 'All time'
+    : rangePreset === 'today' ? 'Today'
+    : rangePreset === '2' ? 'Last 2 days'
     : rangePreset === '7' ? 'Last 7 days'
     : rangePreset === '30' ? 'Last 30 days'
     : rangePreset === 'custom' ? 'Custom range'
@@ -427,6 +432,54 @@ export default function AdminPage() {
   const clicksInRange = trafficInRange.reduce((s, t) => s + (Number(t.click_count) || 0), 0);
   const durInRange = trafficInRange.map(t => Number(t.duration_seconds) || 0).filter(n => n > 0);
   const avgDurInRange = durInRange.length ? Math.round(durInRange.reduce((a, b) => a + b, 0) / durInRange.length) : 0;
+
+  // ── Engagement funnel: did visitors scroll down and click Enroll? ──
+  // Aggregate per session (max scroll reached, total enroll-CTA clicks).
+  const CTA_SCROLL = 75; // % scrolled that counts as "reached the pricing/CTA area"
+  const sessAgg = new Map();
+  trafficInRange.forEach(t => {
+    const sid = t.session_id || t.id;
+    const cur = sessAgg.get(sid) || { scroll: 0, enroll: 0 };
+    cur.scroll = Math.max(cur.scroll, Number(t.scroll_depth) || 0);
+    cur.enroll += Number(t.enroll_clicks) || 0;
+    sessAgg.set(sid, cur);
+  });
+  const sessList = Array.from(sessAgg.values());
+  const funnelVisitors = sessList.length;
+  const scrolledToCta = sessList.filter(s => s.scroll >= CTA_SCROLL).length;
+  const clickedEnroll = sessList.filter(s => s.enroll > 0).length;
+  const enrollClicksInRange = trafficInRange.reduce((s, t) => s + (Number(t.enroll_clicks) || 0), 0);
+  const avgScrollInRange = funnelVisitors ? Math.round(sessList.reduce((a, s) => a + s.scroll, 0) / funnelVisitors) : 0;
+  const scrollToEnrollRate = scrolledToCta ? Math.round((clickedEnroll / scrolledToCta) * 100) : 0;
+  const visitToEnrollRate = funnelVisitors ? Math.round((clickedEnroll / funnelVisitors) * 100) : 0;
+  const pct = (n, d) => (d ? Math.round((n / d) * 100) : 0);
+
+  // ── Time-series buckets for the trend graph ──
+  // Hourly buckets for short ranges (so "Today" shows a real curve), else daily.
+  const spanMs = rangeEnd.getTime() - Math.max(rangeStart.getTime(), rangeEnd.getTime() - 366 * 864e5);
+  const hourly = spanMs <= 2.2 * 24 * 3600 * 1000;
+  const bucketMs = hourly ? 3600e3 : 86400e3;
+  const bStart = new Date(Math.max(rangeStart.getTime(), rangeEnd.getTime() - 366 * 864e5));
+  if (hourly) bStart.setMinutes(0, 0, 0); else bStart.setHours(0, 0, 0, 0);
+  const chartBuckets = [];
+  for (let t = bStart.getTime(); t <= rangeEnd.getTime() && chartBuckets.length < 400; t += bucketMs) {
+    chartBuckets.push({ t, views: 0, enroll: 0 });
+  }
+  trafficInRange.forEach(r => {
+    const time = new Date(r.visited_at || r.created_at).getTime();
+    const idx = Math.floor((time - bStart.getTime()) / bucketMs);
+    if (idx >= 0 && idx < chartBuckets.length) {
+      chartBuckets[idx].views += 1;
+      chartBuckets[idx].enroll += Number(r.enroll_clicks) || 0;
+    }
+  });
+  const chartMax = Math.max(1, ...chartBuckets.map(b => b.views));
+  const fmtBucket = (t) => {
+    const d = new Date(t);
+    return hourly
+      ? d.toLocaleTimeString('en-US', { hour: 'numeric' })
+      : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
 
   // ── Traffic: filter + sort ──
   const sourceOf = (t) => t.utm_source || t.referrer || 'Direct';
@@ -453,7 +506,7 @@ export default function AdminPage() {
     if (key === 'visited_at') {
       av = new Date(a.visited_at || a.created_at).getTime();
       bv = new Date(b.visited_at || b.created_at).getTime();
-    } else if (key === 'duration_seconds' || key === 'click_count') {
+    } else if (key === 'duration_seconds' || key === 'click_count' || key === 'scroll_depth' || key === 'enroll_clicks') {
       av = Number(a[key]) || 0; bv = Number(b[key]) || 0;
     } else if (key === 'source') {
       av = sourceOf(a).toLowerCase(); bv = sourceOf(b).toLowerCase();
@@ -737,9 +790,11 @@ export default function AdminPage() {
             </div>
             <div className="header-actions">
               <select className="range-select" value={rangePreset} onChange={e => setRangePreset(e.target.value)}>
-                <option value="month">This month</option>
+                <option value="today">Today</option>
+                <option value="2">Last 2 days</option>
                 <option value="7">Last 7 days</option>
                 <option value="30">Last 30 days</option>
+                <option value="month">This month</option>
                 <option value="all">All time</option>
                 <option value="custom">Custom…</option>
               </select>
@@ -830,6 +885,66 @@ export default function AdminPage() {
               </div></div>
               <div className="stat-value">{clicksInRange.toLocaleString('en-US')}</div>
               <div className="stat-label">Clicks<span className="stat-hint"> · {rangeLabel.toLowerCase()}</span></div>
+            </div>
+          </div>
+
+          {/* Visitors trend graph */}
+          <div className="data-card chart-card">
+            <div className="data-card-header">
+              <h2 className="data-card-title">Visitors {hourly ? 'by hour' : 'by day'}<span className="chart-sub"> · {rangeLabel}</span></h2>
+              <div className="chart-legend">
+                <span className="lg lg-views">Visits</span>
+                <span className="lg lg-enroll">Enroll clicks</span>
+              </div>
+            </div>
+            {trafficInRange.length === 0 ? (
+              <div className="empty-state" style={{ padding: '2.5rem' }}>No visits in this period yet</div>
+            ) : (
+              <div className="bar-chart">
+                {chartBuckets.map((b, i) => {
+                  const step = Math.max(1, Math.ceil(chartBuckets.length / 12));
+                  const showLabel = chartBuckets.length <= 24 || i % step === 0;
+                  return (
+                    <div className="bar-col" key={i} title={`${fmtBucket(b.t)} · ${b.views} visits · ${b.enroll} enroll clicks`}>
+                      <div className="bar-track">
+                        {b.enroll > 0 && <span className="bar-enroll" title={`${b.enroll} enroll clicks`} />}
+                        <span className="bar-views" style={{ height: `${Math.round((b.views / chartMax) * 100)}%` }} />
+                      </div>
+                      <span className="bar-label">{showLabel ? fmtBucket(b.t) : ''}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Scroll → Enroll funnel */}
+          <div className="data-card">
+            <div className="data-card-header">
+              <h2 className="data-card-title">Scroll → Enroll funnel<span className="chart-sub"> · did visitors scroll down and click Enroll?</span></h2>
+            </div>
+            <div className="funnel">
+              <div className="funnel-row">
+                <div className="funnel-bar funnel-1" style={{ width: '100%' }}>
+                  <span>Visitors</span><b>{funnelVisitors}</b>
+                </div>
+              </div>
+              <div className="funnel-row">
+                <div className="funnel-bar funnel-2" style={{ width: `${Math.max(8, pct(scrolledToCta, funnelVisitors))}%` }}>
+                  <span>Scrolled to CTA (≥{CTA_SCROLL}%)</span><b>{scrolledToCta} · {pct(scrolledToCta, funnelVisitors)}%</b>
+                </div>
+              </div>
+              <div className="funnel-row">
+                <div className="funnel-bar funnel-3" style={{ width: `${Math.max(8, pct(clickedEnroll, funnelVisitors))}%` }}>
+                  <span>Clicked Enroll</span><b>{clickedEnroll} · {pct(clickedEnroll, funnelVisitors)}%</b>
+                </div>
+              </div>
+            </div>
+            <div className="funnel-notes">
+              <div><span className="fn-k">Avg scroll depth</span><span className="fn-v">{avgScrollInRange}%</span></div>
+              <div><span className="fn-k">Enroll clicks (total)</span><span className="fn-v">{enrollClicksInRange}</span></div>
+              <div><span className="fn-k">Scroll → Enroll</span><span className="fn-v">{scrollToEnrollRate}%</span></div>
+              <div><span className="fn-k">Visit → Enroll</span><span className="fn-v">{visitToEnrollRate}%</span></div>
             </div>
           </div>
 
@@ -1348,6 +1463,8 @@ export default function AdminPage() {
                   <th className="sortable" onClick={() => toggleSort('source')}>Source <span className="sort-caret">{sortCaret('source')}</span></th>
                   <th className="sortable" onClick={() => toggleSort('duration_seconds')}>Duration <span className="sort-caret">{sortCaret('duration_seconds')}</span></th>
                   <th className="sortable" onClick={() => toggleSort('click_count')}>Clicks <span className="sort-caret">{sortCaret('click_count')}</span></th>
+                  <th className="sortable" onClick={() => toggleSort('scroll_depth')}>Scroll <span className="sort-caret">{sortCaret('scroll_depth')}</span></th>
+                  <th className="sortable" onClick={() => toggleSort('enroll_clicks')}>Enroll <span className="sort-caret">{sortCaret('enroll_clicks')}</span></th>
                   <th className="sortable" onClick={() => toggleSort('device_type')}>Device <span className="sort-caret">{sortCaret('device_type')}</span></th>
                   <th className="sortable" onClick={() => toggleSort('browser')}>Browser <span className="sort-caret">{sortCaret('browser')}</span></th>
                   <th className="sortable" onClick={() => toggleSort('os')}>OS <span className="sort-caret">{sortCaret('os')}</span></th>
@@ -1356,7 +1473,7 @@ export default function AdminPage() {
               </thead>
               <tbody>
                 {displayedTraffic.length === 0 ? (
-                  <tr><td colSpan="9" className="empty-state">No traffic matches these filters</td></tr>
+                  <tr><td colSpan="11" className="empty-state">No traffic matches these filters</td></tr>
                 ) : (
                   displayedTraffic.slice(0, 200).map((t, i) => (
                     <tr key={t.id || i}>
@@ -1365,6 +1482,10 @@ export default function AdminPage() {
                       <td>{sourceOf(t)}</td>
                       <td>{fmtDuration(Number(t.duration_seconds) || 0)}</td>
                       <td>{Number(t.click_count) || 0}</td>
+                      <td>{(Number(t.scroll_depth) || 0)}%</td>
+                      <td>{Number(t.enroll_clicks) > 0
+                        ? <span className="pill pill-green">{Number(t.enroll_clicks)}</span>
+                        : <span className="muted">0</span>}</td>
                       <td>{t.device_type || '-'}</td>
                       <td>{t.browser || '-'}</td>
                       <td>{t.os || '-'}</td>

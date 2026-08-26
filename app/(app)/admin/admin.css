@@ -596,3 +596,102 @@
   color: var(--gray-900);
   font-weight: 600;
 }
+
+/* ── Visitors trend chart ── */
+.chart-card { margin-bottom: 1.5rem; }
+.chart-sub { color: var(--gray-400); font-weight: 400; font-size: 0.85rem; }
+.chart-legend { display: flex; gap: 1rem; align-items: center; }
+.chart-legend .lg { font-size: 0.8rem; color: var(--gray-600); display: inline-flex; align-items: center; gap: 0.4rem; }
+.chart-legend .lg::before { content: ''; width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.chart-legend .lg-views::before { background: var(--brand-blue); }
+.chart-legend .lg-enroll::before { background: var(--success); border-radius: 50%; }
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 200px;
+  padding: 1rem 1.25rem 0.5rem;
+  overflow-x: auto;
+}
+.bar-col {
+  flex: 1 1 0;
+  min-width: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+.bar-track {
+  position: relative;
+  width: 100%;
+  max-width: 34px;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.bar-views {
+  width: 100%;
+  max-width: 28px;
+  min-height: 2px;
+  background: linear-gradient(180deg, #4d8bff, var(--brand-blue));
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+}
+.bar-col:hover .bar-views { background: var(--brand-dark); }
+.bar-enroll {
+  position: absolute;
+  top: -2px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+  z-index: 1;
+}
+.bar-label {
+  margin-top: 0.4rem;
+  font-size: 0.68rem;
+  color: var(--gray-400);
+  white-space: nowrap;
+  height: 0.9rem;
+}
+
+/* ── Scroll → Enroll funnel ── */
+.funnel { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.funnel-row { width: 100%; }
+.funnel-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 180px;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.85rem;
+  transition: width 0.4s ease;
+}
+.funnel-bar span { font-weight: 500; white-space: nowrap; }
+.funnel-bar b { font-weight: 700; white-space: nowrap; }
+.funnel-1 { background: var(--brand-dark); }
+.funnel-2 { background: var(--brand-blue); }
+.funnel-3 { background: var(--success); }
+.funnel-notes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  padding: 0 1.25rem 1.25rem;
+}
+.funnel-notes > div {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-100);
+  border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.fn-k { font-size: 0.78rem; color: var(--gray-500); }
+.fn-v { font-size: 1.35rem; font-weight: 700; color: var(--gray-900); }
